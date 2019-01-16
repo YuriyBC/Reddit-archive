@@ -3,7 +3,7 @@ import '../../styles/header.scss'
 import logo from '../../assets/svg/logo.svg'
 import websiteTitle from '../../assets/svg/reddit.svg'
 
-export default class Header extends React.Component {
+export default class HeaderComponent extends React.Component {
   constructor () {
     super();
   }
