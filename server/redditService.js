@@ -15,8 +15,8 @@ const url = {
 r.getSubreddit('snoowrap')
 
 function getAllSubreddits () {
-    fetch(url.getAllSubreddits).then(res => res.json())
-        .then(body => console.log(body.data.children));
+    // fetch(url.getAllSubreddits).then(res => res.json())
+    //     .then(body => console.log(body.data.children));
 }
 
 function init () {
