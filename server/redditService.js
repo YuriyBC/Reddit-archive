@@ -9,20 +9,17 @@ const r = new snoowrap({
 });
 
 const url = {
-    getAllSubreddits: "https://www.reddit.com/subreddits.json?limit=500"
+    getAllSubreddits: "https://www.reddit.com/subreddits.json?limit=1"
 };
 
-r.getSubreddit('snoowrap')
+r.getSubreddit('snoowrap');
 
 function getAllSubreddits () {
-    // fetch(url.getAllSubreddits).then(res => res.json())
-    //     .then(body => console.log(body.data.children));
+    return fetch(url.getAllSubreddits).then(res => res.json())
+        .then(body => body.data.children);
 }
 
-function init () {
-    getAllSubreddits()
-}
 
 module.exports = {
-    init
+    getAllSubreddits
 };

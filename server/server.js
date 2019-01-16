@@ -5,8 +5,12 @@ const redditFetcher = require('./redditService');
 const databaseService = require('./databaseService');
 const port = process.env.PORT || 8080;
 
-redditFetcher.init();
-databaseService.init()
+databaseService.init();
+redditFetcher.getAllSubreddits().then((subreddits) => {
+  subreddits.forEach(el => {
+    databaseService.insertDataInTable('subreddits', el.data)
+  })
+});
 
 app.use(express.static(`${__dirname}/../public/public`));
 
