@@ -4,8 +4,8 @@ import logo from '../../assets/svg/logo.svg'
 import websiteTitle from '../../assets/svg/reddit.svg'
 
 export default class HeaderComponent extends React.Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
   }
 
   render () {

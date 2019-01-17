@@ -30,5 +30,30 @@
     color: rgb(26, 26, 27);
     fill: rgb(26, 26, 27);
     overflow: visible;
+    &__search-form__wrapper {
+
+    }
+    &__search-form {
+      width: 100%;
+    }
+    &__search-form__list {
+      display: flex;
+      flex-direction: column;
+      max-height: vw(310);
+      overflow-y: auto;
+      & > div {
+        padding: 3px 5px;
+        margin-bottom: 1px;
+        color: white;
+        background: gray;
+        cursor: pointer;
+      }
+
+    }
+    &__archive-form {
+      &.disable {
+        display: none;
+      }
+    }
   }
 }

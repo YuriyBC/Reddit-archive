@@ -4,26 +4,58 @@ import FeedComponent from '../components/FeedComponent'
 import SidebarComponent from '../components/SidebarComponent'
 import '../styles/home.scss'
 import { connect } from 'react-redux'
-import {action} from '../store/actions'
+import {webSocketService} from '../utils/websocketService'
+import {
+  getSubreddits,
+  storeOldSubredditToArchive,
+  storeNewSubredditToArchive
+} from '../store/actions'
+import constants from '../utils/constants'
+
+const {
+  WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE
+} = constants;
+
 
 class HomePage extends React.Component {
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
+    this.storeOldSubredditToArchive = this.storeOldSubredditToArchive.bind(this);
+    this.storeNewSubredditToArchive = this.storeNewSubredditToArchive.bind(this);
   }
-  componentDidMount() {
-    this.props.dispatch(action('sdcsdc'))
+
+  componentDidMount () {
+    webSocketService().onmessage = message => {
+      if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
+        this.props.dispatch(getSubreddits());
+      }
+    }
+  }
+
+  storeNewSubredditToArchive (name) {
+    this.props.dispatch(storeNewSubredditToArchive(name));
+  }
+
+  storeOldSubredditToArchive (id) {
+    this.props.dispatch(storeOldSubredditToArchive(id));
   }
 
   render () {
     return <div className="home">
-      <HeaderComponent></HeaderComponent>
+      <HeaderComponent/>
       <div className="home-content">
         <FeedComponent/>
-        <SidebarComponent/>
+        <SidebarComponent storeOldSubredditToArchive={this.storeOldSubredditToArchive}
+                          storeNewSubredditToArchive={this.storeNewSubredditToArchive}
+                          subreddits={this.props.subreddits}/>
       </div>
     </div>
   }
 
 }
 
-export default connect((state) => state)(HomePage)
+export default connect((state) => {
+  return {
+    subreddits: state.subreddits
+  }
+})(HomePage)

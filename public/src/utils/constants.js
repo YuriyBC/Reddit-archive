@@ -1,5 +1,16 @@
-const URL_GET_SUBREDDITS = 'https://www.reddit.com/reddits.json?limit=100';
+// WEB SOCKETS
+const WEBSOCKET_URL = 'ws://localhost:8080';
+const WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE = 'subreddits have been stored';
+
+// API SERVER
+const API = 'http://localhost:8080';
+const URL_GET_SUBREDDITS = '/api/subreddits';
+const URL_SET_SUBREDDIT_TO_ARCHIVE = '/api/subreddit';
 
 export default {
-    URL_GET_SUBREDDITS
+    API,
+    URL_GET_SUBREDDITS,
+    WEBSOCKET_URL,
+    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
+    URL_SET_SUBREDDIT_TO_ARCHIVE
 }

@@ -9,17 +9,27 @@ const r = new snoowrap({
 });
 
 const url = {
-    getAllSubreddits: "https://www.reddit.com/subreddits.json?limit=1"
+    getAllSubreddits: "https://www.reddit.com/subreddits.json?limit=150"
 };
 
-r.getSubreddit('snoowrap');
-
-function getAllSubreddits () {
+r.getSubreddit('AskReddit').getRecommendedSubreddits([]).then(console.log);
+function fetchSubreddits () {
     return fetch(url.getAllSubreddits).then(res => res.json())
-        .then(body => body.data.children);
+        .then(body => body.data.children)
+        .catch(error => {
+            console.log(error)
+    })
 }
 
+function checkIsSubredditExists (subredditTitle) {
+    return new Promise (resolve => {
+        r.getSubreddit(subredditTitle).body.then((response) => {
+            console.log(response)
+        })
+    });
+}
 
 module.exports = {
-    getAllSubreddits
+    fetchSubreddits,
+    checkIsSubredditExists
 };

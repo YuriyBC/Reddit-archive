@@ -18,8 +18,18 @@
   },
   "homepage": "https://github.com/YuriyBC/Reddit-archive#readme",
   "dependencies": {
+    "@ionic/app-scripts": "^3.1.6",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "node-fetch": "^2.3.0",
     "snoowrap": "^1.15.2"
+  },
+  "devDependencies": {
+    "http": "0.0.0",
+    "ws": "3.3.2"
+  },
+  "events": {
+    "restart": "sudo lsof -t -i:8080",
+    "crash": "sudo lsof -t -i:8080"
   }
 }
