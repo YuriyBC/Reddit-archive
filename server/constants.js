@@ -9,6 +9,7 @@ const STATUS_CODE_OK = 200;
 const STATUS_CODE_FAIL = 422;
 const ERROR_MESSAGE_SUBREDDIT_NOT_FOUND = "Sorry, subreddit isn't found";
 const ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS = "Subreddit has been already archived";
+const ERROR_MESSAGE_POSTS_NOT_FOUND = "Sorry, there are no posts of this subreddit";
 
 module.exports = {
     DATABASE_NAME,
@@ -19,5 +20,6 @@ module.exports = {
     STATUS_CODE_OK,
     STATUS_CODE_FAIL,
     ERROR_MESSAGE_SUBREDDIT_NOT_FOUND,
-    ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS
+    ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS,
+    ERROR_MESSAGE_POSTS_NOT_FOUND
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default class SidebarComponent extends React.Component {
   constructor (props) {
@@ -13,15 +14,17 @@ export default class SidebarComponent extends React.Component {
     this.onChangeArchiveForm = this.onChangeArchiveForm.bind(this);
     this.getArchiveFormClass  = this.getArchiveFormClass.bind(this);
     this.onKeyPressSearchForm  = this.onKeyPressSearchForm.bind(this);
+    this.setSearchValue  = this.setSearchValue.bind(this);
   }
 
   getSubredditsList () {
     return [...this.props.subreddits].map((subreddit, key) => {
       const formValue = this.state.searchFormValue.toLowerCase().trim();
-      const subredditTitle = subreddit.display_name.toLowerCase().trim();
+      const subredditTitle = subreddit.display_name.toLowerCase().trim().slice(0, subreddit.display_name.length - 1);
+
       if (formValue && subredditTitle.search(formValue) > -1 && !subreddit.isArchived) {
         return <div key={key}
-                    onClick={() => this.props.storeOldSubredditToArchive(subreddit.id)}>
+                    onClick={() => this.setSearchValue(subreddit.display_name)}>
           {subreddit.display_name}
         </div>
       }
@@ -30,7 +33,7 @@ export default class SidebarComponent extends React.Component {
 
   onKeyPressSearchForm (event) {
     if (this.state.searchFormValue && event.key === 'Enter') {
-      this.props.storeNewSubredditToArchive(this.state.searchFormValue)
+      this.props.storeSubredditToArchive(this.state.searchFormValue)
       this.setState({searchFormValue: ''})
     }
   }
@@ -50,11 +53,19 @@ export default class SidebarComponent extends React.Component {
 
       if (subredditTitle.search(formValue) > -1 && subreddit.isArchived) {
         return <div key={key}>
-          {subreddit.display_name}
-          <span onClick={() => this.props.storeOldSubredditToArchive(subreddit.id)}>X</span>
+          <Link to={"/subreddit/" + subreddit.id}>
+            {subreddit.display_name}
+          </Link>
+          <span onClick={() => this.props.storeSubredditToArchive(subreddit.display_name)}>X</span>
         </div>
       }
     })
+  }
+
+  setSearchValue (value) {
+    this.setState({
+      searchFormValue: value
+    });
   }
 
   onChangeSearchForm (event) {

@@ -1,0 +1,104 @@
+@import "variables";
+
+body .subreddit {
+  &-content {
+  }
+  &-feed {
+    background: none;
+    .post {
+      display: flex;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 10px;
+      color: rgb(135, 138, 140);
+      fill: rgb(135, 138, 140);
+      overflow: hidden;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgb(204, 204, 204);
+      border-image: initial;
+      &-rating {
+        color: rgb(135, 138, 140);
+        fill: rgb(135, 138, 140);
+        width: vw(44);
+        padding: vw(8) vw(4) vw(8) vw(4);
+        font-size: 25px;
+        &__content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          svg {
+            cursor: pointer;
+            &:hover {
+              color: rgb(90, 117, 204);
+            }
+          }
+          div {
+            font-size: vw(14);
+            font-weight: 700;
+            line-height: vw(16);
+            color: #1A1A1B;
+          }
+        }
+      }
+      &-content {
+        display: flex;
+        flex-direction: column;
+        padding: vw(8) vw(8) vw(3) vw(8);
+        align-items: flex-start;
+        background: rgb(255, 255, 255);
+      }
+      .post-content__author {
+        small {
+          font-size: vw(10);
+          font-weight: 400;
+          line-height: vw(16);
+          -webkit-box-align: center;
+        }
+      }
+      .post-content__text {
+        text-align: left;
+      }
+      .post-content__bottom {
+        display: flex;
+        & > div {
+          display: flex;
+          cursor: pointer;
+          font-size: vw(12);
+          font-weight: 700;
+          line-height: vw(16);
+          margin-right: 5px;
+          border-radius: vw(2);
+          transition: background-color 0.1s ease 0s;
+          word-break: normal;
+          white-space: nowrap;
+          min-width: vw(25);
+          padding: vw(5);
+          &:hover {
+            background-color: rgba(26, 26, 27, 0.1);
+            outline: none;
+          }
+          svg {
+            display: inline-block;
+            height: vw(17);
+            margin-right: vw(4);
+            vertical-align: middle;
+            width: vw(17);
+          }
+          &:last-child {
+            display: flex;
+            justify-content: center;
+            padding-left: vw(5);
+          }
+        }
+      }
+      p {
+        color: rgb(26, 26, 27);
+        word-break: break-word;
+      }
+
+    }
+  }
+  &-sidebar {
+  }
+}

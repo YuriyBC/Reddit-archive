@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../styles/header.scss'
-import logo from '../../assets/svg/logo.svg'
-import websiteTitle from '../../assets/svg/reddit.svg'
+import '../styles/header.scss'
+import logo from '../assets/svg/logo.svg'
+import websiteTitle from '../assets/svg/reddit.svg'
 
 export default class HeaderComponent extends React.Component {
   constructor (props) {

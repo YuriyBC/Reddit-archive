@@ -6,11 +6,13 @@ const WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE = 'subreddits have been stored';
 const API = 'http://localhost:8080';
 const URL_GET_SUBREDDITS = '/api/subreddits';
 const URL_SET_SUBREDDIT_TO_ARCHIVE = '/api/subreddit';
+const URL_GET_POSTS = '/api/posts';
 
 export default {
     API,
     URL_GET_SUBREDDITS,
     WEBSOCKET_URL,
     WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
-    URL_SET_SUBREDDIT_TO_ARCHIVE
+    URL_SET_SUBREDDIT_TO_ARCHIVE,
+    URL_GET_POSTS
 }

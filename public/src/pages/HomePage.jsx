@@ -1,15 +1,15 @@
 import React from 'react';
-import HeaderComponent from '../components/Home/HeaderComponent'
-import FeedComponent from '../components/FeedComponent'
-import SidebarComponent from '../components/SidebarComponent'
-import '../styles/home.scss'
+import HeaderComponent from '../components/HeaderComponent'
+import FeedComponent from '../components/Home/FeedComponent'
+import SidebarComponent from '../components/Home/SidebarComponent'
 import { connect } from 'react-redux'
 import {webSocketService} from '../utils/websocketService'
+import '../styles/home.scss'
+
 import {
   getSubreddits,
-  storeOldSubredditToArchive,
-  storeNewSubredditToArchive
-} from '../store/actions'
+  storeSubredditToArchive
+} from '../store/actions/subredditsActions'
 import constants from '../utils/constants'
 
 const {
@@ -20,8 +20,7 @@ const {
 class HomePage extends React.Component {
   constructor (props) {
     super(props);
-    this.storeOldSubredditToArchive = this.storeOldSubredditToArchive.bind(this);
-    this.storeNewSubredditToArchive = this.storeNewSubredditToArchive.bind(this);
+    this.storeSubredditToArchive = this.storeSubredditToArchive.bind(this);
   }
 
   componentDidMount () {
@@ -32,12 +31,8 @@ class HomePage extends React.Component {
     }
   }
 
-  storeNewSubredditToArchive (name) {
-    this.props.dispatch(storeNewSubredditToArchive(name));
-  }
-
-  storeOldSubredditToArchive (id) {
-    this.props.dispatch(storeOldSubredditToArchive(id));
+  storeSubredditToArchive (name) {
+    this.props.dispatch(storeSubredditToArchive(name));
   }
 
   render () {
@@ -45,8 +40,7 @@ class HomePage extends React.Component {
       <HeaderComponent/>
       <div className="home-content">
         <FeedComponent/>
-        <SidebarComponent storeOldSubredditToArchive={this.storeOldSubredditToArchive}
-                          storeNewSubredditToArchive={this.storeNewSubredditToArchive}
+        <SidebarComponent storeSubredditToArchive={this.storeSubredditToArchive}
                           subreddits={this.props.subreddits}/>
       </div>
     </div>
