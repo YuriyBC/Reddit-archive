@@ -18,11 +18,11 @@ export default class SidebarComponent extends React.Component {
   getSubredditsList () {
     return [...this.props.subreddits].map((subreddit, key) => {
       const formValue = this.state.searchFormValue.toLowerCase().trim();
-      const subredditTitle = subreddit.title.toLowerCase().trim();
+      const subredditTitle = subreddit.display_name.toLowerCase().trim();
       if (formValue && subredditTitle.search(formValue) > -1 && !subreddit.isArchived) {
         return <div key={key}
                     onClick={() => this.props.storeOldSubredditToArchive(subreddit.id)}>
-          {subreddit.title}
+          {subreddit.display_name}
         </div>
       }
     })
@@ -31,6 +31,7 @@ export default class SidebarComponent extends React.Component {
   onKeyPressSearchForm (event) {
     if (this.state.searchFormValue && event.key === 'Enter') {
       this.props.storeNewSubredditToArchive(this.state.searchFormValue)
+      this.setState({searchFormValue: ''})
     }
   }
 
@@ -45,11 +46,12 @@ export default class SidebarComponent extends React.Component {
   getArchivedSubredditsList () {
     return [...this.props.subreddits].map((subreddit, key) => {
       const formValue = this.state.archiveFormValue.toLowerCase().trim();
-      const subredditTitle = subreddit.title.toLowerCase().trim();
+      const subredditTitle = subreddit.display_name.toLowerCase().trim();
 
       if (subredditTitle.search(formValue) > -1 && subreddit.isArchived) {
         return <div key={key}>
-          {subreddit.title}
+          {subreddit.display_name}
+          <span onClick={() => this.props.storeOldSubredditToArchive(subreddit.id)}>X</span>
         </div>
       }
     })

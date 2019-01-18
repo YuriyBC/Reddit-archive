@@ -28,10 +28,12 @@ export const storeOldSubredditToArchive = (id) => {
 export const storeNewSubredditToArchive = (name) => {
     return function (dispatch) {
         storeSubredditToArchiveApi(name).then((response) => {
-            // dispatch({
-            //     type: 'SET_SUBREDDITS',
-            //     payload: response.data
-            // })
+            dispatch({
+                type: 'SET_SUBREDDITS',
+                payload: response.data
+            })
+        }).catch(error => {
+            console.log(error)
         })
     }
 };

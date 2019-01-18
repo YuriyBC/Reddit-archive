@@ -51,6 +51,16 @@
 
     }
     &__archive-form {
+      &__list {
+        & > div {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          span {
+            cursor: pointer;
+          }
+        }
+      }
       &.disable {
         display: none;
       }
