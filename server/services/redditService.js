@@ -30,7 +30,7 @@ function checkIsSubredditExists (subredditTitle) {
 }
 
 function getSubredditPosts (subredditTitle) {
-    return r.getSubreddit(subredditTitle).getTop({limit: POSTS_LIMIT})
+    return r.getSubreddit(subredditTitle).getHot({limit: POSTS_LIMIT})
 }
 
 module.exports = {

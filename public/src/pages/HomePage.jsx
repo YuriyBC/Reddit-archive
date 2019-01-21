@@ -41,6 +41,7 @@ class HomePage extends React.Component {
       <div className="home-content">
         <FeedComponent/>
         <SidebarComponent storeSubredditToArchive={this.storeSubredditToArchive}
+                          errorMessages={this.props.errorMessages}
                           subreddits={this.props.subreddits}/>
       </div>
     </div>
@@ -50,6 +51,7 @@ class HomePage extends React.Component {
 
 export default connect((state) => {
   return {
-    subreddits: state.subreddits
+    subreddits: state.subreddits.subreddits,
+    errorMessages: state.subreddits.errorMessages
   }
 })(HomePage)

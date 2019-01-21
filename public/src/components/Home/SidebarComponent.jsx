@@ -15,6 +15,7 @@ export default class SidebarComponent extends React.Component {
     this.getArchiveFormClass  = this.getArchiveFormClass.bind(this);
     this.onKeyPressSearchForm  = this.onKeyPressSearchForm.bind(this);
     this.setSearchValue  = this.setSearchValue.bind(this);
+    this.getErrorMessages  = this.getErrorMessages.bind(this);
   }
 
   getSubredditsList () {
@@ -80,6 +81,12 @@ export default class SidebarComponent extends React.Component {
     });
   }
 
+  getErrorMessages () {
+    return this.props.errorMessages.map((message, index) => {
+      return <div className="errorMessage" key={index}>{message}</div>
+    })
+  }
+
   render () {
     return <div className="home-sidebar box">
       <div className="home-sidebar__search-form__wrapper">
@@ -101,6 +108,7 @@ export default class SidebarComponent extends React.Component {
                type="text"/>
         <div className="home-sidebar__archive-form__list">
           {this.getArchivedSubredditsList()}
+          {this.getErrorMessages()}
         </div>
       </div>
       <div>

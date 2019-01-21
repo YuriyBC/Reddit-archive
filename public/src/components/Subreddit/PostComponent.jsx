@@ -12,10 +12,31 @@ import {
 export default class PostComponent extends React.Component {
     constructor (props) {
         super(props);
+        this.getText = this.getText.bind(this);
+        this.getDate = this.getDate.bind(this);
+    }
+
+    getText () {
+        if (this.props.selftext !== 'null') {
+            return this.props.selftext
+        }
+    }
+
+    getDate () {
+        if (this.props.created) {
+            let date = new Date(+this.props.created * 1000);
+            let month = date.getUTCMonth() + 1; //months from 1-12
+            let day = date.getUTCDate();
+            let year = date.getUTCFullYear();
+
+            let hours = date.getHours();
+            let minutes = "0" + date.getMinutes();
+            let seconds = "0" + date.getSeconds();
+            return `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)} ${day}/${month}/${year}`;
+        }
     }
 
     render () {
-        console.log(this.props)
         return <div className="post box default_type">
             <div className="post-rating">
                 <div className="post-rating__content">
@@ -25,11 +46,13 @@ export default class PostComponent extends React.Component {
                 </div>
             </div>
             <div className="post-content">
-                <small className="post-content__author">Posted byu/{this.props.author_fullname} 1 day ago</small>
-                <h2 className="post-content__title">WTF Wednesday (January 16, 2019)</h2>
+                <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.getDate()}</small>
+                <h2 className="post-content__title">{this.props.title}</h2>
                 <span className="post-content__text">
-                    <p>Post a link to a GitHub repo that you would like to have reviewed, and brace yourself for the comments! Whether you're a junior wanting your code sharpened or a senior interested in giving some feedback and have some time to spare, this is the place.</p>
+                    <p>{this.getText()}</p>
+                    <img src={this.props.thumbnail} alt=""/>
                 </span>
+
                 <div className="post-content__bottom">
                     <div>
                         <FontAwesomeIcon icon={faCommentAlt} />

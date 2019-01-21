@@ -49,8 +49,8 @@ function init (app) {
             if (subredditApiName && !subredditFromDatabase) {
                 databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
                     const newId = subreddits.length + 1;
-                    response.status(STATUS_CODE_OK).send(subreddits);
                     addNewSubredditDatabase(subredditApiName, newId);
+                    response.status(STATUS_CODE_OK).send(subreddits);
                 }));
             } else if (subredditFromDatabase) {
                 changeArchiveType(potentialSubreddit, response);

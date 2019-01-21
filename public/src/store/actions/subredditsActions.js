@@ -10,7 +10,9 @@ export const getSubreddits = () => {
                 type: 'SET_SUBREDDITS',
                 payload: response.data
             })
-        });
+        }).catch(error => {
+            console.log(error)
+        })
     }
 };
 
@@ -20,9 +22,21 @@ export const storeSubredditToArchive = (name) => {
             dispatch({
                 type: 'SET_SUBREDDITS',
                 payload: response.data
-            })
+            });
         }).catch(error => {
-            console.log(error)
+            if (error.response && error.response.data.error) {
+                dispatch({
+                    type: 'SET_ERROR_MESSAGE',
+                    payload: [error.response.data.error]
+                });
+
+                setTimeout(() => {
+                    dispatch({
+                        type: 'SET_ERROR_MESSAGE',
+                        payload: []
+                    });
+                }, 5000)
+            }
         })
     }
 };

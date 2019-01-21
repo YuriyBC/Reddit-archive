@@ -46,7 +46,7 @@ function createTable (type) {
     const createTablePostsQuery = "CREATE TABLE " + POSTS_TABLE_TITLE + " (" +
         "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
         "subreddit VARCHAR(255), " +
-        "title VARCHAR(255), " +
+        "title VARCHAR(855), " +
         "subreddit_name_prefixed VARCHAR(255), " +
         "created VARCHAR(255), " +
         "reddit_id VARCHAR(255), " +
@@ -56,6 +56,7 @@ function createTable (type) {
         "score INT(100), " +
         "thumbnail VARCHAR(255), " +
         "author_fullname VARCHAR(255), " +
+        "selftext TEXT, " +
         "subreddit_id INT(100)" +
         ")";
 
@@ -138,7 +139,6 @@ function insertDataInTable (table, dataObject, subredditId) {
 
     if (table === POSTS_TABLE_TITLE) {
         const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE title = '${dataObject.title}'`;
-
         let {
             subreddit,
             title,
@@ -150,7 +150,8 @@ function insertDataInTable (table, dataObject, subredditId) {
             preview,
             score,
             thumbnail,
-            author_fullname
+            author_fullname,
+            selftext
         } = dataObject;
 
         function removeEmoji (string) {
@@ -161,6 +162,12 @@ function insertDataInTable (table, dataObject, subredditId) {
             title = title.split("'").join(" ");
             title = title.replace("|", "");
             title = removeEmoji(title);
+        }
+
+        if (selftext) {
+            selftext = selftext.split("'").join(" ");
+            selftext = selftext.replace("|", "");
+            selftext = removeEmoji(selftext);
         }
 
         const insertDataQuery = `INSERT INTO ${table}(
@@ -175,6 +182,7 @@ function insertDataInTable (table, dataObject, subredditId) {
                                     score,
                                     thumbnail,
                                     author_fullname,
+                                    selftext,
                                     subreddit_id) 
                                     VALUES (
                                     '${subreddit.display_name || subreddit || null}',  
@@ -188,6 +196,7 @@ function insertDataInTable (table, dataObject, subredditId) {
                                     '${score || 0}',
                                     '${thumbnail || null}',
                                     '${author_fullname || null}',
+                                    '${selftext || null}',
                                     '${subredditId || 0}'
                                     )`;
         connection.query(checkIfPostExistQuery, function (err, result) {
