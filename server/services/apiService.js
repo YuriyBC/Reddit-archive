@@ -21,7 +21,6 @@ function init (app) {
 
     app.get('/api/subreddits', (request, response) => {
         const subreddits = databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE);
-        getPostSubmission('Boxing', 'ai66z9')
         subreddits.then(subreddits => {
             response.send(subreddits)
         });
@@ -118,16 +117,21 @@ function startRedditArchivation (subredditTitle, subredditId) {
             result.forEach((post) => {
                 databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId)
             });
+            return result;
         }
-    })
-}
-
-function getPostSubmission (Boxing, postId) {
-    redditFetcher.fetchPostSubmission(Boxing, postId).then(el => {
-        const comments = el[1].data.children;
-        comments.forEach((comment) => {
-            databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment)
-        })
+    }).then(result => {
+        if (result && result.length) {
+            result.forEach((post) => {
+                if (post.subreddit && post.subreddit.display_name) {
+                    redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
+                        const comments = el[1].data.children;
+                        comments.forEach((comment) => {
+                            databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment)
+                        })
+                    })
+                }
+            });
+        }
     })
 }
 

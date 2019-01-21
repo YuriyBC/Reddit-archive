@@ -14,7 +14,9 @@ function makeConnectionToMysql () {
         host     : 'localhost',
         user     : 'root',
         password : 'password',
-        charset: 'utf8'
+        charset: 'utf8',
+        debug: true,
+        stringifyObjects: true
     });
 }
 
@@ -73,9 +75,8 @@ function createTable (type) {
         "author VARCHAR(255), " +
         "created VARCHAR(255), " +
         "subreddit_id VARCHAR(255), " +
-        "num_comments INT(100), " +
         "score VARCHAR(255), " +
-        "replies VARCHAR(5000), " +
+        "replies TEXT, " +
         "author_flair_text VARCHAR(255)" +
         ")";
 
@@ -247,6 +248,12 @@ function insertComment (table, dataObject) {
         body = removeEmoji(body);
     }
 
+    if (replies) {
+        replies = JSON.stringify(replies);
+        replies = replies.split("'").join(" ");
+        replies = removeEmoji(replies);
+    }
+
     const insertDataQuery = `INSERT INTO ${table}(
                                     subreddit,
                                     body,
@@ -263,7 +270,7 @@ function insertComment (table, dataObject) {
                                     '${created || null}',
                                     '${subreddit_id || null}',
                                     '${score || 0}',
-                                    '${JSON.stringify(replies) || null}',
+                                    '${replies || null}',
                                     '${author_flair_text || null}'
                                     )`;
 

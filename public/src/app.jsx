@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import {getSubreddits} from "./store/actions/subredditsActions";
 import {connect} from "react-redux";
+import { withRouter } from 'react-router-dom'
 
 library.add(
     faAngleUp,
@@ -52,4 +53,4 @@ class App extends React.Component {
     }
 };
 
-export default connect()(App)
+export default withRouter(connect(state => state)(App));
