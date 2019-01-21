@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage'
 import SubredditPage from './pages/SubredditPage'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {webSocketService} from './utils/websocketService'
+import constants from './utils/constants'
 import {
     faAngleUp,
     faAngleDown,
@@ -12,6 +14,8 @@ import {
     faShare,
     faBookmark
 } from '@fortawesome/free-solid-svg-icons'
+import {getSubreddits} from "./store/actions/subredditsActions";
+import {connect} from "react-redux";
 
 library.add(
     faAngleUp,
@@ -21,13 +25,31 @@ library.add(
     faBookmark
 );
 
-const App = () => (
-  <div className='App'>
-      <Switch>
-        <Route exact path="/subreddit/:id" component={SubredditPage} />
-        <Route path="/" component={HomePage} />
-      </Switch>
-  </div>
-);
+const {
+    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE
+} = constants;
 
-export default App;
+class App extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount () {
+        webSocketService().onmessage = message => {
+            if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
+                this.props.dispatch(getSubreddits());
+            }
+        }
+    }
+
+    render () {
+        return <div className='App'>
+            <Switch>
+                <Route exact path="/subreddit/:id" component={SubredditPage} />
+                <Route path="/" component={HomePage} />
+            </Switch>
+        </div>
+    }
+};
+
+export default connect()(App)

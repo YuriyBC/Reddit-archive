@@ -3,32 +3,16 @@ import HeaderComponent from '../components/HeaderComponent'
 import FeedComponent from '../components/Home/FeedComponent'
 import SidebarComponent from '../components/Home/SidebarComponent'
 import { connect } from 'react-redux'
-import {webSocketService} from '../utils/websocketService'
 import '../styles/home.scss'
 
 import {
-  getSubreddits,
   storeSubredditToArchive
 } from '../store/actions/subredditsActions'
-import constants from '../utils/constants'
-
-const {
-  WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE
-} = constants;
-
 
 class HomePage extends React.Component {
   constructor (props) {
     super(props);
     this.storeSubredditToArchive = this.storeSubredditToArchive.bind(this);
-  }
-
-  componentDidMount () {
-    webSocketService().onmessage = message => {
-      if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
-        this.props.dispatch(getSubreddits());
-      }
-    }
   }
 
   storeSubredditToArchive (name) {

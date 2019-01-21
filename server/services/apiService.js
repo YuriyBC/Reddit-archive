@@ -8,7 +8,8 @@ const {
     STATUS_CODE_FAIL,
     ERROR_MESSAGE_SUBREDDIT_NOT_FOUND,
     ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS,
-    ERROR_MESSAGE_POSTS_NOT_FOUND
+    ERROR_MESSAGE_POSTS_NOT_FOUND,
+    COMMENTS_TABLE_TITLE
 } = constants;
 
 function init (app) {
@@ -20,6 +21,7 @@ function init (app) {
 
     app.get('/api/subreddits', (request, response) => {
         const subreddits = databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE);
+        getPostSubmission('Boxing', 'ai66z9')
         subreddits.then(subreddits => {
             response.send(subreddits)
         });
@@ -65,7 +67,6 @@ function init (app) {
 
 function changeArchiveType (title, response) {
     databaseService.getRowByTitle(SUBREDDITS_TABLE_TITLE, title).then((subreddit) => {
-        console.log(subreddit)
         const isArchived = subreddit ? subreddit.isArchived : 0;
         const newValue = isArchived === 0 ? 1 : 0;
 
@@ -118,6 +119,15 @@ function startRedditArchivation (subredditTitle, subredditId) {
                 databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId)
             });
         }
+    })
+}
+
+function getPostSubmission (Boxing, postId) {
+    redditFetcher.fetchPostSubmission(Boxing, postId).then(el => {
+        const comments = el[1].data.children;
+        comments.forEach((comment) => {
+            databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment)
+        })
     })
 }
 

@@ -10,7 +10,7 @@ export default class SidebarComponent extends React.Component {
 
   render () {
     return <div className="home-sidebar box">
-      sadcsddsc
+      {this.props.currentSubreddit.display_name}
     </div>
   }
 

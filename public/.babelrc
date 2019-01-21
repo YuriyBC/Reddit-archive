@@ -3,7 +3,8 @@
   "plugins": [
     "transform-runtime",
     "transform-decorators-legacy",
-    "transform-class-properties"
+    "transform-class-properties",
+    "transform-object-rest-spread"
   ],
   
   "env": {
@@ -12,7 +13,8 @@
         "transform-runtime",
         "transform-decorators-legacy",
         "transform-class-properties",
-        "babel-plugin-webpack-alias"
+        "babel-plugin-webpack-alias",
+        "transform-object-rest-spread"
       ]
     }
   }

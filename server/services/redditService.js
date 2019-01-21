@@ -14,7 +14,8 @@ const r = new snoowrap({
 });
 
 const url = {
-    getAllSubreddits: `https://www.reddit.com/subreddits.json?limit=${SUBREDDITS_LIMIT}`
+    getAllSubreddits: `https://www.reddit.com/subreddits.json?limit=${SUBREDDITS_LIMIT}`,
+    getAllComments: (subredditTitle, postId) => `https://www.reddit.com/r/${subredditTitle}/comments/${postId}.json`
 };
 
 function fetchSubreddits () {
@@ -33,10 +34,15 @@ function getSubredditPosts (subredditTitle) {
     return r.getSubreddit(subredditTitle).getHot({limit: POSTS_LIMIT})
 }
 
+function fetchPostSubmission (subredditTitle, postId) {
+    return fetch(url.getAllComments(subredditTitle, postId)).then(res => res.json())
+}
+
 module.exports = {
     fetchSubreddits,
     checkIsSubredditExists,
-    getSubredditPosts
+    getSubredditPosts,
+    fetchPostSubmission
 };
 
 // console.log(r.getSubreddit('javascript'))

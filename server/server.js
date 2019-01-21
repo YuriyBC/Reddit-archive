@@ -37,10 +37,14 @@ function getAndStoreSubreddits () {
 //
 // }
 
+server.on('listening',function(){
+  console.log('ok, server is running');
+});
+
+
 databaseService.init();
 apiService.init(app);
 websocketService.init(server);
 
 getAndStoreSubreddits();
 server.listen(port);
-console.log(`server started on port ${port}`);

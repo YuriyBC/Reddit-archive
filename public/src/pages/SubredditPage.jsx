@@ -17,7 +17,8 @@ class SubredditPage extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      scrollStep: 1
+      scrollStep: 1,
+      currentSubreddit: {}
     };
     this.containerScrollHandler = this.containerScrollHandler.bind(this);
     this.increaseScrollStep = this.increaseScrollStep.bind(this);
@@ -30,13 +31,23 @@ class SubredditPage extends React.Component {
       const id = this.props.match.params.id;
       this.props.dispatch(getPosts(id));
     }
-    window.addEventListener('scroll', this.containerScrollHandler)
+    window.addEventListener('scroll', this.containerScrollHandler);
+  }
+
+  componentDidUpdate () {
+    const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
+    if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
+      this.setState({
+        ...this.state,
+        currentSubreddit: currentSubreddit[0]
+      })
+    }
   }
 
   increaseScrollStep () {
-    this.setState({
-      scrollStep: this.state.scrollStep + 1
-    })
+    const state = {...this.state};
+    state.scrollStep = state.scrollStep + 1;
+    this.setState(state)
   }
 
   containerScrollHandler () {
@@ -46,14 +57,14 @@ class SubredditPage extends React.Component {
     }
   }
 
-
   render () {
-    return <div className="subreddit" onScroll={this.containerScrollHandler}>
+    return <div className="subreddit"
+                onScroll={this.containerScrollHandler}>
         <HeaderComponent/>
         <div className="subreddit-content">
           <FeedComponent currentPostsStep={this.state.scrollStep}
                          posts={this.props.posts}/>
-          <SidebarComponent/>
+          <SidebarComponent currentSubreddit={this.state.currentSubreddit}/>
         </div>
     </div>
   }
@@ -62,6 +73,7 @@ class SubredditPage extends React.Component {
 
 export default connect((state) => {
   return {
-    posts: state.posts
+    posts: state.posts,
+    subreddits: state.subreddits.subreddits
   }
 })(SubredditPage)

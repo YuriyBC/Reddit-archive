@@ -26,8 +26,8 @@ export default class FeedComponent extends React.Component {
     return [...this.props.posts]
         .slice(0, POSTS_TO_SHOW * this.props.currentPostsStep)
         .map((post, index) => {
-      return <PostComponent {...post}
-                            key={index}/>
+          console.log(post)
+          return <PostComponent {...post} key={index}/>
     })
   }
 
