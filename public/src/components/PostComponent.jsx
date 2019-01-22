@@ -1,5 +1,6 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import methods from '../utils/methods';
 import {
     faAngleUp,
     faAngleDown,
@@ -8,12 +9,15 @@ import {
     faBookmark,
     faStar
 } from "@fortawesome/free-solid-svg-icons";
+const {
+    getDate
+} = methods;
 
 export default class PostComponent extends React.Component {
     constructor (props) {
         super(props);
         this.getText = this.getText.bind(this);
-        this.getDate = this.getDate.bind(this);
+        this.calculateDate = this.calculateDate.bind(this);
     }
 
     getText () {
@@ -22,17 +26,9 @@ export default class PostComponent extends React.Component {
         }
     }
 
-    getDate () {
+    calculateDate () {
         if (this.props.created) {
-            let date = new Date(+this.props.created * 1000);
-            let month = date.getUTCMonth() + 1; //months from 1-12
-            let day = date.getUTCDate();
-            let year = date.getUTCFullYear();
-
-            let hours = date.getHours();
-            let minutes = "0" + date.getMinutes();
-            let seconds = "0" + date.getSeconds();
-            return `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)} ${day}/${month}/${year}`;
+            return getDate(this.props.created)
         }
     }
 
@@ -46,7 +42,7 @@ export default class PostComponent extends React.Component {
                 </div>
             </div>
             <div className="post-content">
-                <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.getDate()}</small>
+                <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.calculateDate()}</small>
                 <h2 className="post-content__title">{this.props.title}</h2>
                 <span className="post-content__text">
                     <p>{this.getText()}</p>

@@ -19,7 +19,8 @@ const url = {
 };
 
 function fetchSubreddits () {
-    return fetch(url.getAllSubreddits).then(res => res.json())
+    return fetch(url.getAllSubreddits)
+        .then(res => res.json())
         .then(body => body.data.children)
         .catch(error => {
             console.log(error)

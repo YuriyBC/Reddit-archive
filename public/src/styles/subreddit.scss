@@ -5,6 +5,13 @@ body .subreddit {
   }
   &-feed {
     background: none;
+    & > a {
+      display: flex;
+      position: relative;
+      width: 100%;
+      outline: none;
+      text-decoration: none;
+    }
     .post {
       display: flex;
       position: relative;

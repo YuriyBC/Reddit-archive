@@ -4,10 +4,7 @@ import FeedComponent from '../components/Home/FeedComponent'
 import SidebarComponent from '../components/Home/SidebarComponent'
 import { connect } from 'react-redux'
 import '../styles/home.scss'
-
-import {
-  storeSubredditToArchive
-} from '../store/actions/subredditsActions'
+import { storeSubredditToArchive } from '../store/actions/subredditsActions'
 
 class HomePage extends React.Component {
   constructor (props) {

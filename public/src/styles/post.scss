@@ -1,0 +1,142 @@
+@import "variables";
+
+body .post {
+  &-feed {
+    background: rgba(255, 255, 255, 1);
+    width: vw(1200);
+    padding: 0 vw(50);
+    .post {
+      display: flex;
+      position: relative;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 10px;
+      color: rgb(135, 138, 140);
+      fill: rgb(135, 138, 140);
+      overflow: hidden;
+      border: none;
+    }
+  }
+  .comments-section {
+    width: 100%;
+    padding-left: vw(10);
+  }
+  .comment {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    .comment-rating {
+      display: flex;
+      justify-content: center;
+      margin: 0 vw(7);
+      position: relative;
+      svg {
+        color: rgb(135, 138, 140);
+        font-size: vw(27);
+        cursor: pointer;
+        &:hover {
+          opacity: 0.9;
+        }
+        &:active {
+          opacity: 0.6;
+        }
+      }
+      .comment-rating__body {
+        -webkit-box-align: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        min-width: vw(24);
+        max-height: vw(40);
+        text-align: center;
+        z-index: 3;
+      }
+    }
+    .comment-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      padding-right: vw(45);
+      .comment-body__info {
+        span:first-child {
+          font-size: vw(12);
+          font-weight: 400;
+          line-height: vw(16);
+          color: rgb(234, 0, 39);
+        }
+        span:nth-child(2), span:nth-child(3) {
+          padding-left: vw(8);
+          flex: 0 0 auto;
+          font-size: vw(12);
+          font-weight: 400;
+          line-height: vw(16);
+          color: rgb(124, 124, 124);
+        }
+      }
+      .comment-body__text {
+        font-family: "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Verdana, Arial, sans-serif;
+        font-size: vw(14);
+        font-weight: 400;
+        line-height: 21px;
+        color: rgb(28, 28, 28);
+        padding: vw(5) vw(8);
+        padding-left: 0;
+        a {
+          display: flex;
+          color: rgb(234, 0, 39);
+          text-decoration: underline;
+        }
+      }
+      .comment-body__navigation {
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px;
+        color: rgb(135, 138, 140);
+        margin: vw(4) 0 vw(8);
+        span {
+          display: inline-block;
+          margin-right: vw(12);
+          transition: color 0.1s ease 0s;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          &:active {
+            opacity: 0.6;
+          }
+        }
+        svg {
+          margin-right: vw(5);
+          color: rgb(183, 185, 186);
+        }
+      }
+    }
+  }
+
+  .comment {
+    position: relative;
+    .comment-rating {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 70%;
+        left: 10px;
+        height: 100%;
+        width: 2px;
+        background: rgb(237, 239, 241);
+      }
+    }
+  }
+
+  .offsetLine {
+    border-right: 2px solid rgb(237, 239, 241);
+    width: 19px;
+    min-width: 19px;
+  }
+
+}

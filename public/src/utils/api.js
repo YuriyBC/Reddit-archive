@@ -5,7 +5,8 @@ const {
     API,
     URL_GET_SUBREDDITS,
     URL_SET_SUBREDDIT_TO_ARCHIVE,
-    URL_GET_POSTS
+    URL_GET_POSTS,
+    URL_GET_POST
 } = constants;
 
 export const getSubredditsApi = () => {
@@ -19,4 +20,8 @@ export const storeSubredditToArchiveApi = (payload) => {
 
 export const getPostsApi = (subredditId) => {
     return axios.get(`${API}${URL_GET_POSTS}/${subredditId}`)
+};
+
+export const getPostApi = (subredditId, postId) => {
+    return axios.get(`${API}${URL_GET_POST}/${subredditId}/${postId}`)
 };

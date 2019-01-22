@@ -1,9 +1,22 @@
-const initialState = [];
+const initialState = {
+    allPosts: [],
+    currentPostInfo: {}
+};
 
 const posts = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_POSTS':
-            return action.payload;
+            return {
+                ...initialState,
+                allPosts: action.payload,
+            };
+        case 'SET_POST_DATA':
+            return {
+                ...initialState,
+                currentPostInfo: action.payload,
+            };
+        case 'REMOVE_POSTS':
+            return initialState
     }
     return state
 };

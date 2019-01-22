@@ -3,6 +3,7 @@ import 'normalize.css';
 import {Route, Switch} from "react-router-dom";
 import HomePage from './pages/HomePage'
 import SubredditPage from './pages/SubredditPage'
+import PostItemPage from './pages/PostItemPage'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {webSocketService} from './utils/websocketService'
@@ -46,6 +47,7 @@ class App extends React.Component {
     render () {
         return <div className='App'>
             <Switch>
+                <Route exact path="/subreddit/:id/:postId" component={PostItemPage} />
                 <Route exact path="/subreddit/:id" component={SubredditPage} />
                 <Route path="/" component={HomePage} />
             </Switch>

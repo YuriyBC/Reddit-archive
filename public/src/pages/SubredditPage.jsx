@@ -1,9 +1,8 @@
 import React from 'react';
-import '../styles/home.scss'
 import HeaderComponent from '../components/HeaderComponent'
 import FeedComponent from '../components/Subreddit/FeedComponent'
 import SidebarComponent from '../components/Subreddit/SidebarComponent'
-import {getPosts} from '../store/actions/postsActions'
+import {getPosts, removePosts} from '../store/actions/postsActions'
 import { connect } from 'react-redux'
 import '../styles/subreddit.scss'
 import methods from '../utils/methods'
@@ -11,7 +10,6 @@ import methods from '../utils/methods'
 const {
   throttle
 } = methods;
-
 
 class SubredditPage extends React.Component {
   constructor (props) {
@@ -32,6 +30,10 @@ class SubredditPage extends React.Component {
       this.props.dispatch(getPosts(id));
     }
     window.addEventListener('scroll', this.containerScrollHandler);
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(removePosts())
   }
 
   componentDidUpdate () {
@@ -73,7 +75,7 @@ class SubredditPage extends React.Component {
 
 export default connect((state) => {
   return {
-    posts: state.posts,
+    posts: state.posts.allPosts,
     subreddits: state.subreddits.subreddits
   }
 })(SubredditPage)

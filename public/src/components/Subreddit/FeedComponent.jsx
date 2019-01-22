@@ -1,6 +1,7 @@
 import React from 'react';
-import PostComponent from './PostComponent'
+import PostComponent from '../PostComponent'
 import constants from '../../utils/constants'
+import {Link} from "react-router-dom";
 
 const {
   POSTS_TO_SHOW
@@ -26,8 +27,10 @@ export default class FeedComponent extends React.Component {
     return [...this.props.posts]
         .slice(0, POSTS_TO_SHOW * this.props.currentPostsStep)
         .map((post, index) => {
-          console.log(post)
-          return <PostComponent {...post} key={index}/>
+          return <Link key={index} to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>
+                    <PostComponent {...post}
+                                   key={index}/>
+                </Link>
     })
   }
 

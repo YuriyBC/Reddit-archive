@@ -35,6 +35,16 @@ function init (app) {
          })
     });
 
+    app.get('/api/post/:subredditId/:postId', (request, response) => {
+        const { subredditId, postId } = request.params;
+        databaseService.getPostDataWithComments(subredditId, postId)
+            .then(result => {
+                response.status(STATUS_CODE_OK).send(result);
+            }).catch(() => {
+            response.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_POSTS_NOT_FOUND });
+        })
+    });
+
     app.post('/api/subreddit', (request, response) => {
         const potentialSubreddit = request.body.payload;
 
@@ -53,8 +63,10 @@ function init (app) {
                     addNewSubredditDatabase(subredditApiName, newId);
                     response.status(STATUS_CODE_OK).send(subreddits);
                 }));
+
             } else if (subredditFromDatabase) {
                 changeArchiveType(potentialSubreddit, response);
+
             } else {
                 const errorMessage = result[1] ? ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS : ERROR_MESSAGE_SUBREDDIT_NOT_FOUND;
                 response.status(STATUS_CODE_FAIL).
@@ -76,10 +88,16 @@ function changeArchiveType (title, response) {
             });
 
             if (newValue) startRedditArchivation(subreddit.display_name, subreddit.id);
+            if (!newValue) removePostsAndComments(subreddit.display_name);
         }).catch(() => {
             response.send(STATUS_CODE_FAIL)
         })
     })
+}
+
+function removePostsAndComments (subredditName) {
+    databaseService.removeRowsFromTable(POSTS_TABLE_TITLE, 'subreddit', subredditName);
+    databaseService.removeRowsFromTable(COMMENTS_TABLE_TITLE, 'subreddit', subredditName);
 }
 
 function getSimilarSubredditNameFromAPI (subreddit) {
@@ -114,26 +132,44 @@ function addNewSubredditDatabase (subreddit, subredditId) {
 function startRedditArchivation (subredditTitle, subredditId) {
     redditFetcher.getSubredditPosts(subredditTitle).then(result => {
         if (result && result.length) {
+
             result.forEach((post) => {
-                databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId)
+                databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId);
+
+                redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
+                    const comments = getAllComments(el[1].data.children);
+                    comments.forEach((comment) => {
+                        if (comment) {
+                            comment.data.postId = post.id;
+                            databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment)
+                        }
+                    })
+                })
             });
             return result;
         }
-    }).then(result => {
-        if (result && result.length) {
-            result.forEach((post) => {
-                if (post.subreddit && post.subreddit.display_name) {
-                    redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
-                        const comments = el[1].data.children;
-                        comments.forEach((comment) => {
-                            databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment)
-                        })
-                    })
-                }
-            });
-        }
     })
 }
+
+function getAllComments (initialComments) {
+    let storedData = [];
+
+    function checkIfNextDepth (children) {
+        return !!(children.data.replies && children.data.replies.data.children)
+    }
+
+    function storeFromComments (comments) {
+        comments.forEach((comment) => {
+            storedData.push(comment);
+            if (checkIfNextDepth(comment)) {
+                storeFromComments(comment.data.replies.data.children)
+            }
+        })
+    }
+    storeFromComments(initialComments);
+    return storedData;
+}
+
 
 function allowCors (app) {
     app.use(function(req, res, next) {

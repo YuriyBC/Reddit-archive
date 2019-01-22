@@ -14,8 +14,8 @@ function makeConnectionToMysql () {
         host     : 'localhost',
         user     : 'root',
         password : 'password',
-        charset: 'utf8',
-        debug: true,
+        charset: 'utf8mb4',
+        debug: false,
         stringifyObjects: true
     });
 }
@@ -23,15 +23,10 @@ function makeConnectionToMysql () {
 function createDatabase () {
     connection.connect(function(err) {
         if (err) throw err;
-        connection.query("CREATE DATABASE IF NOT EXISTS " + DATABASE_NAME, function (err) {
+        connection.query("CREATE DATABASE IF NOT EXISTS " + DATABASE_NAME + " CHARACTER SET utf8mb4", function (err) {
                 if (err) throw err;
             });
     });
-}
-
-function removeEmoji (string) {
-    const regex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|[\ud83c[\ude50\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
-    return string.replace(regex, '');
 }
 
 function createTable (type) {
@@ -71,12 +66,15 @@ function createTable (type) {
     const createTableCommentsQuery = "CREATE TABLE " + COMMENTS_TABLE_TITLE + " (" +
         "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
         "subreddit VARCHAR(255), " +
-        "body VARCHAR(2000), " +
+        "body TEXT, " +
         "author VARCHAR(255), " +
         "created VARCHAR(255), " +
         "subreddit_id VARCHAR(255), " +
         "score VARCHAR(255), " +
-        "replies TEXT, " +
+        "depth VARCHAR(255), " +
+        "name VARCHAR(255), " +
+        "parent_id VARCHAR(255), " +
+        "postId VARCHAR(255), " +
         "author_flair_text VARCHAR(255)" +
         ")";
 
@@ -97,7 +95,7 @@ function createTable (type) {
     }
 
     function checkTableCallback (err, result) {
-        if (!result.length) {
+        if (result && !result.length) {
             connection.query(createTableQuery)
         }
     }
@@ -105,9 +103,20 @@ function createTable (type) {
 }
 
 
+function removeQuotesFromObject (object) {
+    Object.keys(object).forEach(key => {
+        if (object[key] && object[key].split) {
+            object[key] = object[key].split("'").join("''");
+        }
+    });
+    return object
+}
+
+
 function insertSubreddit (table, dataObject) {
     const checkIfSubredditExistQuery = `SELECT * FROM ${table} WHERE display_name = '${dataObject.display_name}'`
 
+    dataObject = removeQuotesFromObject (dataObject);
     let {
         display_name,
         community_icon,
@@ -119,16 +128,6 @@ function insertSubreddit (table, dataObject) {
         display_name_prefixed,
         isArchived
     } = dataObject;
-
-    function removeEmoji (string) {
-        const regex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|[\ud83c[\ude50\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
-        return string.replace(regex, '');
-    }
-    if (title) {
-        title = title.split("'").join(" ");
-        title = title.replace("|", "");
-        title = removeEmoji(title);
-    }
 
     const insertDataQuery = `INSERT INTO ${table}(
                                 display_name, 
@@ -152,7 +151,7 @@ function insertSubreddit (table, dataObject) {
                                 ${isArchived || 0}
                                 )`;
     connection.query(checkIfSubredditExistQuery, function (err, result) {
-        if (!result.length) {
+        if (result && !result.length) {
             connection.query(insertDataQuery, (err) => {
                 if (err) throw err
             })
@@ -178,17 +177,8 @@ function insertPost (table, dataObject, subredditId) {
         selftext
     } = dataObject;
 
-    if (title) {
-        title = title.split("'").join(" ");
-        title = title.replace("|", "");
-        title = removeEmoji(title);
-    }
-
-    if (selftext) {
-        selftext = selftext.split("'").join(" ");
-        selftext = selftext.replace("|", "");
-        selftext = removeEmoji(selftext);
-    }
+    if (title) { title = title.split("'").join("''")}
+    if (selftext) { selftext = selftext.split("'").join("''")}
 
     const insertDataQuery = `INSERT INTO ${table}(
                                     subreddit,
@@ -230,29 +220,23 @@ function insertPost (table, dataObject, subredditId) {
 
 
 function insertComment (table, dataObject) {
-    const checkIfCommentExistQuery = `SELECT * FROM ${table} WHERE body = '${dataObject.body}'`;
+    const newObj = removeQuotesFromObject({...dataObject.data});
+
     let {
         score,
         subreddit_id,
-        replies,
         created,
         author,
         body,
         subreddit,
-        author_flair_text
-    } = dataObject.data;
+        author_flair_text,
+        depth,
+        parent_id,
+        name,
+        postId,
+    } = newObj;
 
-    if (body) {
-        body = body.split("'").join(" ");
-        body = body.replace("|", "");
-        body = removeEmoji(body);
-    }
-
-    if (replies) {
-        replies = JSON.stringify(replies);
-        replies = replies.split("'").join(" ");
-        replies = removeEmoji(replies);
-    }
+    const checkIfCommentExistQuery = `SELECT * FROM ${table} WHERE body = '${body}'`;
 
     const insertDataQuery = `INSERT INTO ${table}(
                                     subreddit,
@@ -261,7 +245,10 @@ function insertComment (table, dataObject) {
                                     created,
                                     subreddit_id,
                                     score,
-                                    replies,
+                                    depth,
+                                    parent_id,
+                                    name,
+                                    postId,
                                     author_flair_text) 
                                     VALUES (
                                     '${subreddit || null}',  
@@ -270,7 +257,10 @@ function insertComment (table, dataObject) {
                                     '${created || null}',
                                     '${subreddit_id || null}',
                                     '${score || 0}',
-                                    '${replies || null}',
+                                    '${depth || null}',
+                                    '${parent_id || null}',
+                                    '${name || null}',
+                                    '${postId || null}',
                                     '${author_flair_text || null}'
                                     )`;
 
@@ -354,12 +344,43 @@ function getAllPostsBySubredditId (subredditId) {
     })
 }
 
+function removeRowsFromTable (table, columnName, value) {
+    return new Promise ((resolve, reject) => {
+        const deleteRowQuery = `DELETE FROM ${table} WHERE ${columnName} = '${value}'`;
+        connection.query(deleteRowQuery, function (err, result) {
+            if (err) reject(error);
+            if (result.length) {
+                resolve(result)
+            }
+        })
+    })
+}
+
+function getPostDataWithComments (subredditId, postId) {
+    return new Promise ((resolve, reject) => {
+        const findPostQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE reddit_id = '${postId}'`;
+        const findComments = `SELECT * FROM ${COMMENTS_TABLE_TITLE} WHERE postId = '${postId}'`;
+
+        connection.query(findPostQuery, function (err, postData) {
+            if (err) reject(error);
+            if (postData.length) {
+                connection.query(findComments, function (err, commentsData) {
+                    resolve({
+                        data: postData[0],
+                        comments: commentsData
+                    })
+                })
+            }
+        })
+    })
+}
+
 function init () {
     makeConnectionToMysql();
     createDatabase();
     createTable(SUBREDDITS_TABLE_TITLE);
     createTable(POSTS_TABLE_TITLE);
-    createTable(COMMENTS_TABLE_TITLE)
+    createTable(COMMENTS_TABLE_TITLE);
 }
 
 module.exports = {
@@ -368,5 +389,7 @@ module.exports = {
     getDataFromDatabase,
     getRowByTitle,
     updateTable,
-    getAllPostsBySubredditId
+    getAllPostsBySubredditId,
+    removeRowsFromTable,
+    getPostDataWithComments
 };

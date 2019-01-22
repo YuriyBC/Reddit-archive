@@ -16,7 +16,7 @@ function init (server) {
                     clearInterval(interval)
                 }
             }).catch(() => {});
-        }, 500)
+        }, 1000)
     });
 }
 
