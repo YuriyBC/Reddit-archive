@@ -25,7 +25,7 @@ const posts = (state = initialState, action) => {
                     ...action.payload,
                     ...state.currentPostInfo
                 }
-            }
+            };
         case 'REMOVE_POSTS':
             return initialState
     }

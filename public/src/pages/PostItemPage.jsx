@@ -1,7 +1,7 @@
 import React from 'react';
 import HeaderComponent from '../components/HeaderComponent'
 import FeedComponent from '../components/PostItem/FeedComponent'
-import SidebarComponent from '../components/PostItem/SidebarComponent'
+import SidebarComponent from '../components/SidebarComponent'
 import { connect } from 'react-redux'
 import '../styles/post.scss'
 import { getPost, getPostComments } from "../store/actions/postsActions";
@@ -9,6 +9,9 @@ import { getPost, getPostComments } from "../store/actions/postsActions";
 class SubredditPage extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      currentSubreddit: {}
+    }
   }
 
   componentDidMount() {
@@ -19,12 +22,21 @@ class SubredditPage extends React.Component {
     }
   }
 
+  componentDidUpdate () {
+    const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
+    if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
+      this.setState({
+        currentSubreddit: currentSubreddit[0]
+      })
+    }
+  }
+
   render () {
     return <div className="post">
         <HeaderComponent/>
-        <div className="subreddit-content post-content">
+        <div className="home-content post-content">
           <FeedComponent post={this.props.post}/>
-          <SidebarComponent/>
+          <SidebarComponent {...this.state.currentSubreddit}/>
         </div>
     </div>
   }
@@ -33,6 +45,7 @@ class SubredditPage extends React.Component {
 
 export default connect((state) => {
   return {
-    post: state.posts.currentPostInfo
+    post: state.posts.currentPostInfo,
+    subreddits: state.subreddits.subreddits
   }
 })(SubredditPage)

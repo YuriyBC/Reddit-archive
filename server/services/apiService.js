@@ -161,7 +161,6 @@ function startRedditArchivation (subredditTitle, subredditId) {
     })
 }
 
-
 function getAllComments (initialComments) {
     let storedData = [];
 

@@ -1,7 +1,16 @@
 @import "variables";
 
 body .post {
+  &-content {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
   &-feed {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    justify-items: flex-start;
     background: rgba(255, 255, 255, 1);
     width: vw(1200);
     padding: 0 vw(50);

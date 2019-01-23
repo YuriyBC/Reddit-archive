@@ -43,9 +43,49 @@ function removeLinksFromText (message) {
     return message
 }
 
+function getLinksFromString (message) {
+    let index = 0;
+    let links = [];
+    let string = message;
+
+    function storeLink () {
+        // if (string[string.indexOf(']', index) + 1] !== '(') {
+        //
+        // }
+        let text = string.slice(string.indexOf('[', index) + 1, string.indexOf(']', index));
+        let link = string.slice(string.indexOf('(', index) + 1, string.indexOf(')', index));
+        index = string.indexOf(link) + link.length + 1;
+
+        let x = '[' + text + ']';
+        let y = '(' + link + ')';
+        string = string.replace(x, '');
+        string = string.replace(y, '');
+        console.log(string)
+        // string = string.replace('(' + link + ')', '');
+
+        // console.log(string, string[string.indexOf('[', index)], string.indexOf('[', index))
+        links.push({link, text});
+        return links
+    }
+
+    storeLink()
+    storeLink()
+    // console.log(string)
+    // console.log(message)
+    // console.log(links)
+
+
+
+    return {
+        links,
+        message
+    }
+}
+
 
 export default {
     throttle,
     getDate,
-    removeLinksFromText
+    removeLinksFromText,
+    getLinksFromString
 };

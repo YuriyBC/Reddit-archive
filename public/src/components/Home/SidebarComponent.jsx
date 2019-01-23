@@ -82,7 +82,8 @@ export default class SidebarComponent extends React.Component {
 
       if (subredditTitle.search(formValue) > -1 && subreddit.isArchived) {
         return <div key={key}>
-          <Link to={`/subreddit/${subreddit.id}`}>
+          <Link onClick={this.props.removePosts}
+                to={`/subreddit/${subreddit.id}`}>
             {getIcon()}
             {subreddit.display_name}
           </Link>

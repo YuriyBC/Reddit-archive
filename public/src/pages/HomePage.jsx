@@ -5,15 +5,21 @@ import SidebarComponent from '../components/Home/SidebarComponent'
 import { connect } from 'react-redux'
 import '../styles/home.scss'
 import { storeSubredditToArchive } from '../store/actions/subredditsActions'
+import {removePosts} from '../store/actions/postsActions'
 
 class HomePage extends React.Component {
   constructor (props) {
     super(props);
     this.storeSubredditToArchive = this.storeSubredditToArchive.bind(this);
+    this.removePosts = this.removePosts.bind(this);
   }
 
   storeSubredditToArchive (name) {
     this.props.dispatch(storeSubredditToArchive(name))
+  }
+
+  removePosts () {
+    this.props.dispatch(removePosts());
   }
 
   render () {
@@ -22,6 +28,7 @@ class HomePage extends React.Component {
       <div className="home-content">
         <FeedComponent/>
         <SidebarComponent storeSubredditToArchive={this.storeSubredditToArchive}
+                          removePosts={this.removePosts}
                           errorMessages={this.props.errorMessages}
                           subreddits={this.props.subreddits}/>
       </div>

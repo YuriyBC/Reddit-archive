@@ -56,6 +56,8 @@ function createTable (type) {
         "created VARCHAR(255), " +
         "reddit_id VARCHAR(255), " +
         "num_comments INT(100), " +
+        "thumbnail_height VARCHAR(255), " +
+        "thumbnail_width VARCHAR(255), " +
         "subreddit_subscribers VARCHAR(255), " +
         "preview VARCHAR(255), " +
         "score INT(100), " +
@@ -177,6 +179,8 @@ function insertPost (table, dataObject, subredditId) {
         created,
         id,
         num_comments,
+        thumbnail_height,
+        thumbnail_width,
         subreddit_subscribers,
         preview,
         score,
@@ -199,6 +203,8 @@ function insertPost (table, dataObject, subredditId) {
                                     preview,
                                     score,
                                     thumbnail,
+                                    thumbnail_height,
+                                    thumbnail_width,
                                     author_fullname,
                                     selftext,
                                     subreddit_id) 
@@ -213,6 +219,8 @@ function insertPost (table, dataObject, subredditId) {
                                     '${preview || null}',
                                     '${score || 0}',
                                     '${thumbnail || null}',
+                                    '${thumbnail_height || null}',
+                                    '${thumbnail_width || null}',
                                     '${author_fullname || null}',
                                     '${selftext || null}',
                                     '${subredditId || 0}'
@@ -311,7 +319,7 @@ function getRowById (table, rowId) {
     return new Promise ((resolve, reject) => {
         const findRoByIdQuery = `SELECT * FROM ${table} WHERE id = '${rowId}'`
         connection.query(findRoByIdQuery, function (err, result) {
-            if (err) reject(error);
+            if (err) reject(err);
             if (result.length) {
                 resolve(result[0])
             }
@@ -333,7 +341,7 @@ function getRowByTitle (table, title) {
     return new Promise ((resolve, reject) => {
         const findRoByIdQuery = `SELECT * FROM ${table} WHERE display_name = '${title}'`
         connection.query(findRoByIdQuery, function (err, result) {
-            if (err) reject(error);
+            if (err) reject(err);
             if (result.length) {
                 resolve(result[0])
             }

@@ -6,9 +6,17 @@ import {
 export const getSubreddits = () => {
     return function (dispatch) {
         getSubredditsApi().then((response) => {
+            const result = response.data.map(post => {
+                Object.keys(post).forEach(key => {
+                    if (post[key] === 'null') {
+                        post[key] = null
+                    }
+                });
+                return post
+            });
             dispatch({
                 type: 'SET_SUBREDDITS',
-                payload: response.data
+                payload: result
             })
         }).catch(error => {
             console.log(error)
@@ -19,9 +27,17 @@ export const getSubreddits = () => {
 export const storeSubredditToArchive = (name) => {
     return function (dispatch) {
         return storeSubredditToArchiveApi(name).then((response) => {
+            const result = response.data.map(post => {
+                Object.keys(post).forEach(key => {
+                    if (post[key] === 'null') {
+                        post[key] = null
+                    }
+                });
+                return post
+            });
             dispatch({
                 type: 'SET_SUBREDDITS',
-                payload: response.data
+                payload: result
             });
             return response.data
         }).catch(error => {

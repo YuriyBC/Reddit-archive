@@ -11,6 +11,7 @@ const {
     removeLinksFromText
 } = methods;
 
+
 function getLinksFromText (message) {
     let lastIndex = 0;
     let links = [];
@@ -22,7 +23,7 @@ function getLinksFromText (message) {
         links.push(<a key={lastIndex} href={link}>{text}</a>);
     }
 
-    storeLink(message, lastIndex)
+    storeLink(message, lastIndex);
 
     return links
 }

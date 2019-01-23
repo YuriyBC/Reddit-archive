@@ -11,7 +11,6 @@ export const getPosts = (id) => {
                 type: 'SET_POSTS',
                 payload: response.data
             });
-            console.log('ss')
         });
     }
 };

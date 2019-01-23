@@ -1,6 +1,9 @@
 @import "variables";
 
 body .subreddit {
+  .subreddit-spinner {
+    top: 50%;
+  }
   &-content {
     display: flex;
     flex-direction: column;
@@ -31,12 +34,17 @@ body .subreddit {
       height: auto;
       max-width: 85%;
       max-height: 85%;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     .subreddit-header__title {
       font-size: vw(25);
     }
   }
   &-feed {
+    width: vw(720);
     background: none;
     & > a {
       display: flex;
@@ -88,20 +96,22 @@ body .subreddit {
         padding: vw(8) vw(8) vw(3) vw(8);
         align-items: flex-start;
         background: rgb(255, 255, 255);
+        padding-right: vw(40);
         width: 100%;
-        h2 {
+        .post-content__title {
+          padding: vw(5) vw(3);
           display: inline;
-          color: rgb(68, 78, 89);
           overflow-wrap: break-word;
+          color: rgb(68, 78, 89);
           font-size: 18px;
           font-weight: 500;
           line-height: 22px;
-          padding-right: 5px;
           text-align: left;
           margin: vw(5) 0;
         }
       }
       .post-content__author {
+        padding: 0 vw(3);
         small {
           font-size: vw(10);
           font-weight: 400;
@@ -111,6 +121,9 @@ body .subreddit {
       }
       .post-content__text {
         text-align: left;
+        p {
+          margin: 0 vw(5) vw(5) vw(5);
+        }
       }
       .post-content__bottom {
         display: flex;
@@ -155,6 +168,7 @@ body .subreddit {
     display: flex;
     flex-direction: column;
     padding: 0;
+    user-select: none;
     height: vw(400);
     .sidebar-header {
       border-radius: 5px 5px 0 0;
@@ -186,6 +200,10 @@ body .subreddit {
         height: vw(32);
         width: vw(32);
         margin-right: vw(10);
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
       span {
         font-size: vw(17);
@@ -196,6 +214,16 @@ body .subreddit {
     .subreddit-sidebar__description {
       padding-top: vw(20);
       font-size: vw(15);
+    }
+  }
+
+  &-navbar {
+    display: flex;
+    justify-content: center;
+    height: vw(50);
+    background: white;
+    .subreddit-navbar__buttons {
+      width: vw(400);
     }
   }
 }

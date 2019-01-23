@@ -1,34 +1,19 @@
 const path = require('path');
 
-
-// Options passed to node-sass
 const sassIncludePaths = [
   path.resolve(__dirname, 'styles'),
 ];
 
-
-// noinspection WebpackConfigHighlighting
 module.exports = [
-  // =========
-  // = Babel =
-  // =========
-  // Load jsx extensions with babel so we can use
-  // 'import' instead of 'require' and es6 syntax
   {
     test: /\.jsx?$/,
     include: path.resolve(__dirname, 'src'),
     loader: "babel-loader",
     options: {
-      // This is a feature of `babel-loader` for Webpack (not Babel itself).
-      // It enables caching results in ./node_modules/.cache/babel-loader/
-      // directory for faster rebuilds.
       cacheDirectory: true,
       plugins: ['react-hot-loader/babel'],
     }
   },
-  // =========
-  // = Fonts =
-  // =========
   {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
     exclude: path.resolve(__dirname, "node_modules"),
@@ -58,9 +43,6 @@ module.exports = [
       }
     ]
   },
-  // ==========
-  // = Images =
-  // ==========
   {
     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
     exclude: path.resolve(__dirname, "node_modules"),

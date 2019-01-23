@@ -10,7 +10,8 @@ import {
     faStar
 } from "@fortawesome/free-solid-svg-icons";
 const {
-    getDate
+    getDate,
+    getLinksFromString
 } = methods;
 
 export default class PostComponent extends React.Component {
@@ -27,8 +28,22 @@ export default class PostComponent extends React.Component {
     }
 
     getPostText () {
-        if (this.props.selftext !== 'null') {
-            return this.props.selftext
+        const {thumbnail, thumbnail_height, thumbnail_width, selftext} = this.props;
+        const imageWidth = thumbnail_width !== 'null' ? +thumbnail_width : 'auto';
+        const imageHeight = thumbnail_height !== 'null' ? +thumbnail_height : 'auto';
+
+        let text = selftext !== 'null' ? <p>{selftext}</p> : null;
+        let image = thumbnail !== 'null' ?
+            <img width={imageWidth}
+                 height={imageHeight}
+                 src={thumbnail}
+                 alt="PostImage"/>
+            : null;
+        if (text || image) {
+            return  <span className="post-content__text">
+                            {text}
+                            {image}
+                     </span>
         }
     }
 
@@ -44,11 +59,7 @@ export default class PostComponent extends React.Component {
             <div className="post-content">
                 <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.calculateDate()}</small>
                 <h2 className="post-content__title">{this.props.title}</h2>
-                <span className="post-content__text">
-                    <p>{this.getPostText()}</p>
-                    <img src={this.props.thumbnail} alt=""/>
-                </span>
-
+                {this.getPostText()}
                 <div className="post-content__bottom">
                     <div>
                         <FontAwesomeIcon icon={faCommentAlt} />
