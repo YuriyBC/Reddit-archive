@@ -37,6 +37,7 @@ class App extends React.Component {
     }
 
     componentDidMount () {
+        this.props.dispatch(getSubreddits());
         webSocketService().onmessage = message => {
             if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
                 this.props.dispatch(getSubreddits());

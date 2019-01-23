@@ -16,19 +16,19 @@ const {
 export default class PostComponent extends React.Component {
     constructor (props) {
         super(props);
-        this.getText = this.getText.bind(this);
+        this.getPostText = this.getPostText.bind(this);
         this.calculateDate = this.calculateDate.bind(this);
-    }
-
-    getText () {
-        if (this.props.selftext !== 'null') {
-            return this.props.selftext
-        }
     }
 
     calculateDate () {
         if (this.props.created) {
             return getDate(this.props.created)
+        }
+    }
+
+    getPostText () {
+        if (this.props.selftext !== 'null') {
+            return this.props.selftext
         }
     }
 
@@ -45,7 +45,7 @@ export default class PostComponent extends React.Component {
                 <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.calculateDate()}</small>
                 <h2 className="post-content__title">{this.props.title}</h2>
                 <span className="post-content__text">
-                    <p>{this.getText()}</p>
+                    <p>{this.getPostText()}</p>
                     <img src={this.props.thumbnail} alt=""/>
                 </span>
 

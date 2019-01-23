@@ -2,7 +2,8 @@ import React from 'react';
 import HeaderComponent from '../components/HeaderComponent'
 import FeedComponent from '../components/Subreddit/FeedComponent'
 import SidebarComponent from '../components/Subreddit/SidebarComponent'
-import {getPosts, removePosts} from '../store/actions/postsActions'
+import InnerHeaderComponent from '../components/Subreddit/InnerHeaderComponent'
+import { getPosts } from '../store/actions/postsActions'
 import { connect } from 'react-redux'
 import '../styles/subreddit.scss'
 import methods from '../utils/methods'
@@ -30,10 +31,6 @@ class SubredditPage extends React.Component {
       this.props.dispatch(getPosts(id));
     }
     window.addEventListener('scroll', this.containerScrollHandler);
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(removePosts())
   }
 
   componentDidUpdate () {
@@ -64,9 +61,12 @@ class SubredditPage extends React.Component {
                 onScroll={this.containerScrollHandler}>
         <HeaderComponent/>
         <div className="subreddit-content">
-          <FeedComponent currentPostsStep={this.state.scrollStep}
-                         posts={this.props.posts}/>
-          <SidebarComponent currentSubreddit={this.state.currentSubreddit}/>
+          <InnerHeaderComponent {...this.state.currentSubreddit}/>
+          <div className="subreddit-content__wrapper">
+            <FeedComponent currentPostsStep={this.state.scrollStep}
+                           posts={this.props.posts}/>
+            <SidebarComponent {...this.state.currentSubreddit}/>
+          </div>
         </div>
     </div>
   }

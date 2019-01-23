@@ -9,7 +9,10 @@ const websocketService = require('./services/websocketService');
 const port = process.env.PORT || 8080;
 const app = express();
 const constants = require('./constants');
-const {SUBREDDITS_TABLE_TITLE} = constants;
+const {
+  SUBREDDITS_TABLE_TITLE,
+  INTERVAL_TO_FETCH_NEW_DATA
+} = constants;
 
 app.use(express.static(`${__dirname}/../public/public`));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,19 +24,19 @@ function getAndStoreSubreddits () {
     subreddits.forEach(el => {
       databaseService.insertDataInTable(SUBREDDITS_TABLE_TITLE, el.data)
     });
-    // checkAreNewSubredditsArchived()
   });
 }
-
-// function checkAreNewSubredditsArchived () {
-//   const localStorage = [];
-//   const interval = setInterval(() => {
-//     redditFetcherService.fetchSubreddits(SUBREDDITS_TABLE_TITLE).then((subreddits) => {
-//
-//     })
-//
-//   }, 3000)
-//
+// function fetchDataOfArchivedSubreddits () {
+//   setInterval(() => {
+//     databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
+//       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
+//       if (archivedSubreddits.length) {
+//         archivedSubreddits.forEach(subreddit => {
+//           apiService.startRedditArchivation(subreddit.display_name, subreddit.id)
+//         })
+//       }
+//     }));
+//   }, INTERVAL_TO_FETCH_NEW_DATA)
 // }
 
 server.on('listening',function(){
@@ -46,4 +49,5 @@ apiService.init(app);
 websocketService.init(server);
 
 getAndStoreSubreddits();
+// fetchDataOfArchivedSubreddits();
 server.listen(port);

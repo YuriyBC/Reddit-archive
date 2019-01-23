@@ -16,10 +16,23 @@
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    height: 100%;
     min-height: vw(380);
     text-align: center;
-    background: white;
+    &__faq {
+      width: 100%;
+      height: 100%;
+      margin-top: 68px;
+      padding: vw(80) vw(20);
+      font-family: "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Verdana, Arial, sans-serif;
+      font-size: vw(17);
+      font-weight: 400;
+      line-height: vw(21);
+      overflow-wrap: break-word;
+      span {
+        margin-top: vw(10);
+        display: block;
+      }
+    }
   }
   &-sidebar {
     width: vw(312);
@@ -30,9 +43,6 @@
     color: rgb(26, 26, 27);
     fill: rgb(26, 26, 27);
     overflow: visible;
-    &__search-form__wrapper {
-
-    }
     &__search-form {
       width: 100%;
     }
@@ -45,10 +55,8 @@
         padding: 3px 5px;
         margin-bottom: 1px;
         color: white;
-        background: gray;
         cursor: pointer;
       }
-
     }
     &__archive-form {
       &__list {
@@ -68,5 +76,161 @@
     .errorMessage {
       color: red;
     }
+  }
+}
+
+
+.home-sidebar {
+  &__search-form__wrapper {
+    position: relative;
+  }
+  &__search-form {
+    width: 100%;
+    color: rgba(255, 69, 0, 0.6);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    display: block;
+    border: 1px solid rgba(255, 69, 0, 0.5);
+    margin-top: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    padding-left: vw(10);
+    font-weight: 400;
+    font-family: "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Verdana, Arial, sans-serif;
+    outline: none;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.2);
+    }
+  }
+  &_search-form__scrollbar {
+    z-index: 10;
+    & > div {
+      background: rgba(255, 69, 0, 0.7);
+    }
+  }
+  .scrollarea-content > div {
+    padding: 3px 5px 6px 5px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    border-bottom: 0.5px solid white;
+    &:hover {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    &:focus {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  &__search-form__list {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    max-height: vw(310);
+    border-radius: vw(6);
+    margin-top: vw(1);
+    overflow-y: auto;
+    & > div {
+      background: rgb(255, 126, 75);
+      padding: 3px 5px;
+    }
+  }
+}
+
+
+.home-sidebar {
+  .subredditList-inner_container {
+    height: vw(200);
+    display: flex;
+    cursor: default;
+    width: 100%;
+  }
+  .subreddit-icon {
+    width: vw(24);
+    border-radius: 50%;
+    height: vw(24);
+    margin-right: vw(15);
+  }
+  .home-sidebar__archive-form__list {
+    margin-top: vw(20);
+    border-radius: 4px;
+    cursor: default;
+    .scrollarea {
+      width: 100%;
+      cursor: default;
+    }
+    .scrollarea-content {
+      cursor: default;
+      width: 100%;
+      & > div {
+        width: 100%;
+        display: flex;
+        color: rgb(26, 26, 27);
+        padding: vw(2) vw(7);
+        margin-top: vw(2);
+        justify-content: space-between;
+        border-bottom: 0.5px solid white;
+        cursor: default;
+      }
+    }
+    & > div {
+      cursor: default;
+      a {
+        outline: none;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.5);
+        transition: 0.2s;
+        text-transform: capitalize;
+        &:hover {
+          color: rgba(0, 0, 0, 0.8);
+        }
+      }
+      svg {
+        margin-top: vw(6);
+        color: rgb(255, 126, 75);
+        margin-right: vw(18);
+        transition: 0.2s;
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+  .home-sidebar__archive-form__title {
+    display: flex;
+    padding: vw(5) vw(7);
+    background: rgba(0, 121, 211, 0.7);
+    color: white;
+    width: 100%;
+    font-weight: 400;
+    font-size: vw(15);
+  }
+  &__archive-form {
+    width: 100%;
+    color: rgba(0, 121, 211, 0.5);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    line-height: 32px;
+    display: block;
+    border: 1px solid rgba(0, 121, 211, 0.5);
+    margin-top: 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    padding-left: vw(10);
+    font-weight: 400;
+    font-family: "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Verdana, Arial, sans-serif;
+    outline: none;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.2);
+    }
+    &.disable {
+      display: none;
+    }
+  }
+  .errorMessage {
+    color: red;
   }
 }

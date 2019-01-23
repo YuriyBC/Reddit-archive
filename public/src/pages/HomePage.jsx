@@ -13,7 +13,7 @@ class HomePage extends React.Component {
   }
 
   storeSubredditToArchive (name) {
-    this.props.dispatch(storeSubredditToArchive(name));
+    this.props.dispatch(storeSubredditToArchive(name))
   }
 
   render () {

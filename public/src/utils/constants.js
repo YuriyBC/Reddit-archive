@@ -10,6 +10,7 @@ const URL_GET_SUBREDDITS = '/api/subreddits';
 const URL_SET_SUBREDDIT_TO_ARCHIVE = '/api/subreddit';
 const URL_GET_POSTS = '/api/posts';
 const URL_GET_POST = '/api/post';
+const URL_GET_POST_COMMENTS = '/api/comments';
 
 export default {
     API,
@@ -19,5 +20,6 @@ export default {
     URL_SET_SUBREDDIT_TO_ARCHIVE,
     URL_GET_POSTS,
     POSTS_TO_SHOW,
-    URL_GET_POST
+    URL_GET_POST,
+    URL_GET_POST_COMMENTS
 }

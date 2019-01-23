@@ -37,8 +37,10 @@ function createTable (type) {
             "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
             "display_name VARCHAR(255), " +
             "community_icon VARCHAR(255), " +
+            "icon_img VARCHAR(255), " +
             "title VARCHAR(255), " +
             "header_img VARCHAR(255), " +
+            "public_description VARCHAR(2000), " +
             "subscribers VARCHAR(255), " +
             "key_color VARCHAR(255), " +
             "url VARCHAR(255), " +
@@ -126,6 +128,8 @@ function insertSubreddit (table, dataObject) {
         key_color,
         url,
         display_name_prefixed,
+        icon_img,
+        public_description,
         isArchived
     } = dataObject;
 
@@ -134,20 +138,24 @@ function insertSubreddit (table, dataObject) {
                                 community_icon, 
                                 title, 
                                 header_img, 
-                                subscribers, 
+                                subscribers,
                                 key_color, 
                                 url,  
                                 display_name_prefixed,
+                                public_description,
+                                icon_img,
                                 isArchived) 
                                 VALUES ( 
                                 '${display_name || null}',  
                                 '${community_icon || null}',
-                                '${title || null}',
+                                '${title || null}', 
                                 '${header_img || null}',
                                 '${subscribers || null}',
                                 '${key_color || null}',
                                 '${url || null}',
                                 '${display_name_prefixed || null}',
+                                '${public_description || null}',
+                                '${icon_img || null}',
                                 ${isArchived || 0}
                                 )`;
     connection.query(checkIfSubredditExistQuery, function (err, result) {
@@ -264,14 +272,15 @@ function insertComment (table, dataObject) {
                                     '${author_flair_text || null}'
                                     )`;
 
-    connection.query(checkIfCommentExistQuery, function (err, result) {
-        if (result && !result.length) {
-            connection.query(insertDataQuery, (err) => {
-                if (err) throw err
-            })
-        }
-    });
-
+    if (body) {
+        connection.query(checkIfCommentExistQuery, function (err, result) {
+            if (result && !result.length) {
+                connection.query(insertDataQuery, (err) => {
+                    if (err) throw err
+                })
+            }
+        });
+    }
 }
 
 function insertDataInTable (table, dataObject, subredditId) {
@@ -356,6 +365,35 @@ function removeRowsFromTable (table, columnName, value) {
     })
 }
 
+function getPostData (subredditId, postId) {
+    return new Promise ((resolve, reject) => {
+        const findPostQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE reddit_id = '${postId}'`;
+
+        connection.query(findPostQuery, function (err, postData) {
+            if (err) reject(error);
+            if (postData.length) {
+                resolve({
+                    data: postData[0]
+                })
+            }
+        })
+    })
+
+}
+
+function getPostComments (subredditId, postId) {
+    return new Promise ((resolve, reject) => {
+        const findComments = `SELECT * FROM ${COMMENTS_TABLE_TITLE} WHERE postId = '${postId}'`;
+
+        connection.query(findComments, function (err, commentsData) {
+            if (err) reject(error);
+            resolve({
+                comments: commentsData
+            })
+        })
+    })
+}
+
 function getPostDataWithComments (subredditId, postId) {
     return new Promise ((resolve, reject) => {
         const findPostQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE reddit_id = '${postId}'`;
@@ -391,5 +429,6 @@ module.exports = {
     updateTable,
     getAllPostsBySubredditId,
     removeRowsFromTable,
-    getPostDataWithComments
+    getPostData,
+    getPostComments
 };

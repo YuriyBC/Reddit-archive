@@ -1,6 +1,7 @@
 import {
     getPostsApi,
-    getPostApi
+    getPostApi,
+    getPostCommentsApi
 } from '../../utils/api';
 
 export const getPosts = (id) => {
@@ -9,7 +10,8 @@ export const getPosts = (id) => {
             dispatch({
                 type: 'SET_POSTS',
                 payload: response.data
-            })
+            });
+            console.log('ss')
         });
     }
 };
@@ -24,6 +26,18 @@ export const getPost = (subredditId, postId) => {
         });
     }
 };
+
+export const getPostComments = (subredditId, postId) => {
+    return function (dispatch) {
+        getPostCommentsApi(subredditId, postId).then((response) => {
+            dispatch({
+                type: 'SET_POST_COMMENTS',
+                payload: response.data
+            })
+        });
+    }
+};
+
 
 export const removePosts = () => {
     return function (dispatch) {

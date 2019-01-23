@@ -4,7 +4,7 @@ import FeedComponent from '../components/PostItem/FeedComponent'
 import SidebarComponent from '../components/PostItem/SidebarComponent'
 import { connect } from 'react-redux'
 import '../styles/post.scss'
-import { getPost } from "../store/actions/postsActions";
+import { getPost, getPostComments } from "../store/actions/postsActions";
 
 class SubredditPage extends React.Component {
   constructor (props) {
@@ -15,6 +15,7 @@ class SubredditPage extends React.Component {
     if (this.props.match.params) {
       const {id, postId} = this.props.match.params;
       this.props.dispatch(getPost(id, postId));
+      this.props.dispatch(getPostComments(id, postId));
     }
   }
 

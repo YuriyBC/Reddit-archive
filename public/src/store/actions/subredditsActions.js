@@ -18,11 +18,12 @@ export const getSubreddits = () => {
 
 export const storeSubredditToArchive = (name) => {
     return function (dispatch) {
-        storeSubredditToArchiveApi(name).then((response) => {
+        return storeSubredditToArchiveApi(name).then((response) => {
             dispatch({
                 type: 'SET_SUBREDDITS',
                 payload: response.data
             });
+            return response.data
         }).catch(error => {
             if (error.response && error.response.data.error) {
                 dispatch({

@@ -13,8 +13,19 @@ const posts = (state = initialState, action) => {
         case 'SET_POST_DATA':
             return {
                 ...initialState,
-                currentPostInfo: action.payload,
+                currentPostInfo: {
+                    ...action.payload,
+                    ...state.currentPostInfo
+                },
             };
+        case 'SET_POST_COMMENTS':
+            return {
+                ...initialState,
+                currentPostInfo: {
+                    ...action.payload,
+                    ...state.currentPostInfo
+                }
+            }
         case 'REMOVE_POSTS':
             return initialState
     }

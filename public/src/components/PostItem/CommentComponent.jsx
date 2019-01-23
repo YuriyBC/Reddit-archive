@@ -7,18 +7,9 @@ import {
     faCommentAlt
 } from "@fortawesome/free-solid-svg-icons";
 const {
-    getDate
+    getDate,
+    removeLinksFromText
 } = methods;
-
-
-function removeLinksFromText (message) {
-    let text = message.slice(message.indexOf('['), message.indexOf(']') + 1);
-    let link = message.slice(message.indexOf('('), message.indexOf(')') + 1);
-    message = message.replace(text, '');
-    message = message.replace(link, '');
-
-    return message
-}
 
 function getLinksFromText (message) {
     let lastIndex = 0;

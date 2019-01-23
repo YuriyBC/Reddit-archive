@@ -34,7 +34,18 @@ function getDate (created) {
     return false
 }
 
+function removeLinksFromText (message) {
+    let text = message.slice(message.indexOf('['), message.indexOf(']') + 1);
+    let link = message.slice(message.indexOf('('), message.indexOf(')') + 1);
+    message = message.replace(text, '');
+    message = message.replace(link, '');
+
+    return message
+}
+
+
 export default {
     throttle,
-    getDate
+    getDate,
+    removeLinksFromText
 };
