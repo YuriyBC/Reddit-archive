@@ -126,7 +126,6 @@ body .post {
       }
     }
   }
-
   .comment {
     position: relative;
     .comment-rating {
@@ -140,8 +139,10 @@ body .post {
         background: rgb(237, 239, 241);
       }
     }
+    &.parent {
+      margin-top: vw(15);
+    }
   }
-
   .offsetLine {
     border-right: 2px solid rgb(237, 239, 241);
     width: 18px;

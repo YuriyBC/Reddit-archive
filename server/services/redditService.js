@@ -15,7 +15,7 @@ const r = new snoowrap({
 
 const url = {
     getAllSubreddits: `https://www.reddit.com/subreddits.json?limit=${SUBREDDITS_LIMIT}`,
-    getAllComments: (subredditTitle, postId) => `https://www.reddit.com/r/${subredditTitle}/comments/${postId}.json`
+    getAllComments: (subredditTitle, postId) => `https://www.reddit.com/r/${subredditTitle}/comments/${postId}.json?limit=1000`
 };
 
 function fetchSubreddits () {

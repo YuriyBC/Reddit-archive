@@ -30,7 +30,6 @@ export default class CommentsComponent extends React.Component {
         let message = this.props.body;
         return reformatTextToHtml(message);
     }
-    
 
     getOffsetLines () {
         let elementsToReturn = [];

@@ -24,6 +24,7 @@ class SubredditPage extends React.Component {
     this.increaseScrollStep = this.increaseScrollStep.bind(this);
     this.changeSorting = this.changeSorting.bind(this);
     this.isDataLoaded = this.isDataLoaded.bind(this);
+    this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
   }
 
   componentDidMount () {
@@ -34,6 +35,11 @@ class SubredditPage extends React.Component {
       this.props.dispatch(getPosts(id));
     }
     window.addEventListener('scroll', this.containerScrollHandler);
+    this.setCurrentSubreddit()
+  }
+
+  componentDidUpdate() {
+    this.setCurrentSubreddit()
   }
 
   changeSorting (id) {
@@ -42,14 +48,14 @@ class SubredditPage extends React.Component {
     })
   }
 
-  componentDidUpdate () {
-    const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
-    if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
-      this.setState({
-        ...this.state,
-        currentSubreddit: currentSubreddit[0]
-      })
-    }
+  setCurrentSubreddit() {
+      const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
+      if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
+          this.setState({
+              ...this.state,
+              currentSubreddit: currentSubreddit[0]
+          })
+      }
   }
 
   getSortedPosts () {
@@ -97,13 +103,6 @@ class SubredditPage extends React.Component {
                           posts={posts}/>
   }
 
-  getNavigationBar () {
-    if (this.isDataLoaded()) {
-      return <NavigationBar changeSorting={this.changeSorting}
-                            currentSortingId={this.state.currentSortingId}/>
-    }
-  }
-
   isDataLoaded () {
     return Object.keys(this.state.currentSubreddit).length && this.props.posts.length;
   }
@@ -122,7 +121,9 @@ class SubredditPage extends React.Component {
         <HeaderComponent/>
         <div className="subreddit-content">
           <InnerHeaderComponent {...this.state.currentSubreddit}/>
-          {this.getNavigationBar.call(this)}
+          <NavigationBar changeSorting={this.changeSorting}
+                         isDataLoaded={this.isDataLoaded}
+                         currentSortingId={this.state.currentSortingId}/>
           <div className="subreddit-content__wrapper">
             {this.getFeedComponent.call(this)}
             {this.getSidebar.call(this)}

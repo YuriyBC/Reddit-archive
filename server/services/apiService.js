@@ -159,6 +159,26 @@ function startRedditArchivation (subredditTitle, subredditId) {
     })
 }
 
+function updateData (subredditTitle, subredditId) {
+    redditFetcher.getSubredditPosts(subredditTitle).then(result => {
+        if (result && result.length) {
+            result.forEach((post) => {
+                databaseService.updateDataInTable(POSTS_TABLE_TITLE, post, subredditId);
+                redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
+                    const comments = getAllComments(el[1].data.children);
+                    comments.forEach((comment) => {
+                        if (comment) {
+                            comment.data.postId = post.id;
+                            databaseService.updateDataInTable(COMMENTS_TABLE_TITLE, comment)
+                        }
+                    })
+                })
+            });
+            return result;
+        }
+    })
+}
+
 function getAllComments (initialComments) {
     let storedData = [];
 
@@ -190,5 +210,5 @@ function allowCors (app) {
 
 module.exports = {
     init,
-    startRedditArchivation
+    updateData
 };

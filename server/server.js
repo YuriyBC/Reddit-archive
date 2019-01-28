@@ -26,18 +26,18 @@ function getAndStoreSubreddits () {
     });
   });
 }
-// function fetchDataOfArchivedSubreddits () {
-//   setInterval(() => {
-//     databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
-//       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
-//       if (archivedSubreddits.length) {
-//         archivedSubreddits.forEach(subreddit => {
-//           apiService.startRedditArchivation(subreddit.display_name, subreddit.id)
-//         })
-//       }
-//     }));
-//   }, INTERVAL_TO_FETCH_NEW_DATA)
-// }
+function fetchDataOfArchivedSubreddits () {
+  setInterval(() => {
+    databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
+      const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
+      if (archivedSubreddits.length) {
+        archivedSubreddits.forEach(subreddit => {
+          apiService.updateData(subreddit.display_name, subreddit.id)
+        })
+      }
+    }));
+  }, INTERVAL_TO_FETCH_NEW_DATA)
+}
 
 server.on('listening',function(){
   console.log('ok, server is running');
@@ -49,5 +49,5 @@ apiService.init(app);
 websocketService.init(server);
 
 getAndStoreSubreddits();
-// fetchDataOfArchivedSubreddits();
+fetchDataOfArchivedSubreddits();
 server.listen(port);

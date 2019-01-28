@@ -85,11 +85,9 @@ function createTable (type) {
     let createTableQuery;
     if (type === SUBREDDITS_TABLE_TITLE) {
         createTableQuery = createTableSubredditsQuery;
-    }
-    if (type === POSTS_TABLE_TITLE) {
+    } else if (type === POSTS_TABLE_TITLE) {
         createTableQuery = createTablePostsQuery;
-    }
-    if (type === COMMENTS_TABLE_TITLE) {
+    } else if (type === COMMENTS_TABLE_TITLE) {
         createTableQuery = createTableCommentsQuery;
     }
 
@@ -226,7 +224,6 @@ function insertPost (table, dataObject, subredditId) {
                                     '${subredditId || 0}'
                                     )`;
     connection.query(checkIfPostExistQuery, function (err, result) {
-        console.log()
         if (result && !result.length) {
             connection.query(insertDataQuery, (err) => {
                 if (err) throw err
@@ -274,7 +271,7 @@ function insertComment (table, dataObject) {
                                     '${created || null}',
                                     '${subreddit_id || null}',
                                     '${score || 0}',
-                                    '${depth || null}',
+                                    '${depth || '0'}',
                                     '${parent_id || null}',
                                     '${name || null}',
                                     '${postId || null}',
@@ -292,19 +289,84 @@ function insertComment (table, dataObject) {
     }
 }
 
+function updatePost (table, dataObject, subredditId) {
+    const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE reddit_id = '${dataObject.id}'`;
+    let {
+        title,
+        num_comments,
+        score,
+        thumbnail,
+        selftext
+    } = dataObject;
+    if (title) { title = title.split("'").join("''")}
+    if (selftext) { selftext = selftext.split("'").join("''")}
+
+    const updateDataQuery = `UPDATE ${table} SET 
+    title='${title}', 
+    num_comments='${num_comments}', 
+    score='${score}', 
+    thumbnail='${thumbnail}', 
+    selftext='${selftext}'
+    WHERE reddit_id = '${dataObject.id}'`;
+
+    connection.query(checkIfPostExistQuery, function (err, result) {
+        if (result && result.length) {
+            connection.query(updateDataQuery, (err) => {
+                if (err) throw err
+            })
+        } else {
+            insertPost(table, dataObject, subredditId)
+        }
+    });
+
+}
+
+function updateComment (table, dataObject) {
+    const newObj = removeQuotesFromObject({...dataObject.data});
+    let {
+        score,
+        body,
+        depth,
+        parent_id,
+        name
+    } = newObj;
+    const checkIfCommentExistQuery = `SELECT * FROM ${table} WHERE body = '${body}'`;
+    const updateDataQuery = `UPDATE ${table} SET 
+            score='${score || 0}', 
+            body='${body}', 
+            depth='${depth || '0'}', 
+            parent_id='${parent_id}', 
+            name='${name}'
+            WHERE body = '${body}'`;
+    if (body) {
+        connection.query(checkIfCommentExistQuery, function (err, result) {
+            if (result && result.length) {
+                connection.query(updateDataQuery, (err) => {
+                    if (err) throw err
+                })
+            } else {
+                insertComment(table, dataObject)
+            }
+        });
+    }
+}
+
 function insertDataInTable (table, dataObject, subredditId) {
     if (table === SUBREDDITS_TABLE_TITLE) {
         insertSubreddit(table, dataObject, subredditId)
-    }
-
-    if (table === POSTS_TABLE_TITLE) {
+    } else if (table === POSTS_TABLE_TITLE) {
         insertPost(table, dataObject, subredditId)
-    }
-
-    if (table === COMMENTS_TABLE_TITLE) {
+    } else if (table === COMMENTS_TABLE_TITLE) {
         insertComment(table, dataObject)
     }
+}
 
+function updateDataInTable (table, dataObject, subredditId) {
+    if (table === POSTS_TABLE_TITLE) {
+        updatePost(table, dataObject, subredditId)
+    } else if (table === COMMENTS_TABLE_TITLE) {
+        updateComment(table, dataObject)
+    }
 }
 
 function getDataFromDatabase (table) {
@@ -313,18 +375,6 @@ function getDataFromDatabase (table) {
         connection.query(checkIfSubredditExistQuery, function (err, result) {
             resolve(result)
         });
-    })
-}
-
-function getRowById (table, rowId) {
-    return new Promise ((resolve, reject) => {
-        const findRoByIdQuery = `SELECT * FROM ${table} WHERE id = '${rowId}'`
-        connection.query(findRoByIdQuery, function (err, result) {
-            if (err) reject(err);
-            if (result.length) {
-                resolve(result[0])
-            }
-        })
     })
 }
 
@@ -405,25 +455,6 @@ function getPostComments (subredditId, postId) {
     })
 }
 
-function getPostDataWithComments (subredditId, postId) {
-    return new Promise ((resolve, reject) => {
-        const findPostQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE reddit_id = '${postId}'`;
-        const findComments = `SELECT * FROM ${COMMENTS_TABLE_TITLE} WHERE postId = '${postId}'`;
-
-        connection.query(findPostQuery, function (err, postData) {
-            if (err) reject(error);
-            if (postData.length) {
-                connection.query(findComments, function (err, commentsData) {
-                    resolve({
-                        data: postData[0],
-                        comments: commentsData
-                    })
-                })
-            }
-        })
-    })
-}
-
 function init () {
     makeConnectionToMysql();
     createDatabase();
@@ -441,5 +472,6 @@ module.exports = {
     getAllPostsBySubredditId,
     removeRowsFromTable,
     getPostData,
-    getPostComments
+    getPostComments,
+    updateDataInTable
 };

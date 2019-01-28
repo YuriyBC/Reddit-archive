@@ -1,5 +1,7 @@
 import React from 'react';
 import CommentComponent from './CommentComponent';
+import methods from '../../utils/methods'
+const { sortComments } = methods;
 
 export default class CommentsSection extends React.Component {
     constructor (props) {
@@ -8,8 +10,9 @@ export default class CommentsSection extends React.Component {
     }
 
     getComments () {
-        if (this.props.comments) {
-            return this.props.comments.map((comment, index) => {
+        let comments = sortComments([...this.props.comments]);
+        if (comments) {
+            return comments.map((comment, index) => {
                 if (comment.body !== 'null') {
                     return <CommentComponent key={index} {...comment} />
                 }

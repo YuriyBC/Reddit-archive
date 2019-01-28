@@ -5,6 +5,8 @@ import {
 } from '../../utils/api';
 
 export const getPosts = (id) => {
+    const REDIRECT_TIME_AFTER_ERROR = 1000;
+
     return function (dispatch) {
         getPostsApi(id).then((response) => {
             dispatch({
@@ -12,7 +14,9 @@ export const getPosts = (id) => {
                 payload: response.data
             });
         }).catch(() => {
-            window.location = '/'
+            setTimeout(() => {
+                window.location = '/'
+            }, REDIRECT_TIME_AFTER_ERROR)
         })
     }
 };

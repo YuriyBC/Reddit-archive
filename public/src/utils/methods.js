@@ -1,4 +1,4 @@
-const throttle = (func, limit) => {
+function throttle (func, limit) {
     let lastFunc;
     let lastRan;
     return function() {
@@ -17,7 +17,7 @@ const throttle = (func, limit) => {
             }, limit - (Date.now() - lastRan))
         }
     }
-};
+}
 
 function getDate (created) {
     if (created) {
@@ -32,54 +32,6 @@ function getDate (created) {
         return `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)} ${day}/${month}/${year}`;
     }
     return false
-}
-
-function removeLinksFromText (message) {
-    let text = message.slice(message.indexOf('['), message.indexOf(']') + 1);
-    let link = message.slice(message.indexOf('('), message.indexOf(')') + 1);
-    message = message.replace(text, '');
-    message = message.replace(link, '');
-
-    return message
-}
-
-function getLinksFromString (message) {
-    let index = 0;
-    let links = [];
-    let string = message;
-
-    function storeLink () {
-        // if (string[string.indexOf(']', index) + 1] !== '(') {
-        //
-        // }
-        let text = string.slice(string.indexOf('[', index) + 1, string.indexOf(']', index));
-        let link = string.slice(string.indexOf('(', index) + 1, string.indexOf(')', index));
-        index = string.indexOf(link) + link.length + 1;
-
-        let x = '[' + text + ']';
-        let y = '(' + link + ')';
-        string = string.replace(x, '');
-        string = string.replace(y, '');
-        console.log(string)
-        // string = string.replace('(' + link + ')', '');
-
-        // console.log(string, string[string.indexOf('[', index)], string.indexOf('[', index))
-        links.push({link, text});
-        return links
-    }
-
-    storeLink()
-    storeLink()
-    // console.log(string)
-    // console.log(message)
-    // console.log(links)
-
-
-
-    return {
-        links,
-        message
-    }
 }
 
 function reformatTextToLinks (text) {
@@ -144,11 +96,44 @@ function reformatTextToHtml (text) {
     return text
 }
 
+function sortComments (comments) {
+    comments.forEach(el => {
+        el.isSorted = false
+    });
+    let originalArray = [...comments];
+    let array = [...comments].filter(el => +el.depth === 0);
 
+    const sortItems = () => {
+        array.forEach((el) => {
+            if (!el.isSorted) {
+                let innerComments = originalArray.filter(comment => comment.parent_id === el.name);
+                if (innerComments.length) {
+                    el.isSorted = true;
+                    array.splice(array.findIndex(a => el.name === a.name) + 1, 0, ...innerComments)
+                }
+            }
+        });
+    };
+
+    while (true) {
+        const areChildrenNotExists = array.every(el => {
+            let innerComments = originalArray.filter(comment => comment.parent_id === el.name);
+            return !innerComments.length || el.isSorted
+        });
+        if (areChildrenNotExists) {
+            break
+        } else {
+            sortItems()
+        }
+    }
+
+    return array;
+}
 
 export default {
     throttle,
     getDate,
     reformatTextToHtml,
-    storage
+    storage,
+    sortComments
 };

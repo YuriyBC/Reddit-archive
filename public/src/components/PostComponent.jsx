@@ -31,7 +31,7 @@ export default class PostComponent extends React.Component {
         const imageWidth = thumbnail_width !== 'null' ? +thumbnail_width : 'auto';
         const imageHeight = thumbnail_height !== 'null' ? +thumbnail_height : 'auto';
 
-        let image = thumbnail !== 'null' ?
+        let image = thumbnail && thumbnail !== 'null' ?
             <img width={imageWidth}
                  height={imageHeight}
                  src={thumbnail}
