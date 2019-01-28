@@ -18,11 +18,12 @@ class SubredditPage extends React.Component {
     this.state = {
       scrollStep: 1,
       currentSubreddit: {},
-      currentSortingId: 2
+      currentSortingId: 0
     };
     this.containerScrollHandler = this.containerScrollHandler.bind(this);
     this.increaseScrollStep = this.increaseScrollStep.bind(this);
     this.changeSorting = this.changeSorting.bind(this);
+    this.isDataLoaded = this.isDataLoaded.bind(this);
   }
 
   componentDidMount () {
@@ -92,15 +93,23 @@ class SubredditPage extends React.Component {
 
   getFeedComponent () {
     const posts = this.getSortedPosts.call(this);
-    if (posts.length) {
-      return <FeedComponent currentPostsStep={this.state.scrollStep}
-                            posts={posts}/>
+    return <FeedComponent currentPostsStep={this.state.scrollStep}
+                          posts={posts}/>
+  }
+
+  getNavigationBar () {
+    if (this.isDataLoaded()) {
+      return <NavigationBar changeSorting={this.changeSorting}
+                            currentSortingId={this.state.currentSortingId}/>
     }
-    return null
+  }
+
+  isDataLoaded () {
+    return Object.keys(this.state.currentSubreddit).length && this.props.posts.length;
   }
 
   getSpinnerStyle () {
-      if (Object.keys(this.state.currentSubreddit).length && this.props.posts.length) {
+      if (this.isDataLoaded()) {
           return {
               'display': 'none'
           }
@@ -113,8 +122,7 @@ class SubredditPage extends React.Component {
         <HeaderComponent/>
         <div className="subreddit-content">
           <InnerHeaderComponent {...this.state.currentSubreddit}/>
-          <NavigationBar changeSorting={this.changeSorting}
-                         currentSortingId={this.state.currentSortingId}/>
+          {this.getNavigationBar.call(this)}
           <div className="subreddit-content__wrapper">
             {this.getFeedComponent.call(this)}
             {this.getSidebar.call(this)}

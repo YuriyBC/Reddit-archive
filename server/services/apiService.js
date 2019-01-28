@@ -56,8 +56,6 @@ function init (app) {
         })
     });
 
-
-
     app.post('/api/subreddit', (request, response) => {
         const potentialSubreddit = request.body.payload;
 

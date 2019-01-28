@@ -3,7 +3,6 @@ const WEBSOCKET_URL = 'ws://localhost:8080';
 const WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE = 'subreddits have been stored';
 
 const POSTS_TO_SHOW = 20;
-
 const AVAILABLE_SORTING = [
     {
         id: 0,
@@ -21,6 +20,7 @@ const AVAILABLE_SORTING = [
         icon: 'faChartLine'
     }
 ];
+const LOCAL_STORAGE_SUBREDDITS = 'subreddits';
 
 // API SERVER
 const API = 'http://localhost:8080';
@@ -40,5 +40,6 @@ export default {
     POSTS_TO_SHOW,
     URL_GET_POST,
     URL_GET_POST_COMMENTS,
-    AVAILABLE_SORTING
+    AVAILABLE_SORTING,
+    LOCAL_STORAGE_SUBREDDITS
 }

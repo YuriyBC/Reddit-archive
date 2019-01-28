@@ -82,10 +82,73 @@ function getLinksFromString (message) {
     }
 }
 
+function reformatTextToLinks (text) {
+    let string = text;
+    let currentIndex = 0;
+    let iteration = 0;
+
+    function searchLink () {
+        let indexOfReformatLink = string.indexOf('[', currentIndex);
+        let linkText = string.slice(string.indexOf('[', indexOfReformatLink) + 1, string.indexOf(']', indexOfReformatLink));
+        let linkUrl = string.slice(string.indexOf('(', indexOfReformatLink) + 1, string.indexOf(')', indexOfReformatLink));
+        let url = `<a href="${linkUrl}">${linkText}<a/>`;
+
+        string = string.replace(`[${linkText}](${linkUrl})`, url);
+    }
+    while (string.indexOf('[', currentIndex) > -1 && string[string.indexOf(']', currentIndex) + 1] === '(' && iteration < 100) {
+        searchLink();
+        iteration++
+    }
+
+    return string
+}
+
+function storage (...args) {
+    if (args.length === 1) {
+        return window.localStorage.getItem(args[0])
+    } else if (args.length === 2) {
+        return window.localStorage.setItem(args[0], args[1])
+    }
+}
+
+function reformatTextToBold (text) {
+    let string = text;
+    let currentIndex = 0;
+    let iteration = 0;
+
+    function searchBold () {
+        let indexOfReformatBold = string.indexOf('**', currentIndex);
+        if (indexOfReformatBold) {
+            let boldItem = string.slice(string.indexOf('**', indexOfReformatBold), string.indexOf('**', indexOfReformatBold + 2));
+            boldItem = boldItem.replace('**', '');
+            const newBoldItem = `<b>${boldItem}</b>`;
+
+            string = string.replace('**' + boldItem + '**', newBoldItem);
+            currentIndex = string.indexOf(newBoldItem) + newBoldItem.length - 1;
+
+            return string
+        }
+    }
+
+    while (string.indexOf('**', currentIndex) > -1 && iteration < 100) {
+        searchBold ();
+        iteration++
+    }
+    return string
+
+}
+
+function reformatTextToHtml (text) {
+    text = reformatTextToLinks(text);
+    text = reformatTextToBold(text);
+    return text
+}
+
+
 
 export default {
     throttle,
     getDate,
-    removeLinksFromText,
-    getLinksFromString
+    reformatTextToHtml,
+    storage
 };

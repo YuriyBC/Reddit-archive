@@ -29,6 +29,7 @@ body .post {
   .comments-section {
     width: 100%;
     padding-left: vw(10);
+    padding-bottom: vw(50);
   }
   .comment {
     display: flex;
@@ -91,8 +92,7 @@ body .post {
         color: rgb(28, 28, 28);
         padding: vw(5) vw(8);
         padding-left: 0;
-        a {
-          display: flex;
+        a[href^="/"], a[href^="http"] {
           color: rgb(234, 0, 39);
           text-decoration: underline;
         }

@@ -11,13 +11,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const {
     getDate,
-    getLinksFromString
+    reformatTextToHtml
 } = methods;
 
 export default class PostComponent extends React.Component {
     constructor (props) {
         super(props);
-        this.getPostText = this.getPostText.bind(this);
         this.calculateDate = this.calculateDate.bind(this);
     }
 
@@ -27,24 +26,25 @@ export default class PostComponent extends React.Component {
         }
     }
 
-    getPostText () {
-        const {thumbnail, thumbnail_height, thumbnail_width, selftext} = this.props;
+    getPostImage () {
+        const {thumbnail, thumbnail_height, thumbnail_width} = this.props;
         const imageWidth = thumbnail_width !== 'null' ? +thumbnail_width : 'auto';
         const imageHeight = thumbnail_height !== 'null' ? +thumbnail_height : 'auto';
 
-        let text = selftext !== 'null' ? <p>{selftext}</p> : null;
         let image = thumbnail !== 'null' ?
             <img width={imageWidth}
                  height={imageHeight}
                  src={thumbnail}
                  alt="PostImage"/>
             : null;
-        if (text || image) {
-            return  <span className="post-content__text">
-                            {text}
-                            {image}
-                     </span>
+        if (image) {
+            return  image
         }
+    }
+
+    getPostTextHtml () {
+        const {selftext} = this.props;
+        return selftext !== 'null' ? reformatTextToHtml(selftext) : null;
     }
 
     render () {
@@ -59,7 +59,10 @@ export default class PostComponent extends React.Component {
             <div className="post-content">
                 <small className="post-content__author">Posted by/{this.props.author_fullname}  at  {this.calculateDate()}</small>
                 <h2 className="post-content__title">{this.props.title}</h2>
-                {this.getPostText()}
+                <span className="post-content__text">
+                     <p dangerouslySetInnerHTML={{ __html: this.getPostTextHtml.call(this) }}/>
+                    {this.getPostImage.call(this)}
+                 </span>
                 <div className="post-content__bottom">
                     <div>
                         <FontAwesomeIcon icon={faCommentAlt} />

@@ -8,25 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const {
     getDate,
-    removeLinksFromText
+    reformatTextToHtml
 } = methods;
 
-
-function getLinksFromText (message) {
-    let lastIndex = 0;
-    let links = [];
-
-    function storeLink (message, index) {
-        let text = message.slice(message.indexOf('[', index) + 1, message.indexOf(']', index));
-        let link = message.slice(message.indexOf('(', index) + 1, message.indexOf(')', index));
-        lastIndex = message.indexOf(link);
-        links.push(<a key={lastIndex} href={link}>{text}</a>);
-    }
-
-    storeLink(message, lastIndex);
-
-    return links
-}
 
 export default class CommentsComponent extends React.Component {
     constructor (props) {
@@ -34,8 +18,6 @@ export default class CommentsComponent extends React.Component {
         this.calculateDate = this.calculateDate.bind(this);
         this.getCommentClassName = this.getCommentClassName.bind(this);
         this.getOffsetLines = this.getOffsetLines.bind(this);
-        this.getCommentMessageText = this.getCommentMessageText.bind(this);
-        this.getCommentMessageLinks = this.getCommentMessageLinks.bind(this);
     }
 
     calculateDate () {
@@ -44,24 +26,11 @@ export default class CommentsComponent extends React.Component {
         }
     }
 
-    getCommentMessageText () {
+    getCommentMessageHtml () {
         let message = this.props.body;
-        if (message) {
-            while (message.indexOf('[') > -1) {
-                message = removeLinksFromText(message)
-            }
-        }
-        return message
+        return reformatTextToHtml(message);
     }
-
-    getCommentMessageLinks () {
-        let message = this.props.body;
-        if (message) {
-            if (message.indexOf('[') > -1) {
-                return getLinksFromText(message)
-            }
-        }
-    }
+    
 
     getOffsetLines () {
         let elementsToReturn = [];
@@ -91,9 +60,8 @@ export default class CommentsComponent extends React.Component {
                     <span>{this.props.score} points</span>
                     <span>{this.calculateDate()}</span>
                 </div>
-                <div className="comment-body__text">
-                    {this.getCommentMessageText()}
-                    {this.getCommentMessageLinks()}
+                <div className="comment-body__text"
+                     dangerouslySetInnerHTML={{ __html: this.getCommentMessageHtml.call(this) }}>
                 </div>
                 <div className="comment-body__navigation">
                     <span>

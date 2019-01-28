@@ -109,6 +109,13 @@ body .subreddit {
           text-align: left;
           margin: vw(5) 0;
         }
+        p {
+          white-space: pre-line;
+        }
+      }
+      a[href^="/"], a[href^="http"] {
+        color: rgb(234, 0, 39);
+        text-decoration: underline;
       }
       .post-content__author {
         padding: 0 vw(3);

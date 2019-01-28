@@ -4,31 +4,17 @@ import {Route, Switch} from "react-router-dom";
 import HomePage from './pages/HomePage'
 import SubredditPage from './pages/SubredditPage'
 import PostItemPage from './pages/PostItemPage'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {webSocketService} from './utils/websocketService'
 import constants from './utils/constants'
-import {
-    faAngleUp,
-    faAngleDown,
-    faCommentAlt,
-    faShare,
-    faBookmark
-} from '@fortawesome/free-solid-svg-icons'
-import {getSubreddits} from "./store/actions/subredditsActions";
+import methods from './utils/methods'
+const { storage } = methods;
+import { getSubreddits, setSubreddits } from "./store/actions/subredditsActions";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom'
 
-library.add(
-    faAngleUp,
-    faAngleDown,
-    faCommentAlt,
-    faShare,
-    faBookmark
-);
-
 const {
-    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE
+    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
+    LOCAL_STORAGE_SUBREDDITS
 } = constants;
 
 class App extends React.Component {
@@ -37,12 +23,17 @@ class App extends React.Component {
     }
 
     componentDidMount () {
+        let localStorageSubreddits = storage(LOCAL_STORAGE_SUBREDDITS);
+        if (localStorageSubreddits) {
+            this.props.dispatch(setSubreddits(JSON.parse(localStorageSubreddits)))
+        }
+
         this.props.dispatch(getSubreddits());
         webSocketService().onmessage = message => {
             if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
                 this.props.dispatch(getSubreddits());
             }
-        }
+        };
     }
 
     render () {

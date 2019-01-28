@@ -171,7 +171,7 @@ function insertSubreddit (table, dataObject) {
 
 
 function insertPost (table, dataObject, subredditId) {
-    const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE title = '${dataObject.title}'`;
+    const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE reddit_id = '${dataObject.id}'`;
     let {
         subreddit,
         title,
@@ -226,6 +226,7 @@ function insertPost (table, dataObject, subredditId) {
                                     '${subredditId || 0}'
                                     )`;
     connection.query(checkIfPostExistQuery, function (err, result) {
+        console.log()
         if (result && !result.length) {
             connection.query(insertDataQuery, (err) => {
                 if (err) throw err
@@ -353,9 +354,11 @@ function getAllPostsBySubredditId (subredditId) {
     return new Promise ((resolve, reject) => {
         const findRoByIdQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE subreddit_id = '${subredditId}'`
         connection.query(findRoByIdQuery, function (err, result) {
-            if (err) reject(error);
             if (result.length) {
                 resolve(result)
+            } else {
+                if (err) reject(error);
+                reject()
             }
         })
     })
