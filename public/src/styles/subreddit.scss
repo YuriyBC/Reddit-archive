@@ -224,6 +224,97 @@ body .subreddit {
     background: white;
     .subreddit-navbar__buttons {
       width: vw(400);
+      user-select: none;
+    }
+    .subreddit-navbar__sorting {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      h5 {
+        font-size: vw(10);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: vw(12);
+        text-transform: uppercase;
+        color: rgb(124, 124, 124);
+      }
+    }
+    .subreddit-navbar__dropdown-chosen, .subreddit-navbar__dropdown > div {
+      display: flex;
+      align-items: center;
+      font-size: vw(14);
+      font-weight: 500;
+      line-height: vw(18);
+      color: rgb(135, 138, 140);
+      fill: rgb(135, 138, 140);
+      background-color: rgb(255, 255, 255);
+      text-transform: capitalize;
+      white-space: nowrap;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgb(237, 239, 241);
+      border-image: initial;
+      padding: 8px;
+      cursor: pointer;
+      svg {
+        margin-right: vw(10);
+        font-size: vw(15);
+      }
+    }
+    .subreddit-navbar__dropdown-chosen {
+      color: rgb(0, 121, 211);
+      fill: rgb(0, 121, 211);
+      margin-left: vw(4);
+      border: none;
+      box-shadow: none;
+      img {
+        display: inline-block;
+        height: vw(20);
+        width: vw(20);
+        vertical-align: middle;
+        margin-top: vw(-2);
+        margin-left: vw(5);
+      }
+      &:hover {
+        background: rgba(0, 121, 211, 0.2);
+      }
+      &:active {
+        background: rgba(0, 121, 211, 0.4);
+      }
+    }
+    .icon-wrapper {
+      width: vw(20);
+      display: flex;
+      justify-content: center;
+    }
+    .subreddit-navbar__dropdown-container {
+      display: flex;
+      position: relative;
+      .subreddit-navbar__dropdown {
+        position: absolute;
+        top: vw(40);
+        display: flex;
+        flex-direction: column;
+        box-shadow: rgba(28, 28, 28, 0.2) 0 2px 4px 0;
+        color: rgb(28, 28, 28);
+        margin-top: 8px;
+        z-index: 10;
+        background-color: rgb(255, 255, 255);
+        margin-left: -5px;
+        min-width: 100px;
+        border-radius: 4px;
+        overflow: hidden;
+        div {
+          padding-left: vw(5);
+          &:hover {
+            color: rgb(0, 121, 211);
+            fill: rgb(0, 121, 211);
+          }
+          &:active {
+            background: rgba(0, 121, 211, 0.1);
+          }
+        }
+      }
     }
   }
 }

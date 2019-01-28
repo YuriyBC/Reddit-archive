@@ -4,6 +4,24 @@ const WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE = 'subreddits have been stored';
 
 const POSTS_TO_SHOW = 20;
 
+const AVAILABLE_SORTING = [
+    {
+        id: 0,
+        title: 'Hot',
+        icon: 'faFire'
+    },
+    {
+        id: 1,
+        title: 'New',
+        icon: 'faCertificate'
+    },
+    {
+        id: 2,
+        title: 'Top',
+        icon: 'faChartLine'
+    }
+];
+
 // API SERVER
 const API = 'http://localhost:8080';
 const URL_GET_SUBREDDITS = '/api/subreddits';
@@ -21,5 +39,6 @@ export default {
     URL_GET_POSTS,
     POSTS_TO_SHOW,
     URL_GET_POST,
-    URL_GET_POST_COMMENTS
+    URL_GET_POST_COMMENTS,
+    AVAILABLE_SORTING
 }

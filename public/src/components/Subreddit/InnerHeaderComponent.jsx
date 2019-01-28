@@ -1,10 +1,8 @@
 import React from 'react';
+
 export default class InnerHeaderComponent extends React.Component {
     constructor (props) {
         super(props);
-        this.getHeaderStyle = this.getHeaderStyle.bind(this);
-        this.getImage = this.getImage.bind(this);
-        this.getTitle = this.getTitle.bind(this);
     }
 
     getHeaderStyle () {
@@ -27,10 +25,10 @@ export default class InnerHeaderComponent extends React.Component {
 
     render () {
         return <div className="subreddit-header"
-                    style={this.getHeaderStyle()}>
+                    style={this.getHeaderStyle.call(this)}>
             <div className="subreddit-header__inner">
-                {this.getTitle()}
-                {this.getImage()}
+                {this.getTitle.call(this)}
+                {this.getImage.call(this)}
             </div>
         </div>
     }

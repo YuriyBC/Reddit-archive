@@ -10,19 +10,19 @@ import '../styles/subreddit.scss'
 import methods from '../utils/methods'
 import spinner from '../assets/img/spinner.gif'
 
-const {
-  throttle
-} = methods;
+const { throttle } = methods;
 
 class SubredditPage extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
       scrollStep: 1,
-      currentSubreddit: {}
+      currentSubreddit: {},
+      currentSortingId: 2
     };
     this.containerScrollHandler = this.containerScrollHandler.bind(this);
     this.increaseScrollStep = this.increaseScrollStep.bind(this);
+    this.changeSorting = this.changeSorting.bind(this);
   }
 
   componentDidMount () {
@@ -35,6 +35,12 @@ class SubredditPage extends React.Component {
     window.addEventListener('scroll', this.containerScrollHandler);
   }
 
+  changeSorting (id) {
+    this.setState({
+      currentSortingId: id
+    })
+  }
+
   componentDidUpdate () {
     const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
     if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
@@ -45,16 +51,36 @@ class SubredditPage extends React.Component {
     }
   }
 
+  getSortedPosts () {
+    if (this.state.currentSortingId === 0) {
+      return [...this.props.posts]
+    }
+    if (this.state.currentSortingId === 1) {
+      return [...this.props.posts].sort((currentItem, nextItem) => {
+        return +nextItem.created - +currentItem.created;
+      });
+    }
+    if (this.state.currentSortingId === 2) {
+        return [...this.props.posts].sort((currentItem, nextItem) => {
+            return +nextItem.score - +currentItem.score;
+        });
+    }
+    return [...this.props.posts]
+  }
+
   increaseScrollStep () {
     const state = {...this.state};
-    state.scrollStep = state.scrollStep + 1;
+
+    state.scrollStep += state.scrollStep;
     this.setState(state)
   }
 
   containerScrollHandler () {
+    const throttleScrollingTime = 1000;
     const offsetBottom = 400;
+
     if ((window.innerHeight + window.scrollY + offsetBottom) >= document.body.offsetHeight) {
-      throttle(this.increaseScrollStep(), 1000)
+      throttle(this.increaseScrollStep(), throttleScrollingTime)
     }
   }
 
@@ -65,15 +91,19 @@ class SubredditPage extends React.Component {
   }
 
   getFeedComponent () {
-      if (this.props.posts.length) {
-          return <FeedComponent currentPostsStep={this.state.scrollStep}
-                                posts={this.props.posts}/>
-      }
+    const posts = this.getSortedPosts.call(this);
+    if (posts.length) {
+      return <FeedComponent currentPostsStep={this.state.scrollStep}
+                            posts={posts}/>
+    }
+    return null
   }
 
   getSpinnerStyle () {
       if (Object.keys(this.state.currentSubreddit).length && this.props.posts.length) {
-          return {'display': 'none'}
+          return {
+              'display': 'none'
+          }
       }
   }
 
@@ -83,7 +113,8 @@ class SubredditPage extends React.Component {
         <HeaderComponent/>
         <div className="subreddit-content">
           <InnerHeaderComponent {...this.state.currentSubreddit}/>
-          <NavigationBar/>
+          <NavigationBar changeSorting={this.changeSorting}
+                         currentSortingId={this.state.currentSortingId}/>
           <div className="subreddit-content__wrapper">
             {this.getFeedComponent.call(this)}
             {this.getSidebar.call(this)}

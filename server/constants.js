@@ -4,7 +4,7 @@ const POSTS_TABLE_TITLE = 'posts';
 const COMMENTS_TABLE_TITLE = 'comments';
 
 const SUBREDDITS_LIMIT = 100;
-const POSTS_LIMIT = 10;
+const POSTS_LIMIT = 100;
 const INTERVAL_TO_FETCH_NEW_DATA = 180000;
 
 const STATUS_CODE_OK = 200;

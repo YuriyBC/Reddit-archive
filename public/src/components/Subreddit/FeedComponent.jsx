@@ -18,8 +18,10 @@ export default class FeedComponent extends React.Component {
     return [...this.props.posts]
         .slice(0, POSTS_TO_SHOW * this.props.currentPostsStep)
         .map((post, index) => {
-          return  <PostComponent {...post}
+          return  <Link key={index} to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>
+                      <PostComponent {...post}
                                    key={index}/>
+                  </Link>
     })
   }
 
@@ -31,6 +33,3 @@ export default class FeedComponent extends React.Component {
   }
 
 }
-
-{/*<Link key={index}*/}
-      {/*to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>*/}

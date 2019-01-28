@@ -82,5 +82,4 @@ export default class PostComponent extends React.Component {
             </div>
         </div>
     }
-
 }
