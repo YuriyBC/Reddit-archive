@@ -1,35 +1,37 @@
 import React from 'react';
-import PostComponent from '../PostComponent'
-import constants from '../../utils/constants'
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
+import PostComponent from '../PostComponent';
+import constants from '../../utils/constants';
 
-const {
-  POSTS_TO_SHOW
-} = constants;
+const { POSTS_TO_SHOW } = constants;
 
 export default class FeedComponent extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.subredditFeed = React.createRef();
     this.getPostList = this.getPostList.bind(this);
   }
 
-  getPostList () {
-    return [...this.props.posts]
-        .slice(0, POSTS_TO_SHOW * this.props.currentPostsStep)
-        .map((post, index) => {
-          return  <Link key={index} to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>
-                      <PostComponent {...post}
-                                   key={index}/>
-                  </Link>
-    })
+  getPostList() {
+    const { posts, currentPostsStep } = this.props;
+    return [...posts]
+        .slice(0, POSTS_TO_SHOW * currentPostsStep)
+        .map((post, index) => (
+            <Link key={index} to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>
+                <PostComponent {...post}
+                               key={index}
+                />
+            </Link>
+            ));
   }
 
-  render () {
-    return <div ref={this.subredditFeed}
-                className="subreddit-feed box">
-      {this.getPostList()}
-    </div>
+  render() {
+    return (
+        <div ref={this.subredditFeed}
+             className="subreddit-feed box"
+        >
+          {this.getPostList()}
+        </div>
+    );
   }
-
 }

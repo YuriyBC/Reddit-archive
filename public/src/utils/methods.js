@@ -21,7 +21,7 @@ function throttle(func, limit) {
     };
 }
 
-function generateRequestCancelToken () {
+function generateRequestCancelToken() {
     const CancelToken = axios.CancelToken;
     return CancelToken.source();
 }
@@ -142,5 +142,5 @@ export default {
     reformatTextToHtml,
     storage,
     sortComments,
-    generateRequestCancelToken
+    generateRequestCancelToken,
 };

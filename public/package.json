@@ -8,7 +8,7 @@
     "serve:build": "npm run build && node server.js",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "./node_modules/.bin/eslint src",
-    "lint_fix": "./node_modules/.bin/eslint src/ --fix",
+    "lint_fix": "./node_modules/.bin/eslint src --fix",
     "dev": " webpack-dashboard -- webpack-dev-server",
     "test": "export NODE_ENV=test && jest"
   },

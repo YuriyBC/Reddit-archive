@@ -23,7 +23,7 @@ const posts = (state = initialState, action) => {
                 ...initialState,
                 currentPostInfo: {
                     ...state.currentPostInfo,
-                    ...action.payload
+                    ...action.payload,
                 },
             };
         case 'REMOVE_POSTS':

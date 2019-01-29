@@ -181,11 +181,14 @@
         width: 100%;
         display: flex;
         color: rgb(26, 26, 27);
-        padding: vw(2) vw(7);
         margin-top: vw(2);
         justify-content: space-between;
         border-bottom: 0.5px solid white;
         cursor: default;
+        padding: 0 vw(10);
+        span {
+          padding: vw(5) vw(5);
+        }
       }
     }
     & > div {
@@ -203,9 +206,7 @@
         }
       }
       svg {
-        margin-top: vw(6);
         color: rgb(255, 126, 75);
-        margin-right: vw(18);
         transition: 0.2s;
         &:hover {
           opacity: 0.5;

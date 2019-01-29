@@ -1,45 +1,48 @@
 import React from 'react';
-import HeaderComponent from '../components/HeaderComponent'
-import FeedComponent from '../components/Home/FeedComponent'
-import SidebarComponent from '../components/Home/SidebarComponent'
-import { connect } from 'react-redux'
-import '../styles/home.scss'
-import { storeSubredditToArchive } from '../store/actions/subredditsActions'
-import {removePosts} from '../store/actions/postsActions'
+import { connect } from 'react-redux';
+import HeaderComponent from '../components/HeaderComponent';
+import FeedComponent from '../components/Home/FeedComponent';
+import SidebarComponent from '../components/Home/SidebarComponent';
+import '../styles/home.scss';
+import { storeSubredditToArchive } from '../store/actions/subredditsActions';
+import { removePosts } from '../store/actions/postsActions';
 
 class HomePage extends React.Component {
-  constructor (props) {
-    super(props);
-    this.storeSubredditToArchive = this.storeSubredditToArchive.bind(this);
-    this.removePosts = this.removePosts.bind(this);
-  }
+    constructor(props) {
+        super(props);
+        this.storeSubredditToArchive = this.storeSubredditToArchive.bind(this);
+        this.removePosts = this.removePosts.bind(this);
+    }
 
-  storeSubredditToArchive (name) {
-    this.props.dispatch(storeSubredditToArchive(name))
-  }
+    storeSubredditToArchive(name) {
+        const { dispatch } = this.props;
+        dispatch(storeSubredditToArchive(name));
+    }
 
-  removePosts () {
-    this.props.dispatch(removePosts());
-  }
+    removePosts() {
+        const { dispatch } = this.props;
+        dispatch(removePosts());
+    }
 
-  render () {
-    return <div className="home">
-      <HeaderComponent/>
-      <div className="home-content">
-        <FeedComponent/>
-        <SidebarComponent storeSubredditToArchive={this.storeSubredditToArchive}
-                          removePosts={this.removePosts}
-                          errorMessages={this.props.errorMessages}
-                          subreddits={this.props.subreddits}/>
-      </div>
-    </div>
-  }
-
+    render() {
+        const { errorMessages, subreddits } = this.props;
+        return (
+            <div className="home">
+                <HeaderComponent />
+                <div className="home-content">
+                    <FeedComponent />
+                    <SidebarComponent storeSubredditToArchive={this.storeSubredditToArchive}
+                                      removePosts={this.removePosts}
+                                      errorMessages={errorMessages}
+                                      subreddits={subreddits}
+                    />
+                </div>
+            </div>
+        );
+    }
 }
 
-export default connect((state) => {
-  return {
+export default connect(state => ({
     subreddits: state.subreddits.subreddits,
-    errorMessages: state.subreddits.errorMessages
-  }
-})(HomePage)
+    errorMessages: state.subreddits.errorMessages,
+}))(HomePage);

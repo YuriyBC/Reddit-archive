@@ -1,36 +1,54 @@
 import React from 'react';
 
 export default class InnerHeaderComponent extends React.Component {
-    constructor (props) {
-        super(props);
+    getHeaderStyle() {
+        const {
+            banner_background_image,
+            banner_background_color,
+            key_color,
+        } = this.props;
+        const backgroundImage = banner_background_image;
+        const colorBackground = banner_background_color;
+        const colorMain = key_color;
+        const color = colorBackground || colorMain;
+
+        return {
+            backgroundColor: color || 'none',
+            backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+        };
     }
 
-    getHeaderStyle () {
-        return this.props.key_color ? {'backgroundColor': this.props.key_color} : null;
+    getImage() {
+        const { icon_img } = this.props;
+        return icon_img
+            ? (
+                <img className="subreddit-header__image"
+                     src={icon_img}
+                     alt="Subreddit icon"
+                />
+            )
+            : null;
     }
 
-    getImage () {
-        if (this.props.icon_img) {
-            return <img className="subreddit-header__image"
-                        src={this.props.icon_img}
-                        alt="Subreddit icon"/>
-        }
-    }
-
-    getTitle () {
-        return <div className="subreddit-header__title">
-            {this.props.display_name_prefixed ? this.props.display_name_prefixed : null}
-        </div>
-    }
-
-    render () {
-        return <div className="subreddit-header"
-                    style={this.getHeaderStyle.call(this)}>
-            <div className="subreddit-header__inner">
-                {this.getTitle.call(this)}
-                {this.getImage.call(this)}
+    getTitle() {
+        const { display_name_prefixed } = this.props;
+        return (
+            <div className="subreddit-header__title">
+                {display_name_prefixed || null}
             </div>
-        </div>
+        );
     }
 
+    render() {
+        return (
+            <div className="subreddit-header"
+                 style={this.getHeaderStyle.call(this)}
+            >
+                <div className="subreddit-header__inner">
+                    {this.getTitle.call(this)}
+                    {this.getImage.call(this)}
+                </div>
+            </div>
+        );
+    }
 }

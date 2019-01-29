@@ -1,52 +1,66 @@
 import React from 'react';
 import CommentComponent from './CommentComponent';
-import methods from '../../utils/methods'
+import methods from '../../utils/methods';
+
 const { sortComments } = methods;
 
 export default class CommentsSection extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.commentToShowStep = 20;
         this.getComments = this.getComments.bind(this);
         this.showMoreComments = this.showMoreComments.bind(this);
         this.state = {
-            commentsToShow: this.commentToShowStep
-        }
+            commentsToShow: this.commentToShowStep,
+        };
     }
 
-    getComments () {
-        let comments = sortComments([...this.props.comments]);
-        comments = comments.slice(0, this.state.commentsToShow);
+    getComments() {
+        const { commentsToShow } = this.state;
+        const { comments } = this.props;
+        let sortedComments = sortComments([...comments]);
+        sortedComments = sortedComments
+            .filter(comment => comment.body !== 'null')
+            .slice(0, commentsToShow);
 
-        if (comments) {
-            return comments.map((comment, index) => {
-                if (comment.body !== 'null') {
-                    return <CommentComponent key={index} {...comment} />
-                }
-            });
+        if (sortedComments) {
+            return sortedComments.map((comment, index) => (
+                <CommentComponent key={index}
+                                  {...comment}
+                />
+            ));
         }
+        return null;
     }
 
-    getLoadMoreButtonStyle () {
+    getLoadMoreButtonStyle() {
+        const { commentsToShow } = this.state;
+        const { comments } = this.props;
         return {
-            'display': this.state.commentsToShow < this.props.comments.length ? 'block' : 'none'
-        }
+            display: commentsToShow < comments.length ? 'block' : 'none',
+        };
     }
 
-    showMoreComments () {
+    showMoreComments() {
+        const { commentsToShow, commentToShowStep } = this.state;
         this.setState({
-            commentsToShow: this.state.commentsToShow + this.commentToShowStep
-        })
+            commentsToShow: commentsToShow + commentToShowStep,
+        });
     }
 
-    render () {
-        return <div className="comments-section box">
-            {this.getComments()}
-            <span onClick={this.showMoreComments}
-                  style={this.getLoadMoreButtonStyle.call(this)}
-                  className="comments-section__button">
+    render() {
+        return (
+            <div className="comments-section box">
+                {this.getComments()}
+                <span onClick={this.showMoreComments}
+                      role="button"
+                      tabIndex={0}
+                      style={this.getLoadMoreButtonStyle.call(this)}
+                      className="comments-section__button"
+                >
                 Load more comments
-            </span>
-        </div>
+                </span>
+            </div>
+        );
     }
 }

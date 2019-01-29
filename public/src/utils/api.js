@@ -15,7 +15,7 @@ export const getSubredditsApi = () => axios.get(API + URL_GET_SUBREDDITS);
 export const storeSubredditToArchiveApi = payload => axios.post(API + URL_SET_SUBREDDIT_TO_ARCHIVE, { payload });
 
 export const getPostsApi = (subredditId, source) => axios.get(`${API}${URL_GET_POSTS}/${subredditId}`, {
-    cancelToken: source.token
+    cancelToken: source.token,
 });
 
 export const getPostApi = (subredditId, postId) => axios.get(`${API}${URL_GET_POST}/${subredditId}/${postId}`);

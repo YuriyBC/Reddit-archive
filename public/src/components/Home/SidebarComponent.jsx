@@ -1,110 +1,141 @@
 import React from 'react';
-import ArchivedSubredditsComponent from './ArchivedSubredditsComponent'
+import ArchivedSubredditsComponent from './ArchivedSubredditsComponent';
+
 const ScrollArea = require('react-scrollbar').default;
 
 export default class SidebarComponent extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      searchFormValue: '',
-      archiveFormValue: '',
-      keyDownStep: 2
-    };
-    this.getSubredditsList = this.getSubredditsList.bind(this);
-    this.onChangeSearchForm = this.onChangeSearchForm.bind(this);
-    this.onChangeArchiveForm = this.onChangeArchiveForm.bind(this);
-    this.getArchiveFormClass  = this.getArchiveFormClass.bind(this);
-    this.onKeyPressSearchForm  = this.onKeyPressSearchForm.bind(this);
-    this.setSearchValue  = this.setSearchValue.bind(this);
-  }
-
-  getSubredditsList () {
-    const subredditList = [...this.props.subreddits].map((subreddit, key) => {
-      const formValue = this.state.searchFormValue.toLowerCase().trim();
-      const subredditTitle = subreddit.display_name.toLowerCase().trim().slice(0, subreddit.display_name.length - 1);
-
-      if (formValue && subredditTitle.search(formValue) > -1 && !subreddit.isArchived) {
-        return <div key={key}
-                    tabIndex="1"
-                    onClick={() => this.setSearchValue(subreddit.display_name)}>
-          {subreddit.display_name}
-        </div>
-      }
-    });
-
-    if (subredditList.some(subreddit => subreddit)) {
-      return <ScrollArea speed={0.8}
-                         className="home-sidebar__search-form__scrollbar"
-                         contentClassName="content"
-                         stopScrollPropagation={true}
-                         horizontal={false}>
-        {subredditList}
-      </ScrollArea>
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchFormValue: '',
+            archiveFormValue: '',
+        };
+        this.getSubredditsList = this.getSubredditsList.bind(this);
+        this.onChangeSearchForm = this.onChangeSearchForm.bind(this);
+        this.onChangeArchiveForm = this.onChangeArchiveForm.bind(this);
+        this.getArchiveFormClass = this.getArchiveFormClass.bind(this);
+        this.onKeyPressSearchForm = this.onKeyPressSearchForm.bind(this);
+        this.setSearchValue = this.setSearchValue.bind(this);
     }
-  }
 
-  onKeyPressSearchForm (event) {
-    if (this.state.searchFormValue && event.key === 'Enter') {
-      this.props.storeSubredditToArchive(this.state.searchFormValue)
-      this.setState({searchFormValue: ''})
+    onKeyPressSearchForm(event) {
+        const { searchFormValue } = this.state;
+        const { storeSubredditToArchive } = this.props;
+        if (searchFormValue && event.key === 'Enter') {
+            storeSubredditToArchive(searchFormValue);
+            this.setState({
+                searchFormValue: '',
+            });
+        }
     }
-  }
 
-  getArchiveFormClass () {
-    const minimumArchivedLength = 5;
-    const archivedSubreddits = [...this.props.subreddits].filter(subreddit => subreddit.isArchived);
-    return archivedSubreddits.length > minimumArchivedLength ?
-        "home-sidebar__archive-form" :
-        "home-sidebar__archive-form disable"
-  }
+    onChangeSearchForm(event) {
+        this.setState({
+            searchFormValue: event.target.value,
+        });
+    }
 
-  setSearchValue (value) {
-    this.setState({
-      searchFormValue: value
-    });
-  }
+    onChangeArchiveForm(event) {
+        this.setState({
+            archiveFormValue: event.target.value,
+        });
+    }
 
-  onChangeSearchForm (event) {
-    this.setState({
-      searchFormValue: event.target.value
-    });
-  }
+    setSearchValue(value) {
+        this.setState({
+            searchFormValue: value,
+        });
+    }
 
-  onChangeArchiveForm (event) {
-    this.setState({
-      archiveFormValue: event.target.value
-    });
-  }
+    getArchiveFormClass() {
+        const { subreddits } = this.props;
+        const minimumArchivedLength = 5;
+        const archivedSubreddits = [...subreddits]
+            .filter(subreddit => subreddit.isArchived);
+        return archivedSubreddits.length > minimumArchivedLength
+            ? 'home-sidebar__archive-form'
+            : 'home-sidebar__archive-form disable';
+    }
 
-  render () {
-    return <div className="home-sidebar box">
-      <div className="home-sidebar__search-form__wrapper">
-        <input className="home-sidebar__search-form"
-               value={this.state.searchFormValue}
-               onKeyDown={this.onKeyPressSearchForm}
-               placeholder="Enter subreddit name"
-               onChange={this.onChangeSearchForm}
-               type="text"/>
-        <div className="home-sidebar__search-form__list"
-             ref={this.subredditsContainerRef}>
-            {this.getSubredditsList()}
-        </div>
-      </div>
+    getSubredditsList() {
+        const { subreddits } = this.props;
+        const { searchFormValue } = this.state;
+        const subredditList = [...subreddits].map((subreddit, key) => {
+            const formValue = searchFormValue.toLowerCase().trim();
+            const subredditTitle = subreddit.display_name
+                .toLowerCase()
+                .trim()
+                .slice(0, subreddit.display_name.length - 1);
 
-      <div className="home-sidebar__archive-form__wrapper">
-        <input className={this.getArchiveFormClass()}
-               value={this.state.archiveFormValue}
-               placeholder="Search archived subreddit"
-               onChange={this.onChangeArchiveForm}
-               type="text"/>
-        <ArchivedSubredditsComponent subreddits={this.props.subreddits}
-                                     storeSubredditToArchive={this.props.storeSubredditToArchive}
-                                     removePosts={this.props.removePosts}
-                                     archiveFormValue={this.state.archiveFormValue}
-                                     errorMessages={this.props.errorMessages}/>
-      </div>
-      <div>
-      </div>
-    </div>
-  }
+            if (formValue && subredditTitle.search(formValue) > -1 && !subreddit.isArchived) {
+                return (
+                    <div key={key}
+                         tabIndex={0}
+                         role="button"
+                         onClick={() => this.setSearchValue(subreddit.display_name)}
+                    >
+                        {subreddit.display_name}
+                    </div>
+                );
+            }
+            return null;
+        });
+
+        if (subredditList.some(subreddit => subreddit)) {
+            const trueValue = true;
+            const falseValue = true;
+            return (
+                <ScrollArea speed={0.8}
+                            className="home-sidebar__search-form__scrollbar"
+                            contentClassName="content"
+                            stopScrollPropagation={trueValue}
+                            horizontal={falseValue}
+                >
+                    {subredditList}
+                </ScrollArea>
+            );
+        }
+        return null;
+    }
+
+    render() {
+        const { searchFormValue, archiveFormValue } = this.state;
+        const {
+            subreddits,
+            storeSubredditToArchive,
+            removePosts,
+            errorMessages,
+        } = this.props;
+        return (
+            <div className="home-sidebar box">
+                <div className="home-sidebar__search-form__wrapper">
+                    <input className="home-sidebar__search-form"
+                           value={searchFormValue}
+                           onKeyDown={this.onKeyPressSearchForm}
+                           placeholder="Enter subreddit name"
+                           onChange={this.onChangeSearchForm}
+                           type="text"
+                    />
+                    <div className="home-sidebar__search-form__list">
+                        {this.getSubredditsList()}
+                    </div>
+                </div>
+
+                <div className="home-sidebar__archive-form__wrapper">
+                    <input className={this.getArchiveFormClass()}
+                           value={archiveFormValue}
+                           placeholder="Search archived subreddit"
+                           onChange={this.onChangeArchiveForm}
+                           type="text"
+                    />
+                    <ArchivedSubredditsComponent subreddits={subreddits}
+                                                 storeSubredditToArchive={storeSubredditToArchive}
+                                                 removePosts={removePosts}
+                                                 archiveFormValue={archiveFormValue}
+                                                 errorMessages={errorMessages}
+                    />
+                </div>
+            </div>
+        );
+    }
 }

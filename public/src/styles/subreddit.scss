@@ -20,29 +20,29 @@ body .subreddit {
   &-header {
     width: 100%;
     display: flex;
-    height: vw(220);
-    background: white;
+    height: vw(150);
+    background-color: white;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     .subreddit-header__inner {
       position: relative;
       width: 100%;
-      padding: vw(100) vw(400);
+      padding: vw(65) vw(400);
     }
     .subreddit-header__image {
       position: absolute;
-      top: vw(20);
+      top: vw(35);
       left: 50%;
       width: auto;
       height: auto;
-      max-width: 85%;
-      max-height: 85%;
+      max-width: 60%;
+      max-height: 60%;
       border-radius: 50%;
       cursor: pointer;
-      &:hover {
-        opacity: 0.8;
-      }
     }
     .subreddit-header__title {
       font-size: vw(25);
+      color: white;
     }
   }
   &-feed {
@@ -135,8 +135,20 @@ body .subreddit {
         }
       }
       .post-content__text {
+        position: relative;
+        overflow: hidden;
+        max-height: vw(340);
         text-align: left;
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: vw(25);
+          background: linear-gradient(to bottom, rgba(255,255,255, 0.3) 0%,rgba(255,255,255, 0.4) 43%,rgba(255,255,255, 0.5) 47%, rgba(255,255,255, 0.8) 60%, rgba(255,255,255, 1) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        }
         p {
+          width: 100%;
           margin: 0 vw(5) vw(5) vw(5);
         }
       }

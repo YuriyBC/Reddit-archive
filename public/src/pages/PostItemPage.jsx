@@ -1,59 +1,68 @@
 import React from 'react';
-import HeaderComponent from '../components/HeaderComponent'
-import FeedComponent from '../components/PostItem/FeedComponent'
-import SidebarComponent from '../components/SidebarComponent'
-import { connect } from 'react-redux'
-import '../styles/post.scss'
-import { getPost, getPostComments, getPostFromLocalStorage } from "../store/actions/postsActions";
+import { connect } from 'react-redux';
+import HeaderComponent from '../components/HeaderComponent';
+import FeedComponent from '../components/PostItem/FeedComponent';
+import SidebarComponent from '../components/SidebarComponent';
+import '../styles/post.scss';
+import {
+  getPost,
+  getPostComments,
+  getPostFromLocalStorage,
+} from '../store/actions/postsActions';
 
 class SubredditPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      currentSubreddit: {}
-    }
+      currentSubreddit: {},
+    };
   }
 
   componentDidMount() {
-    if (this.props.match.params) {
-      const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
+    const { match, subreddits, dispatch } = this.props;
+    const { id, postId } = match.params;
+    const { currentSubreddit } = this.state;
+    if (match.params) {
+      const subreddit = subreddits.filter(item => item.id === +match.params.id );
 
-      if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
+      if (subreddit.length && Object.keys(currentSubreddit).length === 0) {
         this.setState({
-          currentSubreddit: currentSubreddit[0]
-        })
+          currentSubreddit: subreddit[0],
+        });
       }
-      const {id, postId} = this.props.match.params;
-      this.props.dispatch(getPostFromLocalStorage(id, postId));
-      this.props.dispatch(getPost(id, postId));
-      this.props.dispatch(getPostComments(id, postId));
+      dispatch(getPostFromLocalStorage(id, postId));
+      dispatch(getPost(id, postId));
+      dispatch(getPostComments(id, postId));
     }
   }
 
   componentDidUpdate() {
-    const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
-    if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
+    const { match, subreddits } = this.props;
+    const { currentSubreddit } = this.state;
+    const subreddit = subreddits.filter(item => item.id === +match.params.id );
+    if (subreddit.length && Object.keys(currentSubreddit).length === 0) {
       this.setState({
-        currentSubreddit: currentSubreddit[0]
-      })
+        currentSubreddit: subreddit[0],
+      });
     }
   }
 
-  render () {
-    return <div className="post">
-        <HeaderComponent/>
-        <div className="home-content post-content">
-          <FeedComponent post={this.props.post}/>
-          <SidebarComponent {...this.state.currentSubreddit}/>
+  render() {
+    const { post } = this.props;
+    const { currentSubreddit } = this.state;
+    return (
+        <div className="post">
+          <HeaderComponent />
+          <div className="home-content post-content">
+            <FeedComponent post={post} />
+            <SidebarComponent {...currentSubreddit} />
+          </div>
         </div>
-    </div>
+    );
   }
-
 }
 
-export default connect((state) => {
-  return {
+export default connect(state => ({
     post: state.posts.currentPostInfo,
-    subreddits: state.subreddits.subreddits
-  }
-})(SubredditPage)
+    subreddits: state.subreddits.subreddits,
+}))(SubredditPage);

@@ -16,6 +16,8 @@ function createTable (connection, type) {
         "community_icon VARCHAR(255), " +
         "icon_img VARCHAR(255), " +
         "title VARCHAR(255), " +
+        "banner_background_color VARCHAR(255), " +
+        "banner_background_image VARCHAR(255), " +
         "header_img VARCHAR(255), " +
         "public_description VARCHAR(2000), " +
         "subscribers VARCHAR(255), " +

@@ -1,48 +1,61 @@
 import React from 'react';
 
 export default class SidebarComponent extends React.Component {
-  constructor (props) {
-    super(props);
-    this.getColor = this.getColor.bind(this);
-    this.getSubredditInfo = this.getSubredditInfo.bind(this);
-    this.getSubscribers = this.getSubscribers.bind(this);
-  }
-
-  getColor () {
-    return {'backgroundColor': this.props.key_color ? this.props.key_color: 'black'};
-  }
-
-  getSubredditInfo () {
-    if (this.props.icon_img && this.props.display_name_prefixed) {
-      return <div className="sidebar-info">
-        <img src={this.props.icon_img} alt=""/>
-        <span>{this.props.display_name_prefixed}</span>
-      </div>
+    constructor(props) {
+        super(props);
+        this.getColor = this.getColor.bind(this);
+        this.getSubredditInfo = this.getSubredditInfo.bind(this);
+        this.getSubscribers = this.getSubscribers.bind(this);
     }
-  }
 
-  getSubscribers () {
-    if (this.props.subscribers) {
-      return <div className="subreddit-sidebar__subscribers">
-        <b>{this.props.subscribers}</b>
-        <span>Subscribers</span>
-      </div>
+    getColor() {
+        const { key_color } = this.props;
+        return {
+            backgroundColor: key_color || 'black',
+        };
     }
-  }
 
-  render () {
-    return <div className="home-sidebar subreddit-sidebar box">
-          <span className="sidebar-header" style={this.getColor()}>
-            COMMUNITY DETAILS
-          </span>
-          <div className="subreddit-sidebar__body">
-              {this.getSubredditInfo()}
-              {this.getSubscribers()}
-              <div className="subreddit-sidebar__description">
-                {this.props.public_description}
-              </div>
-          </div>
-    </div>
-  }
+    getSubredditInfo() {
+        const { icon_img, display_name_prefixed } = this.props;
+        return icon_img && display_name_prefixed
+            ? (
+                <div className="sidebar-info">
+                    <img src={icon_img} alt="" />
+                    <span>{display_name_prefixed}</span>
+                </div>
+            )
+            : null;
+    }
 
+    getSubscribers() {
+        const { subscribers } = this.props;
+        return subscribers
+            ? (
+                <div className="subreddit-sidebar__subscribers">
+                    <b>{subscribers}</b>
+                    <span>Subscribers</span>
+                </div>
+            )
+            : null;
+    }
+
+    render() {
+        const { public_description } = this.props;
+        return (
+            <div className="home-sidebar subreddit-sidebar box">
+                <span className="sidebar-header"
+                      style={this.getColor()}
+                >
+                    COMMUNITY DETAILS
+                </span>
+                <div className="subreddit-sidebar__body">
+                    {this.getSubredditInfo()}
+                    {this.getSubscribers()}
+                    <div className="subreddit-sidebar__description">
+                        {public_description}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }

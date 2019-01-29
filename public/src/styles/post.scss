@@ -33,6 +33,10 @@ body .post {
       fill: rgb(135, 138, 140);
       overflow: hidden;
       border: none;
+      .post-content__text {
+        max-height: none;
+        padding-bottom: vw(25);
+      }
     }
   }
   .comments-section {
