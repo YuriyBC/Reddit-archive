@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const databaseService = require('./databaseService');
+const databaseService = require('./database/databaseService');
 const constants = require('../constants');
 const {SUBREDDITS_TABLE_TITLE} = constants;
 

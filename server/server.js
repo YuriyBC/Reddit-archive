@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require("body-parser");
 const apiService = require('./services/apiService');
-const databaseService = require('./services/databaseService');
+const databaseService = require('./services/database/databaseService');
 const redditFetcherService = require('./services/redditService');
 const websocketService = require('./services/websocketService');
 const port = process.env.PORT || 8080;
@@ -26,14 +26,17 @@ function getAndStoreSubreddits () {
     });
   });
 }
+
 function fetchDataOfArchivedSubreddits () {
   setInterval(() => {
+    console.log('STARTED');
     databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
       if (archivedSubreddits.length) {
         archivedSubreddits.forEach(subreddit => {
           apiService.updateData(subreddit.display_name, subreddit.id)
-        })
+        });
+        console.log('FINISHED')
       }
     }));
   }, INTERVAL_TO_FETCH_NEW_DATA)

@@ -7,18 +7,18 @@ const AVAILABLE_SORTING = [
     {
         id: 0,
         title: 'Hot',
-        icon: 'faFire'
+        icon: 'faFire',
     },
     {
         id: 1,
         title: 'New',
-        icon: 'faCertificate'
+        icon: 'faCertificate',
     },
     {
         id: 2,
         title: 'Top',
-        icon: 'faChartLine'
-    }
+        icon: 'faChartLine',
+    },
 ];
 const LOCAL_STORAGE_SUBREDDITS = 'subreddits';
 
@@ -41,5 +41,5 @@ export default {
     URL_GET_POST,
     URL_GET_POST_COMMENTS,
     AVAILABLE_SORTING,
-    LOCAL_STORAGE_SUBREDDITS
-}
+    LOCAL_STORAGE_SUBREDDITS,
+};

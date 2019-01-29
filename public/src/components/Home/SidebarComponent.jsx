@@ -1,11 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import ArchivedSubredditsComponent from './ArchivedSubredditsComponent'
 const ScrollArea = require('react-scrollbar').default;
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTimes,
-  faBars
-} from "@fortawesome/free-solid-svg-icons";
 
 export default class SidebarComponent extends React.Component {
   constructor (props) {
@@ -15,15 +10,12 @@ export default class SidebarComponent extends React.Component {
       archiveFormValue: '',
       keyDownStep: 2
     };
-    this.subredditsContainerRef = React.createRef();
     this.getSubredditsList = this.getSubredditsList.bind(this);
-    this.getArchivedSubredditsList = this.getArchivedSubredditsList.bind(this);
     this.onChangeSearchForm = this.onChangeSearchForm.bind(this);
     this.onChangeArchiveForm = this.onChangeArchiveForm.bind(this);
     this.getArchiveFormClass  = this.getArchiveFormClass.bind(this);
     this.onKeyPressSearchForm  = this.onKeyPressSearchForm.bind(this);
     this.setSearchValue  = this.setSearchValue.bind(this);
-    this.getErrorMessages  = this.getErrorMessages.bind(this);
   }
 
   getSubredditsList () {
@@ -66,44 +58,6 @@ export default class SidebarComponent extends React.Component {
         "home-sidebar__archive-form disable"
   }
 
-  getArchivedSubredditsList () {
-    const subredditList = [...this.props.subreddits].map((subreddit, key) => {
-
-      const formValue = this.state.archiveFormValue.toLowerCase().trim();
-      const subredditTitle = subreddit.display_name.toLowerCase().trim();
-
-      const getIcon = () => {
-        if (subreddit.icon_img) {
-          return <img className="subreddit-icon" src={subreddit.icon_img} alt=""/>
-        } else {
-          return <FontAwesomeIcon className="subreddit-icon" icon={faBars}/>
-        }
-      };
-
-      if (subredditTitle.search(formValue) > -1 && subreddit.isArchived) {
-        return <div key={key}>
-          <Link onClick={this.props.removePosts}
-                to={`/subreddit/${subreddit.id}`}>
-            {getIcon()}
-            {subreddit.display_name}
-          </Link>
-          <span onClick={() => this.props.storeSubredditToArchive(subreddit.display_name)}>
-            <FontAwesomeIcon icon={faTimes}/>
-          </span>
-        </div>
-      }
-    });
-
-    if (subredditList.some(subreddit => subreddit)) {
-    return  <div className="subredditList-inner_container">
-                <ScrollArea speed={0.8}
-                         horizontal={false}>
-                    {subredditList}
-                </ScrollArea>
-        </div>
-    }
-  }
-
   setSearchValue (value) {
     this.setState({
       searchFormValue: value
@@ -120,12 +74,6 @@ export default class SidebarComponent extends React.Component {
     this.setState({
       archiveFormValue: event.target.value
     });
-  }
-
-  getErrorMessages () {
-    return this.props.errorMessages.map((message, index) => {
-      return <div className="errorMessage" key={index}>{message}</div>
-    })
   }
 
   render () {
@@ -149,11 +97,11 @@ export default class SidebarComponent extends React.Component {
                placeholder="Search archived subreddit"
                onChange={this.onChangeArchiveForm}
                type="text"/>
-        <div className="home-sidebar__archive-form__list">
-          <span className="home-sidebar__archive-form__title">Archived subreddits:</span>
-          {this.getArchivedSubredditsList()}
-          {this.getErrorMessages()}
-        </div>
+        <ArchivedSubredditsComponent subreddits={this.props.subreddits}
+                                     storeSubredditToArchive={this.props.storeSubredditToArchive}
+                                     removePosts={this.props.removePosts}
+                                     archiveFormValue={this.state.archiveFormValue}
+                                     errorMessages={this.props.errorMessages}/>
       </div>
       <div>
       </div>

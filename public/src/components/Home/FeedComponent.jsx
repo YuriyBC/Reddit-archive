@@ -5,8 +5,6 @@ import redditAnimalImage from '../../assets/img/reddit-kid.png';
 export default class FeedComponent extends React.Component {
   constructor (props) {
     super(props);
-    this.getContainerStyle = this.getContainerStyle.bind(this);
-    this.getFaqStyle = this.getFaqStyle.bind(this);
   }
 
   getContainerStyle () {
@@ -24,8 +22,8 @@ export default class FeedComponent extends React.Component {
   }
 
   render () {
-    return <div className="home-feed box" style={this.getContainerStyle()}>
-      <div className="home-feed__faq" style={this.getFaqStyle()}>
+    return <div className="home-feed box" style={this.getContainerStyle.call(this)}>
+      <div className="home-feed__faq" style={this.getFaqStyle.call(this)}>
         This application is designed to store data from Reddit.
         To store information about the subreddit, enter the name of the subreddit in the form.
         Data archiving starts and you can view subreddit data.

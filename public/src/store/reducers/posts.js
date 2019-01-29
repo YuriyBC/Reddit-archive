@@ -1,6 +1,6 @@
 const initialState = {
     allPosts: [],
-    currentPostInfo: {}
+    currentPostInfo: {},
 };
 
 const posts = (state = initialState, action) => {
@@ -15,7 +15,7 @@ const posts = (state = initialState, action) => {
                 ...initialState,
                 currentPostInfo: {
                     ...action.payload,
-                    ...state.currentPostInfo
+                    ...state.currentPostInfo,
                 },
             };
         case 'SET_POST_COMMENTS':
@@ -23,13 +23,13 @@ const posts = (state = initialState, action) => {
                 ...initialState,
                 currentPostInfo: {
                     ...action.payload,
-                    ...state.currentPostInfo
-                }
+                    ...state.currentPostInfo,
+                },
             };
         case 'REMOVE_POSTS':
-            return initialState
+            return initialState;
     }
-    return state
+    return state;
 };
 
 export default posts;

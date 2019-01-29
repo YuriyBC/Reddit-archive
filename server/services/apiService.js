@@ -1,5 +1,5 @@
 const redditFetcher = require('./redditService');
-const databaseService = require('./databaseService');
+const databaseService = require('./database/databaseService');
 const constants = require('../constants');
 const websocketService = require('./websocketService');
 const {
@@ -30,6 +30,7 @@ function init (app) {
     app.get('/api/posts/:id', (request, response) => {
          databaseService.getAllPostsBySubredditId(request.params.id)
              .then(result => {
+                 console.log(request.params.id, 'END')
                  response.status(STATUS_CODE_OK).send(result);
              }).catch(() => {
              response.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_POSTS_NOT_FOUND });

@@ -10,7 +10,10 @@ import '../styles/subreddit.scss'
 import methods from '../utils/methods'
 import spinner from '../assets/img/spinner.gif'
 
-const { throttle } = methods;
+const {
+    throttle,
+    generateRequestCancelToken
+} = methods;
 
 class SubredditPage extends React.Component {
   constructor (props) {
@@ -20,6 +23,7 @@ class SubredditPage extends React.Component {
       currentSubreddit: {},
       currentSortingId: 0
     };
+    this.cancelToken = generateRequestCancelToken();
     this.containerScrollHandler = this.containerScrollHandler.bind(this);
     this.increaseScrollStep = this.increaseScrollStep.bind(this);
     this.changeSorting = this.changeSorting.bind(this);
@@ -32,7 +36,7 @@ class SubredditPage extends React.Component {
         this.props.match.params &&
         this.props.match.params.id) {
       const id = this.props.match.params.id;
-      this.props.dispatch(getPosts(id));
+      this.props.dispatch(getPosts(id, this.cancelToken));
     }
     window.addEventListener('scroll', this.containerScrollHandler);
     this.setCurrentSubreddit()
@@ -46,6 +50,10 @@ class SubredditPage extends React.Component {
     this.setState({
       currentSortingId: id
     })
+  }
+
+  componentWillUnmount() {
+    this.cancelToken.cancel('Abort request')
   }
 
   setCurrentSubreddit() {

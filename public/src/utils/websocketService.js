@@ -1,11 +1,12 @@
-import constants from './constants'
+import constants from './constants';
+
 const {
-    WEBSOCKET_URL
+    WEBSOCKET_URL,
 } = constants;
 
 export const webSocketService = function () {
     if (!webSocketService.websocket) {
         webSocketService.websocket = new WebSocket(WEBSOCKET_URL);
     }
-    return webSocketService.websocket
+    return webSocketService.websocket;
 };

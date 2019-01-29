@@ -1,11 +1,13 @@
 const mysql = require('mysql');
-const constants = require('../constants');
+const tableCreationService = require('./tableCreationService');
+const constants = require('../../constants');
 const {
     DATABASE_NAME,
     SUBREDDITS_TABLE_TITLE,
     POSTS_TABLE_TITLE,
     COMMENTS_TABLE_TITLE
 } = constants;
+const { createTable } = tableCreationService;
 
 let connection;
 
@@ -28,82 +30,6 @@ function createDatabase () {
             });
     });
 }
-
-function createTable (type) {
-    const useDatabaseQuery = 'use ' + DATABASE_NAME;
-    const checkTableQuery = 'SHOW TABLES LIKE "' + type +'"';
-
-    const createTableSubredditsQuery = "CREATE TABLE " + SUBREDDITS_TABLE_TITLE + " (" +
-            "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
-            "display_name VARCHAR(255), " +
-            "community_icon VARCHAR(255), " +
-            "icon_img VARCHAR(255), " +
-            "title VARCHAR(255), " +
-            "header_img VARCHAR(255), " +
-            "public_description VARCHAR(2000), " +
-            "subscribers VARCHAR(255), " +
-            "key_color VARCHAR(255), " +
-            "url VARCHAR(255), " +
-            "display_name_prefixed VARCHAR(255), " +
-            "isArchived TINYINT(1)" +
-            ")";
-
-    const createTablePostsQuery = "CREATE TABLE " + POSTS_TABLE_TITLE + " (" +
-        "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
-        "subreddit VARCHAR(255), " +
-        "title VARCHAR(855), " +
-        "subreddit_name_prefixed VARCHAR(255), " +
-        "created VARCHAR(255), " +
-        "reddit_id VARCHAR(255), " +
-        "num_comments INT(100), " +
-        "thumbnail_height VARCHAR(255), " +
-        "thumbnail_width VARCHAR(255), " +
-        "subreddit_subscribers VARCHAR(255), " +
-        "preview VARCHAR(255), " +
-        "score INT(100), " +
-        "thumbnail VARCHAR(255), " +
-        "author_fullname VARCHAR(255), " +
-        "selftext TEXT, " +
-        "subreddit_id INT(100)" +
-        ")";
-
-    const createTableCommentsQuery = "CREATE TABLE " + COMMENTS_TABLE_TITLE + " (" +
-        "id INT(100) NOT null AUTO_INCREMENT PRIMARY KEY, " +
-        "subreddit VARCHAR(255), " +
-        "body TEXT, " +
-        "author VARCHAR(255), " +
-        "created VARCHAR(255), " +
-        "subreddit_id VARCHAR(255), " +
-        "score VARCHAR(255), " +
-        "depth VARCHAR(255), " +
-        "name VARCHAR(255), " +
-        "parent_id VARCHAR(255), " +
-        "postId VARCHAR(255), " +
-        "author_flair_text VARCHAR(255)" +
-        ")";
-
-    let createTableQuery;
-    if (type === SUBREDDITS_TABLE_TITLE) {
-        createTableQuery = createTableSubredditsQuery;
-    } else if (type === POSTS_TABLE_TITLE) {
-        createTableQuery = createTablePostsQuery;
-    } else if (type === COMMENTS_TABLE_TITLE) {
-        createTableQuery = createTableCommentsQuery;
-    }
-
-    function useDatabaseCallback (err) {
-        if (err) {}
-        connection.query(checkTableQuery, checkTableCallback);
-    }
-
-    function checkTableCallback (err, result) {
-        if (result && !result.length) {
-            connection.query(createTableQuery)
-        }
-    }
-    connection.query(useDatabaseQuery, useDatabaseCallback)
-}
-
 
 function removeQuotesFromObject (object) {
     Object.keys(object).forEach(key => {
@@ -180,7 +106,6 @@ function insertPost (table, dataObject, subredditId) {
         thumbnail_height,
         thumbnail_width,
         subreddit_subscribers,
-        preview,
         score,
         thumbnail,
         author_fullname,
@@ -198,7 +123,6 @@ function insertPost (table, dataObject, subredditId) {
                                     reddit_id, 
                                     num_comments,
                                     subreddit_subscribers,
-                                    preview,
                                     score,
                                     thumbnail,
                                     thumbnail_height,
@@ -214,7 +138,6 @@ function insertPost (table, dataObject, subredditId) {
                                     '${id || null}',
                                     '${num_comments || 0}',
                                     '${subreddit_subscribers || null}',
-                                    '${preview || null}',
                                     '${score || 0}',
                                     '${thumbnail || null}',
                                     '${thumbnail_height || null}',
@@ -458,9 +381,9 @@ function getPostComments (subredditId, postId) {
 function init () {
     makeConnectionToMysql();
     createDatabase();
-    createTable(SUBREDDITS_TABLE_TITLE);
-    createTable(POSTS_TABLE_TITLE);
-    createTable(COMMENTS_TABLE_TITLE);
+    createTable(connection, SUBREDDITS_TABLE_TITLE);
+    createTable(connection, POSTS_TABLE_TITLE);
+    createTable(connection, COMMENTS_TABLE_TITLE);
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 const initialState = {
     subreddits: [],
-    errorMessages: []
+    errorMessages: [],
 };
 
 const subreddits = (state = initialState, action) => {
@@ -8,15 +8,15 @@ const subreddits = (state = initialState, action) => {
         case 'SET_SUBREDDITS':
             return {
                 errorMessages: state.errorMessages,
-                subreddits: action.payload
+                subreddits: action.payload,
             };
         case 'SET_ERROR_MESSAGE':
             return {
                 subreddits: state.subreddits,
-                errorMessages: action.payload
-            }
+                errorMessages: action.payload,
+            };
     }
-    return state
+    return state;
 };
 
 export default subreddits;

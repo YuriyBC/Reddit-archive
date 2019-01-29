@@ -22,7 +22,7 @@ class SubredditPage extends React.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     const currentSubreddit = this.props.subreddits.filter(subreddit => subreddit.id === +this.props.match.params.id );
     if (currentSubreddit.length && Object.keys(this.state.currentSubreddit).length === 0) {
       this.setState({
