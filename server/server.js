@@ -29,14 +29,14 @@ function getAndStoreSubreddits () {
 
 function fetchDataOfArchivedSubreddits () {
   setInterval(() => {
-    console.log('STARTED');
+    console.log('STARTED ARCHIVATION');
     databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
       if (archivedSubreddits.length) {
         archivedSubreddits.forEach(subreddit => {
           apiService.updateData(subreddit.display_name, subreddit.id)
         });
-        console.log('FINISHED')
+        console.log('FINISHED ARCHIVATION')
       }
     }));
   }, INTERVAL_TO_FETCH_NEW_DATA)

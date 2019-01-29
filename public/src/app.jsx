@@ -14,7 +14,8 @@ import { withRouter } from 'react-router-dom'
 
 const {
     WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
-    LOCAL_STORAGE_SUBREDDITS
+    LOCAL_STORAGE_SUBREDDITS,
+    LOCAL_STORAGE_POSTS
 } = constants;
 
 class App extends React.Component {
@@ -24,10 +25,13 @@ class App extends React.Component {
 
     componentDidMount () {
         let localStorageSubreddits = storage(LOCAL_STORAGE_SUBREDDITS);
+        let localStoragePosts = storage(LOCAL_STORAGE_POSTS);
         if (localStorageSubreddits) {
             this.props.dispatch(setSubreddits(JSON.parse(localStorageSubreddits)))
         }
-
+        if (!localStoragePosts) {
+            storage(LOCAL_STORAGE_POSTS, JSON.stringify({}))
+        }
         this.props.dispatch(getSubreddits());
         webSocketService().onmessage = message => {
             if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {

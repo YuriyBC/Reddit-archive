@@ -32,6 +32,7 @@ function createTable (connection, type) {
         "subreddit_name_prefixed VARCHAR(255), " +
         "created VARCHAR(255), " +
         "reddit_id VARCHAR(255), " +
+        "sorting INT(100), " +
         "num_comments INT(100), " +
         "thumbnail_height VARCHAR(255), " +
         "thumbnail_width VARCHAR(255), " +

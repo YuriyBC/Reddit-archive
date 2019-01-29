@@ -13,6 +13,7 @@ const STATUS_CODE_FAIL = 422;
 const ERROR_MESSAGE_SUBREDDIT_NOT_FOUND = "Sorry, subreddit isn't found";
 const ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS = "Subreddit has been already archived";
 const ERROR_MESSAGE_POSTS_NOT_FOUND = "Sorry, there are no posts of this subreddit";
+const ERROR_MESSAGE_ABORT = "Request abort";
 
 module.exports = {
     DATABASE_NAME,
@@ -26,5 +27,6 @@ module.exports = {
     ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS,
     ERROR_MESSAGE_POSTS_NOT_FOUND,
     COMMENTS_TABLE_TITLE,
-    INTERVAL_TO_FETCH_NEW_DATA
+    INTERVAL_TO_FETCH_NEW_DATA,
+    ERROR_MESSAGE_ABORT
 };

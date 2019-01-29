@@ -21,6 +21,7 @@ const AVAILABLE_SORTING = [
     },
 ];
 const LOCAL_STORAGE_SUBREDDITS = 'subreddits';
+const LOCAL_STORAGE_POSTS = 'posts';
 
 // API SERVER
 const API = 'http://localhost:8080';
@@ -42,4 +43,5 @@ export default {
     URL_GET_POST_COMMENTS,
     AVAILABLE_SORTING,
     LOCAL_STORAGE_SUBREDDITS,
+    LOCAL_STORAGE_POSTS
 };

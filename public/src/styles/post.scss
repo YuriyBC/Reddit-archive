@@ -11,9 +11,18 @@ body .post {
     align-items: flex-start;
     justify-content: flex-start;
     justify-items: flex-start;
-    background: rgba(255, 255, 255, 1);
     width: vw(1200);
-    padding: 0 vw(50);
+    min-height: vw(100);
+    & > div {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 1);
+      padding: 0 vw(50);
+      padding-top: vw(25);
+      width: 100%;
+      border-radius: inherit;
+      height: auto;
+    }
     .post {
       display: flex;
       position: relative;
@@ -29,7 +38,7 @@ body .post {
   .comments-section {
     width: 100%;
     padding-left: vw(10);
-    padding-bottom: vw(50);
+    padding-bottom: vw(20);
     user-select: none;
     &__button {
       font-size: vw(15);
@@ -138,6 +147,10 @@ body .post {
       }
     }
   }
+  .comments-spinner {
+    position: relative;
+    margin: vw(20) 0 vw(40) 0;
+  }
   .comment {
     position: relative;
     .comment-rating {
@@ -160,5 +173,4 @@ body .post {
     width: 18px;
     min-width: 18px;
   }
-
 }

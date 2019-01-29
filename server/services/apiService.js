@@ -10,8 +10,14 @@ const {
     ERROR_MESSAGE_SUBREDDIT_NOT_FOUND,
     ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS,
     ERROR_MESSAGE_POSTS_NOT_FOUND,
-    COMMENTS_TABLE_TITLE
+    COMMENTS_TABLE_TITLE,
+    ERROR_MESSAGE_ABORT
 } = constants;
+
+const responsePipeline = {
+    posts: null,
+    requestId: null
+};
 
 function init (app) {
     allowCors(app);
@@ -28,11 +34,39 @@ function init (app) {
     });
 
     app.get('/api/posts/:id', (request, response) => {
-         databaseService.getAllPostsBySubredditId(request.params.id)
+         // if (responsePipeline.requestId !== ) {
+         //     responsePipeline.requestId = null
+         //     // responsePipeline.posts.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_ABORT })
+         // }
+        // if (!responsePipeline.requestId) {
+        //     responsePipeline.requestId = request.params.id
+        // }
+        responsePipeline.requestId = request.params.id;
+        responsePipeline.posts = response;
+
+
+         function listenRequest (reject, interval, staticValue) {
+             if (responsePipeline.requestId !== staticValue) {
+                 clearInterval(interval);
+                 reject();
+             }
+            // if (request.params.id !== responsePipeline.requestId) {
+            //     clearInterval(interval);
+            //     reject();
+            //     responsePipeline.requestId = request.params.id
+            // }
+             // if (request.params.id !== responsePipeline.requestId) {
+             //     clearInterval(interval);
+             //     responsePipeline.requestId = request.params.id
+             //     reject()
+             // }
+         }
+         databaseService.getAllPostsBySubredditId(request.params.id, listenRequest, responsePipeline.requestId)
              .then(result => {
-                 console.log(request.params.id, 'END')
+                 console.log(request.params.id, 'END GOOD');
                  response.status(STATUS_CODE_OK).send(result);
              }).catch(() => {
+             console.log(request.params.id, 'END BAD');
              response.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_POSTS_NOT_FOUND });
          })
     });
@@ -143,8 +177,8 @@ function addNewSubredditDatabase (subreddit, subredditId) {
 function startRedditArchivation (subredditTitle, subredditId) {
     redditFetcher.getSubredditPosts(subredditTitle).then(result => {
         if (result && result.length) {
-            result.forEach((post) => {
-                databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId);
+            result.forEach((post, index) => {
+                databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId, index);
                 redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
                     const comments = getAllComments(el[1].data.children);
                     comments.forEach((comment) => {
@@ -163,8 +197,8 @@ function startRedditArchivation (subredditTitle, subredditId) {
 function updateData (subredditTitle, subredditId) {
     redditFetcher.getSubredditPosts(subredditTitle).then(result => {
         if (result && result.length) {
-            result.forEach((post) => {
-                databaseService.updateDataInTable(POSTS_TABLE_TITLE, post, subredditId);
+            result.forEach((post, index) => {
+                databaseService.updateDataInTable(POSTS_TABLE_TITLE, post, subredditId, index);
                 redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
                     const comments = getAllComments(el[1].data.children);
                     comments.forEach((comment) => {

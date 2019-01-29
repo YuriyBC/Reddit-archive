@@ -94,7 +94,7 @@ function insertSubreddit (table, dataObject) {
 }
 
 
-function insertPost (table, dataObject, subredditId) {
+function insertPost (table, dataObject, subredditId, index) {
     const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE reddit_id = '${dataObject.id}'`;
     let {
         subreddit,
@@ -120,6 +120,7 @@ function insertPost (table, dataObject, subredditId) {
                                     title,
                                     subreddit_name_prefixed,
                                     created,
+                                    sorting,
                                     reddit_id, 
                                     num_comments,
                                     subreddit_subscribers,
@@ -135,6 +136,7 @@ function insertPost (table, dataObject, subredditId) {
                                     '${title || null}',
                                     '${subreddit_name_prefixed || null}',
                                     '${created || null}',
+                                    '${index || 0}',
                                     '${id || null}',
                                     '${num_comments || 0}',
                                     '${subreddit_subscribers || null}',
@@ -212,7 +214,7 @@ function insertComment (table, dataObject) {
     }
 }
 
-function updatePost (table, dataObject, subredditId) {
+function updatePost (table, dataObject, subredditId, index) {
     const checkIfPostExistQuery = `SELECT * FROM ${table} WHERE reddit_id = '${dataObject.id}'`;
     let {
         title,
@@ -224,9 +226,10 @@ function updatePost (table, dataObject, subredditId) {
     if (title) { title = title.split("'").join("''")}
     if (selftext) { selftext = selftext.split("'").join("''")}
 
-    const updateDataQuery = `UPDATE ${table} SET 
+    const updateDataQuery = `UPDATE ${table} SET
     title='${title}', 
     num_comments='${num_comments}', 
+    sorting='${index}', 
     score='${score}', 
     thumbnail='${thumbnail}', 
     selftext='${selftext}'
@@ -238,7 +241,7 @@ function updatePost (table, dataObject, subredditId) {
                 if (err) throw err
             })
         } else {
-            insertPost(table, dataObject, subredditId)
+            insertPost(table, dataObject, subredditId, index)
         }
     });
 
@@ -274,19 +277,19 @@ function updateComment (table, dataObject) {
     }
 }
 
-function insertDataInTable (table, dataObject, subredditId) {
+function insertDataInTable (table, dataObject, subredditId, index) {
     if (table === SUBREDDITS_TABLE_TITLE) {
         insertSubreddit(table, dataObject, subredditId)
     } else if (table === POSTS_TABLE_TITLE) {
-        insertPost(table, dataObject, subredditId)
+        insertPost(table, dataObject, subredditId, index)
     } else if (table === COMMENTS_TABLE_TITLE) {
         insertComment(table, dataObject)
     }
 }
 
-function updateDataInTable (table, dataObject, subredditId) {
+function updateDataInTable (table, dataObject, subredditId, index) {
     if (table === POSTS_TABLE_TITLE) {
-        updatePost(table, dataObject, subredditId)
+        updatePost(table, dataObject, subredditId, index)
     } else if (table === COMMENTS_TABLE_TITLE) {
         updateComment(table, dataObject)
     }
@@ -323,9 +326,10 @@ function getRowByTitle (table, title) {
     })
 }
 
-function getAllPostsBySubredditId (subredditId) {
+function getAllPostsBySubredditId (subredditId, listenRequest, staticValue) {
     return new Promise ((resolve, reject) => {
-        const findRoByIdQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE subreddit_id = '${subredditId}'`
+        let interval = setInterval(() => listenRequest(reject, interval, staticValue), 500);
+        const findRoByIdQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE subreddit_id = '${subredditId}'`;
         connection.query(findRoByIdQuery, function (err, result) {
             if (result.length) {
                 resolve(result)

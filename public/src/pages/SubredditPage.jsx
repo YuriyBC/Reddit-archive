@@ -4,7 +4,7 @@ import FeedComponent from '../components/Subreddit/FeedComponent'
 import SidebarComponent from '../components/SidebarComponent'
 import InnerHeaderComponent from '../components/Subreddit/InnerHeaderComponent'
 import NavigationBar from '../components/Subreddit/NavigationBar'
-import { getPosts } from '../store/actions/postsActions'
+import { getPosts, setPostsFromLocalStorage } from '../store/actions/postsActions'
 import { connect } from 'react-redux'
 import '../styles/subreddit.scss'
 import methods from '../utils/methods'
@@ -36,6 +36,7 @@ class SubredditPage extends React.Component {
         this.props.match.params &&
         this.props.match.params.id) {
       const id = this.props.match.params.id;
+      this.props.dispatch(setPostsFromLocalStorage(id));
       this.props.dispatch(getPosts(id, this.cancelToken));
     }
     window.addEventListener('scroll', this.containerScrollHandler);
@@ -53,7 +54,7 @@ class SubredditPage extends React.Component {
   }
 
   componentWillUnmount() {
-    this.cancelToken.cancel('Abort request')
+    // this.cancelToken.cancel('Abort request')
   }
 
   setCurrentSubreddit() {
@@ -68,7 +69,9 @@ class SubredditPage extends React.Component {
 
   getSortedPosts () {
     if (this.state.currentSortingId === 0) {
-      return [...this.props.posts]
+      return [...this.props.posts].sort((currentItem, nextItem) => {
+            return currentItem.sorting - nextItem.sorting
+        })
     }
     if (this.state.currentSortingId === 1) {
       return [...this.props.posts].sort((currentItem, nextItem) => {
