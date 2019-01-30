@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faFire,
     faCertificate,
@@ -8,7 +8,7 @@ import {
 import triangle from '../../assets/svg/triangle.svg';
 import constants from '../../utils/constants';
 
-const { AVAILABLE_SORTING } = constants;
+const {AVAILABLE_SORTING} = constants;
 export default class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
@@ -26,20 +26,20 @@ export default class NavigationBar extends React.Component {
     }
 
     getCurrentSorting() {
-        const { availableSorting, icons } = this;
-        const { isDataLoaded, currentSortingId } = this.props;
+        const {availableSorting, icons} = this;
+        const {isDataLoaded, currentSortingId} = this.props;
         const currentSorting = availableSorting.find(sorting => sorting.id === currentSortingId);
         if (currentSorting && isDataLoaded()) {
             return (
                 <div
-className="subreddit-navbar__dropdown-chosen"
-role="button"
-tabIndex={0}
-onClick={this.toggleDropdown}
+                    className="subreddit-navbar__dropdown-chosen"
+                    role="button"
+                    tabIndex={0}
+                    onClick={this.toggleDropdown}
                 >
-                    <FontAwesomeIcon icon={icons[currentSorting.icon]} />
+                    <FontAwesomeIcon icon={icons[currentSorting.icon]}/>
                     <span>{currentSorting.title}</span>
-                    <img src={triangle} alt="dropdown-triangle" />
+                    <img src={triangle} alt="dropdown-triangle"/>
                 </div>
             );
         }
@@ -47,14 +47,14 @@ onClick={this.toggleDropdown}
     }
 
     getDropdownStyle() {
-        const { isDropdownContentVisible } = this.state;
+        const {isDropdownContentVisible} = this.state;
         return {
             display: isDropdownContentVisible ? 'flex' : 'none',
         };
     }
 
     getSortTitleStyle() {
-        const { isDataLoaded } = this.props;
+        const {isDataLoaded} = this.props;
         return {
             display: isDataLoaded() ? 'flex' : 'none',
         };
@@ -62,22 +62,22 @@ onClick={this.toggleDropdown}
 
     getDropdown() {
         const dropdownContent = [...this.availableSorting].map((dropdownItem, index) => (
-                <div
-key={index}
-role="button"
-tabIndex={0}
-onClick={() => this.changeSorting(dropdownItem)}
-                >
-                    <div className="icon-wrapper">
-                        <FontAwesomeIcon icon={this.icons[dropdownItem.icon]} />
-                    </div>
-                    <span>{dropdownItem.title}</span>
+            <div
+                key={index}
+                role="button"
+                tabIndex={0}
+                onClick={() => this.changeSorting(dropdownItem)}
+            >
+                <div className="icon-wrapper">
+                    <FontAwesomeIcon icon={this.icons[dropdownItem.icon]}/>
                 </div>
-            ));
+                <span>{dropdownItem.title}</span>
+            </div>
+        ));
         return (
             <div
-style={this.getDropdownStyle.call(this)}
-className="subreddit-navbar__dropdown"
+                style={this.getDropdownStyle.call(this)}
+                className="subreddit-navbar__dropdown"
             >
                 {dropdownContent}
             </div>
@@ -85,7 +85,7 @@ className="subreddit-navbar__dropdown"
     }
 
     changeSorting(sortingType) {
-        const { changeSorting } = this.props;
+        const {changeSorting} = this.props;
         changeSorting(sortingType.id);
         this.setState({
             isDropdownContentVisible: false,
@@ -93,7 +93,7 @@ className="subreddit-navbar__dropdown"
     }
 
     toggleDropdown() {
-        const { isDropdownContentVisible } = this.state;
+        const {isDropdownContentVisible} = this.state;
         this.setState({
             isDropdownContentVisible: !isDropdownContentVisible,
         });

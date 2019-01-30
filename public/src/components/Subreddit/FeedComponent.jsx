@@ -18,9 +18,8 @@ export default class FeedComponent extends React.Component {
         .slice(0, POSTS_TO_SHOW * currentPostsStep)
         .map((post, index) => (
             <Link key={index} to={`/subreddit/${post.subreddit_id}/${post.reddit_id}`}>
-                <PostComponent
-{...post}
-key={index}
+                <PostComponent{...post}
+                              key={index}
                 />
             </Link>
             ));
@@ -28,9 +27,8 @@ key={index}
 
   render() {
     return (
-        <div
-ref={this.subredditFeed}
-className="subreddit-feed box"
+        <div ref={this.subredditFeed}
+             className="subreddit-feed box"
         >
           {this.getPostList()}
         </div>

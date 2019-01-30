@@ -29,6 +29,7 @@ export const getSubreddits = () => function dispatchSubreddits(dispatch) {
 };
 
 export const setSubreddits = payload => function dispatchSubreddits(dispatch) {
+    storage(LOCAL_STORAGE_SUBREDDITS, JSON.stringify(payload));
     dispatch({
         type: 'SET_SUBREDDITS',
         payload,
@@ -37,7 +38,6 @@ export const setSubreddits = payload => function dispatchSubreddits(dispatch) {
 
 export const storeSubredditToArchive = (name) => {
     const ERROR_SHOWTIME = 5000;
-
     return function dispatchSubreddit(dispatch) {
         return storeSubredditToArchiveApi(name).then((response) => {
             const result = response.data.map((post) => {

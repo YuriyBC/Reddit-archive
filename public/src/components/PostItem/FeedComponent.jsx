@@ -12,14 +12,16 @@ export default class FeedComponent extends React.Component {
 
     getPost() {
         const { post } = this.props;
-        return post && post.data ? <PostComponent {...post.data} /> : null;
+        return Object.keys(post).length ? <PostComponent {...post} /> : null;
     }
 
     getCommentsSection() {
-        const { post } = this.props;
-        return post && post.comments && post.comments.length
-            ? <CommentsSection comments={post.comments} />
-            : <img className="spinner comments-spinner" src={spinner} alt="Spinner" />;
+        const { comments } = this.props;
+        return comments && comments.length
+            ? <CommentsSection comments={comments} />
+            : <img className="spinner comments-spinner"
+                   src={spinner}
+                   alt="Spinner" />;
     }
 
     render() {

@@ -61,7 +61,10 @@ export default class SidebarComponent extends React.Component {
         const { subreddits } = this.props;
         const { searchFormValue } = this.state;
         const subredditList = [...subreddits].map((subreddit, key) => {
-            const formValue = searchFormValue.toLowerCase().trim();
+            const formValue = searchFormValue
+                .replace(/\\/g, "\\\\")
+                .toLowerCase()
+                .trim();
             const subredditTitle = subreddit.display_name
                 .toLowerCase()
                 .trim()

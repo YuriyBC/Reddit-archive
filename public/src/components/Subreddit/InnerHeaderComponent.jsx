@@ -8,9 +8,7 @@ export default class InnerHeaderComponent extends React.Component {
             key_color,
         } = this.props;
         const backgroundImage = banner_background_image;
-        const colorBackground = banner_background_color;
-        const colorMain = key_color;
-        const color = colorBackground || colorMain;
+        const color = banner_background_color || key_color;
 
         return {
             backgroundColor: color || 'none',
@@ -22,10 +20,9 @@ export default class InnerHeaderComponent extends React.Component {
         const { icon_img } = this.props;
         return icon_img
             ? (
-                <img
-className="subreddit-header__image"
-src={icon_img}
-alt="Subreddit icon"
+                <img className="subreddit-header__image"
+                     src={icon_img}
+                     alt="Subreddit icon"
                 />
             )
             : null;
@@ -42,9 +39,8 @@ alt="Subreddit icon"
 
     render() {
         return (
-            <div
-className="subreddit-header"
-style={this.getHeaderStyle.call(this)}
+            <div className="subreddit-header"
+                 style={this.getHeaderStyle.call(this)}
             >
                 <div className="subreddit-header__inner">
                     {this.getTitle.call(this)}

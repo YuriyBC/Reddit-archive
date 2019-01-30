@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 const constants = require('../constants');
 const {
     SUBREDDITS_LIMIT,
-    POSTS_LIMIT
+    POSTS_LIMIT,
+    COMMENTS_LIMIT,
 } = constants;
 
 const r = new snoowrap({
@@ -15,7 +16,7 @@ const r = new snoowrap({
 
 const url = {
     getAllSubreddits: `https://www.reddit.com/subreddits.json?limit=${SUBREDDITS_LIMIT}`,
-    getAllComments: (subredditTitle, postId) => `https://www.reddit.com/r/${subredditTitle}/comments/${postId}.json`
+    getAllComments: (subredditTitle, postId) => `https://www.reddit.com/r/${subredditTitle}/comments/${postId}.json?limit=${COMMENTS_LIMIT}`
 };
 
 function fetchSubreddits () {

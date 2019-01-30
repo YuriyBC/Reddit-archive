@@ -4,7 +4,7 @@ import HeaderComponent from '../components/HeaderComponent';
 import FeedComponent from '../components/Home/FeedComponent';
 import SidebarComponent from '../components/Home/SidebarComponent';
 import '../styles/home.scss';
-import { storeSubredditToArchive } from '../store/actions/subredditsActions';
+import { storeSubredditToArchive, setSubreddits } from '../store/actions/subredditsActions';
 import { removePosts } from '../store/actions/postsActions';
 
 class HomePage extends React.Component {
@@ -15,7 +15,13 @@ class HomePage extends React.Component {
     }
 
     storeSubredditToArchive(name) {
-        const { dispatch } = this.props;
+        const { dispatch, subreddits } = this.props;
+        const activeSubreddit = subreddits.find(subreddit => subreddit.display_name === name);
+        if (activeSubreddit) {
+            activeSubreddit.isArchived = activeSubreddit.isArchived === 0 ? 1 : 0;
+            if (activeSubreddit.isArchived === 1) { activeSubreddit.isLoading = true }
+            dispatch(setSubreddits(subreddits));
+        }
         dispatch(storeSubredditToArchive(name));
     }
 

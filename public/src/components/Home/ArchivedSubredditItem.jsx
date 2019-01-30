@@ -19,8 +19,16 @@ const ArchivedSubredditItem = (props) => {
         }
     };
 
+    const getStyle = () => {
+        return {
+            opacity: subreddit.isLoading ? 0.4 : 1,
+            pointerEvents: subreddit.isLoading ? 'none' : 'auto',
+            userSelect: subreddit.isLoading ? 'none' : 'auto',
+        }
+    };
+
     return (
-        <div>
+        <div style={getStyle()}>
             <Link onClick={removePosts} to={`/subreddit/${subreddit.id}`}>
                 {getIcon()}
                 {subreddit.display_name}

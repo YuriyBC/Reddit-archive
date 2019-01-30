@@ -1,30 +1,26 @@
 const initialState = {
     allPosts: [],
-    currentPostInfo: {},
+    currentPost: {},
+    currentComments: []
 };
 
 const posts = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_POSTS':
             return {
-                ...initialState,
+                ...state,
                 allPosts: action.payload,
             };
         case 'SET_POST_DATA':
             return {
-                ...initialState,
-                currentPostInfo: {
-                    ...action.payload,
-                    ...state.currentPostInfo,
-                },
+                ...state,
+                currentPost: action.payload.data
             };
         case 'SET_POST_COMMENTS':
+            console.log(action.payload)
             return {
-                ...initialState,
-                currentPostInfo: {
-                    ...state.currentPostInfo,
-                    ...action.payload,
-                },
+                ...state,
+                currentComments: action.payload.comments
             };
         case 'REMOVE_POSTS':
             return initialState;

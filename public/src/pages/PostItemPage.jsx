@@ -24,13 +24,14 @@ class SubredditPage extends React.Component {
     const GET_POST_INFO_TIMEOUT = 4000;
     const { match, dispatch } = this.props;
     const { id, postId } = match.params;
+    window.scrollTo(0, 0);
     if (match.params) {
       this.setCurrentSubreddit();
       this.getComments(id, postId);
       dispatch(getPostFromLocalStorage(id, postId));
       setTimeout(() => {
         const { post } = this.props;
-        if (!post.data) {
+        if (!Object.keys(post).length) {
             dispatch(getPost(id, postId));
         }
       }, GET_POST_INFO_TIMEOUT);
@@ -43,14 +44,13 @@ class SubredditPage extends React.Component {
 
   getComments(id, postId) {
     let iteration = 0;
-    const { dispatch } = this.props;
+    const { dispatch, comments } = this.props;
 
     dispatch(getPostComments(id, postId));
     const interval = setInterval(() => {
-      const { post } = this.props;
-      if (!post.comments || !post.comments.length) dispatch(getPostComments(id, postId));
-      if (post.comments) {
-        if (iteration > 15 || post.comments.length) clearInterval(interval);
+      if (!comments.length) dispatch(getPostComments(id, postId));
+      if (comments) {
+        if (iteration > 15 || comments.length) clearInterval(interval);
       }
       iteration += 1;
     }, 5000);
@@ -68,13 +68,14 @@ class SubredditPage extends React.Component {
   }
 
   render() {
-    const { post } = this.props;
+    const { post, comments } = this.props;
     const { currentSubreddit } = this.state;
     return (
         <div className="post">
           <HeaderComponent />
           <div className="home-content post-content">
-            <FeedComponent post={post} />
+            <FeedComponent comments={comments}
+                           post={post} />
             <SidebarComponent {...currentSubreddit} />
           </div>
         </div>
@@ -83,6 +84,7 @@ class SubredditPage extends React.Component {
 }
 
 export default connect(state => ({
-    post: state.posts.currentPostInfo,
+    post: state.posts.currentPost,
+    comments: state.posts.currentComments,
     subreddits: state.subreddits.subreddits,
 }))(SubredditPage);
