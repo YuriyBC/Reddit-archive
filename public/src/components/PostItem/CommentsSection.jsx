@@ -37,14 +37,15 @@ export default class CommentsSection extends React.Component {
         const { commentsToShow } = this.state;
         const { comments } = this.props;
         return {
-            display: comments.length - commentsToShow > 20 ? 'block' : 'none',
+            display: comments.length - commentsToShow > 10 ? 'block' : 'none',
         };
     }
 
     showMoreComments() {
-        const { commentsToShow, commentToShowStep } = this.state;
+        const { commentsToShow } = this.state;
+        const { commentToShowStep } = this;
         this.setState({
-            commentsToShow: commentsToShow + commentToShowStep,
+            commentsToShow: +commentsToShow + +commentToShowStep,
         });
     }
 

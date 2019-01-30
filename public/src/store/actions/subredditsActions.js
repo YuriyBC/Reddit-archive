@@ -10,19 +10,21 @@ const { LOCAL_STORAGE_SUBREDDITS } = constants;
 
 export const getSubreddits = () => function dispatchSubreddits(dispatch) {
     getSubredditsApi().then((response) => {
-        const result = response.data.map((post) => {
-            Object.keys(post).forEach((key) => {
-                if (post[key] === 'null') {
-                    post[key] = null;
-                }
+        if (response && response.data) {
+            const result = response.data.map((post) => {
+                Object.keys(post).forEach((key) => {
+                    if (post[key] === 'null') {
+                        post[key] = null;
+                    }
+                });
+                return post;
             });
-            return post;
-        });
-        dispatch({
-            type: 'SET_SUBREDDITS',
-            payload: result,
-        });
-        storage(LOCAL_STORAGE_SUBREDDITS, JSON.stringify(result));
+            dispatch({
+                type: 'SET_SUBREDDITS',
+                payload: result,
+            });
+            storage(LOCAL_STORAGE_SUBREDDITS, JSON.stringify(result));
+        }
     });
 };
 

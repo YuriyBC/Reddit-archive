@@ -304,9 +304,10 @@ function updateDataInTable (table, dataObject, subredditId, index) {
 }
 
 function getDataFromDatabase (table) {
-    return new Promise (resolve => {
+    return new Promise ((resolve, reject) => {
         const checkIfSubredditExistQuery = `SELECT * FROM ${table}`;
         connection.query(checkIfSubredditExistQuery, function (err, result) {
+            if (err) return reject()
             resolve(result)
         });
     })
@@ -326,7 +327,7 @@ function getRowByTitle (table, title) {
     return new Promise ((resolve, reject) => {
         const findRoByIdQuery = `SELECT * FROM ${table} WHERE display_name = '${title}'`
         connection.query(findRoByIdQuery, function (err, result) {
-            if (err) reject(err);
+            if (err) return reject(err);
             if (result.length) {
                 resolve(result[0])
             }

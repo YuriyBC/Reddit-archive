@@ -14,11 +14,11 @@ module.exports = [
       plugins: ['react-hot-loader/babel'],
     }
   },
-  {
-    test: /\.jsx?$/,
-    exclude: /node_modules/,
-    loaders: 'eslint-loader'
-  },
+  // {
+  //   test: /\.jsx?$/,
+  //   exclude: /node_modules/,
+  //   loaders: 'eslint-loader'
+  // },
   {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
     exclude: path.resolve(__dirname, "node_modules"),

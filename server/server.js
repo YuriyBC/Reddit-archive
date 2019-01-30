@@ -30,14 +30,12 @@ function getAndStoreSubreddits () {
 
 function fetchDataOfArchivedSubreddits () {
   setInterval(() => {
-    console.log('STARTED ARCHIVATION');
     databaseService.getDataFromDatabase(SUBREDDITS_TABLE_TITLE).then((subreddits => {
       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
       if (archivedSubreddits.length) {
         archivedSubreddits.forEach(subreddit => {
           apiService.updateData(subreddit.display_name, subreddit.id);
           setTimeout(() => {
-            console.log('END')
             websocketService.communicator('subredditArchivationFinished', {
               name: subreddit.display_name,
               id: subreddit.id
