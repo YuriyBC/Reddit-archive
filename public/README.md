@@ -26,7 +26,7 @@ Tired of complicated starters with 200MB of dependencies which are hard to under
 * Webpack configuration for development (with hot reloading) and production (with minification).
 * CSS module loading, so you can include your css by ```import styles from './path/to.css';```.
 * Both js(x) and css hot loaded during development.
-* [Webpack Dashboard Plugin](https://github.com/FormidableLabs/webpack-dashboard) on dev server.
+* [Webpack Dashboard Plugin](https://github.com/FormidableLabs/webpack-dashboard) on dev coreServer.
 
 ### To run
 
@@ -43,13 +43,13 @@ git clone https://github.com/ReactJSResources/react-webpack-babel.git
 npm install
 ```
 
-* Run development server:
+* Run development coreServer:
 
 ```
 npm start
 ```
 
-* Or you can run development server with [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard):
+* Or you can run development coreServer with [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard):
 
 ```
 npm run dev
@@ -88,7 +88,7 @@ npm run serve:build
 Here is an example Nginx config:
 
 ```
-server {
+coreServer {
 	# ... root and other options
 
 	gzip on;

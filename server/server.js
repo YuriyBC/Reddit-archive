@@ -11,7 +11,8 @@ const app = express();
 const constants = require('./constants');
 const {
   SUBREDDITS_TABLE_TITLE,
-  INTERVAL_TO_FETCH_NEW_DATA
+  INTERVAL_TO_FETCH_NEW_DATA,
+  DATA_IS_ARCHIVATED_TIME
 } = constants;
 
 app.use(express.static(`${__dirname}/../public/public`));
@@ -34,12 +35,16 @@ function fetchDataOfArchivedSubreddits () {
       const archivedSubreddits = subreddits.filter(subreddit => subreddit.isArchived);
       if (archivedSubreddits.length) {
         archivedSubreddits.forEach(subreddit => {
-          apiService.updateData(subreddit.display_name, subreddit.id)
+          apiService.updateData(subreddit.display_name, subreddit.id);
+          setTimeout(() => {
+            console.log('END')
+            websocketService.communicator('subredditArchivationFinished', {
+              name: subreddit.display_name,
+              id: subreddit.id
+            })
+          }, DATA_IS_ARCHIVATED_TIME)
         });
 
-        function finishedArchivationCallback () {
-          console.log('FINISHED ARCHIVATION')
-        }
       }
     }));
   }, INTERVAL_TO_FETCH_NEW_DATA)

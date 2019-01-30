@@ -22,6 +22,7 @@ export const getSubreddits = () => function dispatchSubreddits(dispatch) {
             type: 'SET_SUBREDDITS',
             payload: result,
         });
+        storage(LOCAL_STORAGE_SUBREDDITS, JSON.stringify(result));
     });
 };
 

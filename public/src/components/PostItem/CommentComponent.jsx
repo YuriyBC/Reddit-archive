@@ -41,7 +41,7 @@ export default class CommentsComponent extends React.Component {
 
     getCommentClassName() {
         const { depth } = this.props;
-        return depth === 'null' ? 'parent' : 'child';
+        return depth === 'null' || depth === '0'  ? 'parent' : 'child';
     }
 
     calculateDate() {
@@ -66,8 +66,7 @@ export default class CommentsComponent extends React.Component {
                             {author}
                         </span>
                         <span>
-                            {score}
-                            points
+                            {score} points
                         </span>
                         <span>
                             {this.calculateDate()}

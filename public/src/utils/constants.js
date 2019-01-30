@@ -1,6 +1,5 @@
 // WEB SOCKETS
 const WEBSOCKET_URL = 'ws://localhost:8080';
-const WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE = 'subreddits have been stored';
 
 const POSTS_TO_SHOW = 20;
 const AVAILABLE_SORTING = [
@@ -35,7 +34,6 @@ export default {
     API,
     URL_GET_SUBREDDITS,
     WEBSOCKET_URL,
-    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
     URL_SET_SUBREDDIT_TO_ARCHIVE,
     URL_GET_POSTS,
     POSTS_TO_SHOW,

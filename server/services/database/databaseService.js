@@ -253,7 +253,7 @@ function updatePost (table, dataObject, subredditId, index) {
 
 }
 
-function updateComment (table, dataObject) {
+function updateComment (table, dataObject, callback) {
     const newObj = removeQuotesFromObject({...dataObject.data});
     let {
         score,
@@ -264,20 +264,22 @@ function updateComment (table, dataObject) {
     } = newObj;
     const checkIfCommentExistQuery = `SELECT * FROM ${table} WHERE body = '${body}'`;
     const updateDataQuery = `UPDATE ${table} SET 
-            score='${score || 0}', 
-            body='${body}', 
-            depth='${depth || '0'}', 
-            parent_id='${parent_id}', 
-            name='${name}'
-            WHERE body = '${body}'`;
+        score='${score || 0}', 
+        body='${body}', 
+        depth='${depth || '0'}', 
+        parent_id='${parent_id}', 
+        name='${name}'
+        WHERE body = '${body}'`;
     if (body) {
         connection.query(checkIfCommentExistQuery, function (err, result) {
             if (result && result.length) {
                 connection.query(updateDataQuery, (err) => {
-                    if (err) throw err
+                    if (err) throw err;
+                    if (callback) callback()
                 })
             } else {
                 insertComment(table, dataObject)
+                if (callback) callback()
             }
         });
     }
@@ -297,7 +299,7 @@ function updateDataInTable (table, dataObject, subredditId, index) {
     if (table === POSTS_TABLE_TITLE) {
         updatePost(table, dataObject, subredditId, index)
     } else if (table === COMMENTS_TABLE_TITLE) {
-        updateComment(table, dataObject)
+        updateComment(table, dataObject, subredditId)
     }
 }
 
@@ -332,9 +334,8 @@ function getRowByTitle (table, title) {
     })
 }
 
-function getAllPostsBySubredditId (subredditId, listenRequest, staticValue) {
+function getAllPostsBySubredditId (subredditId) {
     return new Promise ((resolve, reject) => {
-        let interval = setInterval(() => listenRequest(reject, interval, staticValue), 500);
         const findRoByIdQuery = `SELECT * FROM ${POSTS_TABLE_TITLE} WHERE subreddit_id = '${subredditId}'`;
         connection.query(findRoByIdQuery, function (err, result) {
             if (result.length) {

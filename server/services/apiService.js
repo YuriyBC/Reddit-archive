@@ -1,7 +1,6 @@
 const redditFetcher = require('./redditService');
 const databaseService = require('./database/databaseService');
 const constants = require('../constants');
-const websocketService = require('./websocketService');
 const {
     SUBREDDITS_TABLE_TITLE,
     POSTS_TABLE_TITLE,
@@ -10,14 +9,9 @@ const {
     ERROR_MESSAGE_SUBREDDIT_NOT_FOUND,
     ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS,
     ERROR_MESSAGE_POSTS_NOT_FOUND,
-    COMMENTS_TABLE_TITLE,
-    ERROR_MESSAGE_ABORT
+    COMMENTS_TABLE_TITLE
 } = constants;
 
-const responsePipeline = {
-    posts: null,
-    requestId: null
-};
 
 function init (app) {
     allowCors(app);
@@ -34,39 +28,10 @@ function init (app) {
     });
 
     app.get('/api/posts/:id', (request, response) => {
-         // if (responsePipeline.requestId !== ) {
-         //     responsePipeline.requestId = null
-         //     // responsePipeline.posts.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_ABORT })
-         // }
-        // if (!responsePipeline.requestId) {
-        //     responsePipeline.requestId = request.params.id
-        // }
-        responsePipeline.requestId = request.params.id;
-        responsePipeline.posts = response;
-
-
-         function listenRequest (reject, interval, staticValue) {
-             if (responsePipeline.requestId !== staticValue) {
-                 clearInterval(interval);
-                 reject();
-             }
-            // if (request.params.id !== responsePipeline.requestId) {
-            //     clearInterval(interval);
-            //     reject();
-            //     responsePipeline.requestId = request.params.id
-            // }
-             // if (request.params.id !== responsePipeline.requestId) {
-             //     clearInterval(interval);
-             //     responsePipeline.requestId = request.params.id
-             //     reject()
-             // }
-         }
-         databaseService.getAllPostsBySubredditId(request.params.id, listenRequest, responsePipeline.requestId)
+         databaseService.getAllPostsBySubredditId(request.params.id)
              .then(result => {
-                 console.log(request.params.id, 'END GOOD');
                  response.status(STATUS_CODE_OK).send(result);
              }).catch(() => {
-             console.log(request.params.id, 'END BAD');
              response.status(STATUS_CODE_FAIL).send({ error: ERROR_MESSAGE_POSTS_NOT_FOUND });
          })
     });
@@ -201,12 +166,12 @@ function updateData (subredditTitle, subredditId) {
                 databaseService.updateDataInTable(POSTS_TABLE_TITLE, post, subredditId, index);
                 redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
                     const comments = getAllComments(el[1].data.children);
-                    comments.forEach((comment) => {
+                    comments.forEach(comment => {
                         if (comment) {
                             comment.data.postId = post.id;
                             databaseService.updateDataInTable(COMMENTS_TABLE_TITLE, comment)
                         }
-                    })
+                    });
                 })
             });
             return result;
@@ -241,7 +206,6 @@ function allowCors (app) {
         next();
     });
 }
-
 
 module.exports = {
     init,

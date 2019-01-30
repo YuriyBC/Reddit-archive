@@ -17,21 +17,43 @@ class SubredditPage extends React.Component {
       currentSubreddit: {},
     };
     this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
+    this.getComments = this.getComments.bind(this);
   }
 
   componentDidMount() {
+    const GET_POST_INFO_TIMEOUT = 4000;
     const { match, dispatch } = this.props;
     const { id, postId } = match.params;
     if (match.params) {
       this.setCurrentSubreddit();
+      this.getComments(id, postId);
       dispatch(getPostFromLocalStorage(id, postId));
-      dispatch(getPost(id, postId));
-      dispatch(getPostComments(id, postId));
+      setTimeout(() => {
+        const { post } = this.props;
+        if (!post.data) {
+            dispatch(getPost(id, postId));
+        }
+      }, GET_POST_INFO_TIMEOUT);
     }
   }
 
   componentDidUpdate() {
     this.setCurrentSubreddit();
+  }
+
+  getComments(id, postId) {
+    let iteration = 0;
+    const { dispatch } = this.props;
+
+    dispatch(getPostComments(id, postId));
+    const interval = setInterval(() => {
+      const { post } = this.props;
+      if (!post.comments || !post.comments.length) dispatch(getPostComments(id, postId));
+      if (post.comments) {
+        if (iteration > 15 || post.comments.length) clearInterval(interval);
+      }
+      iteration += 1;
+    }, 5000);
   }
 
   setCurrentSubreddit() {

@@ -4,9 +4,9 @@ const POSTS_TABLE_TITLE = 'posts';
 const COMMENTS_TABLE_TITLE = 'comments';
 
 const SUBREDDITS_LIMIT = 100;
-const POSTS_LIMIT = 100;
+const POSTS_LIMIT = 50;
 const INTERVAL_TO_FETCH_NEW_DATA = 950000;
-
+const DATA_IS_ARCHIVATED_TIME = 5000;
 
 const STATUS_CODE_OK = 200;
 const STATUS_CODE_FAIL = 422;
@@ -14,6 +14,9 @@ const ERROR_MESSAGE_SUBREDDIT_NOT_FOUND = "Sorry, subreddit isn't found";
 const ERROR_MESSAGE_SUBREDDIT_ALREADY_EXISTS = "Subreddit has been already archived";
 const ERROR_MESSAGE_POSTS_NOT_FOUND = "Sorry, there are no posts of this subreddit";
 const ERROR_MESSAGE_ABORT = "Request abort";
+
+const WEBSOCKET_MESSAGE_SUBREDDITS_STORED = 'subreddits have been stored';
+const WEBSOCKET_MESSAGE_SUBREDDIT_UPDATED = 'subreddits have been updated';
 
 module.exports = {
     DATABASE_NAME,
@@ -29,4 +32,7 @@ module.exports = {
     COMMENTS_TABLE_TITLE,
     INTERVAL_TO_FETCH_NEW_DATA,
     ERROR_MESSAGE_ABORT,
+    DATA_IS_ARCHIVATED_TIME,
+    WEBSOCKET_MESSAGE_SUBREDDITS_STORED,
+    WEBSOCKET_MESSAGE_SUBREDDIT_UPDATED
 };

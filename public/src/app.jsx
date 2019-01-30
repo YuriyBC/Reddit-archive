@@ -9,10 +9,10 @@ import constants from './utils/constants';
 import methods from './utils/methods';
 import websocketService from './utils/websocketService';
 import { getSubreddits, setSubreddits } from './store/actions/subredditsActions';
+import { getPosts } from './store/actions/postsActions';
 
 const { storage } = methods;
 const {
-    WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE,
     LOCAL_STORAGE_SUBREDDITS,
     LOCAL_STORAGE_POSTS,
 } = constants;
@@ -32,8 +32,9 @@ class App extends React.Component {
         dispatch(getSubreddits());
 
         websocketService().onmessage = (message) => {
-            if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
-                dispatch(getSubreddits());
+            if (JSON.parse(message.data)) {
+                const data = JSON.parse(message.data);
+                dispatch(getPosts(data.id));
             }
         };
     }

@@ -81,8 +81,7 @@ export default class PostComponent extends React.Component {
                         <div>
                             <FontAwesomeIcon icon={faCommentAlt} />
                             <span>
-                                {num_comments}
-                                Comments
+                                {num_comments} Comments
                             </span>
                         </div>
                         <div>

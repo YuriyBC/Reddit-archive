@@ -10,9 +10,8 @@ const { storage } = methods;
 const { LOCAL_STORAGE_POSTS } = constants;
 
 export const getPosts = id => (
-    // const REDIRECT_TIME_AFTER_ERROR = 1000;
     function dispatchPosts(dispatch) {
-        getPostsApi(id).then((response) => {
+        return getPostsApi(id).then((response) => {
             dispatch({
                 type: 'SET_POSTS',
                 payload: response.data,
@@ -21,13 +20,7 @@ export const getPosts = id => (
             const localStorageData = storage(LOCAL_STORAGE_POSTS);
             const newData = { ...JSON.parse(localStorageData), ...data };
             storage(LOCAL_STORAGE_POSTS, JSON.stringify(newData));
-        }).catch((error) => {
-            if (error.message !== 'Abort request') {
-                // setTimeout(() => {
-                //     window.location = '/';
-                // }, REDIRECT_TIME_AFTER_ERROR);
-            }
-        });
+        })
     }
 );
 
@@ -64,11 +57,12 @@ export const getPost = (subredditId, postId) => function dispatchPost(dispatch) 
 };
 
 export const getPostComments = (subredditId, postId) => function dispatchComments(dispatch) {
-    getPostCommentsApi(subredditId, postId).then((response) => {
+    return getPostCommentsApi(subredditId, postId).then((response) => {
         dispatch({
             type: 'SET_POST_COMMENTS',
             payload: response.data,
         });
+        return response.data;
     });
 };
 

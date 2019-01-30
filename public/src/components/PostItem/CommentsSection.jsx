@@ -37,7 +37,7 @@ export default class CommentsSection extends React.Component {
         const { commentsToShow } = this.state;
         const { comments } = this.props;
         return {
-            display: commentsToShow < comments.length ? 'block' : 'none',
+            display: comments.length - commentsToShow > 20 ? 'block' : 'none',
         };
     }
 
@@ -53,8 +53,6 @@ export default class CommentsSection extends React.Component {
             <div className="comments-section box">
                 {this.getComments()}
                 <span onClick={this.showMoreComments}
-                      role="button"
-                      tabIndex={0}
                       style={this.getLoadMoreButtonStyle.call(this)}
                       className="comments-section__button"
                 >

@@ -33,7 +33,11 @@ class SubredditPage extends React.Component {
         const { id } = params;
         if (match && params && id) {
             dispatch(setPostsFromLocalStorage(id));
-            dispatch(getPosts(id));
+            dispatch(getPosts(id)).catch(() => {
+                setTimeout(() => {
+                    dispatch(getPosts(id))
+                }, 4000)
+            })
         }
         window.addEventListener('scroll', this.containerScrollHandler);
         this.setCurrentSubreddit();
