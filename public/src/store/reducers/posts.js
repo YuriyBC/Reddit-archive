@@ -17,7 +17,6 @@ const posts = (state = initialState, action) => {
                 currentPost: action.payload.data
             };
         case 'SET_POST_COMMENTS':
-            console.log(action.payload)
             return {
                 ...state,
                 currentComments: action.payload.comments

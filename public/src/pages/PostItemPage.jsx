@@ -28,7 +28,7 @@ class SubredditPage extends React.Component {
     if (match.params) {
       this.setCurrentSubreddit();
       dispatch(getPostComments(id, postId)).then(response => {
-        if (!response.length) {
+        if (!response.comments.length) {
           setTimeout(() => { dispatch(getPostComments(id, postId)) }, 5000)
         }
       });
