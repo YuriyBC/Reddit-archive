@@ -16,20 +16,14 @@ class SubredditPage extends React.Component {
     this.state = {
       currentSubreddit: {},
     };
+    this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
   }
 
   componentDidMount() {
-    const { match, subreddits, dispatch } = this.props;
+    const { match, dispatch } = this.props;
     const { id, postId } = match.params;
-    const { currentSubreddit } = this.state;
     if (match.params) {
-      const subreddit = subreddits.filter(item => item.id === +match.params.id );
-
-      if (subreddit.length && Object.keys(currentSubreddit).length === 0) {
-        this.setState({
-          currentSubreddit: subreddit[0],
-        });
-      }
+      this.setCurrentSubreddit();
       dispatch(getPostFromLocalStorage(id, postId));
       dispatch(getPost(id, postId));
       dispatch(getPostComments(id, postId));
@@ -37,9 +31,13 @@ class SubredditPage extends React.Component {
   }
 
   componentDidUpdate() {
+    this.setCurrentSubreddit();
+  }
+
+  setCurrentSubreddit() {
     const { match, subreddits } = this.props;
     const { currentSubreddit } = this.state;
-    const subreddit = subreddits.filter(item => item.id === +match.params.id );
+    const subreddit = subreddits.filter(item => item.id === +match.params.id);
     if (subreddit.length && Object.keys(currentSubreddit).length === 0) {
       this.setState({
         currentSubreddit: subreddit[0],

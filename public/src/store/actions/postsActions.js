@@ -9,11 +9,10 @@ import {
 const { storage } = methods;
 const { LOCAL_STORAGE_POSTS } = constants;
 
-export const getPosts = (id, cancelToken) => {
-    const REDIRECT_TIME_AFTER_ERROR = 1000;
-
-    return function dispatchPosts(dispatch) {
-        getPostsApi(id, cancelToken).then((response) => {
+export const getPosts = id => (
+    // const REDIRECT_TIME_AFTER_ERROR = 1000;
+    function dispatchPosts(dispatch) {
+        getPostsApi(id).then((response) => {
             dispatch({
                 type: 'SET_POSTS',
                 payload: response.data,
@@ -29,8 +28,8 @@ export const getPosts = (id, cancelToken) => {
                 // }, REDIRECT_TIME_AFTER_ERROR);
             }
         });
-    };
-};
+    }
+);
 
 export const setPostsFromLocalStorage = id => function dispatchPosts(dispatch) {
     const localStorageData = JSON.parse(storage(LOCAL_STORAGE_POSTS));

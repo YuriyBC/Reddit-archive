@@ -1,9 +1,7 @@
-import axios from 'axios';
-
 function throttle(func, limit) {
     let lastFunc;
     let lastRan;
-    return function () {
+    return function throttleCallback() {
         const context = this;
         const args = arguments;
         if (!lastRan) {
@@ -19,11 +17,6 @@ function throttle(func, limit) {
             }, limit - (Date.now() - lastRan));
         }
     };
-}
-
-function generateRequestCancelToken() {
-    const CancelToken = axios.CancelToken;
-    return CancelToken.source();
 }
 
 function getDate(created) {
@@ -56,7 +49,7 @@ function reformatTextToLinks(text) {
     }
     while (string.indexOf('[', currentIndex) > -1 && string[string.indexOf(']', currentIndex) + 1] === '(' && iteration < 100) {
         searchLink();
-        iteration++;
+        iteration += 1;
     }
 
     return string;
@@ -68,6 +61,7 @@ function storage(...args) {
     } if (args.length === 2) {
         return window.localStorage.setItem(args[0], args[1]);
     }
+    return null;
 }
 
 function reformatTextToBold(text) {
@@ -87,11 +81,12 @@ function reformatTextToBold(text) {
 
             return string;
         }
+        return text;
     }
 
     while (string.indexOf('**', currentIndex) > -1 && iteration < 100) {
         searchBold();
-        iteration++;
+        iteration += 1;
     }
     return string;
 }
@@ -112,10 +107,12 @@ function sortComments(comments) {
     const sortItems = () => {
         array.forEach((el) => {
             if (!el.isSorted) {
-                const innerComments = originalArray.filter(comment => comment.parent_id === el.name);
+                const innerComments = originalArray
+                    .filter(comment => comment.parent_id === el.name);
                 if (innerComments.length) {
                     el.isSorted = true;
-                    array.splice(array.findIndex(a => el.name === a.name) + 1, 0, ...innerComments);
+                    array.splice(array
+                        .findIndex(a => el.name === a.name) + 1, 0, ...innerComments);
                 }
             }
         });
@@ -142,5 +139,4 @@ export default {
     reformatTextToHtml,
     storage,
     sortComments,
-    generateRequestCancelToken,
 };

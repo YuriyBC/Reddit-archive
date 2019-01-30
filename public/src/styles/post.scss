@@ -63,7 +63,7 @@ body .post {
     .comment-rating {
       display: flex;
       justify-content: center;
-      margin: 0 vw(7);
+      margin: 0 6px;
       position: relative;
       svg {
         color: rgb(135, 138, 140);
@@ -161,7 +161,7 @@ body .post {
       &::after {
         content: '';
         position: absolute;
-        top: 70%;
+        top: 55px;
         left: 10px;
         height: 100%;
         width: 2px;

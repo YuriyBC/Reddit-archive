@@ -31,10 +31,11 @@ export default class NavigationBar extends React.Component {
         const currentSorting = availableSorting.find(sorting => sorting.id === currentSortingId);
         if (currentSorting && isDataLoaded()) {
             return (
-                <div className="subreddit-navbar__dropdown-chosen"
-                     role="button"
-                     tabIndex={0}
-                     onClick={this.toggleDropdown}
+                <div
+className="subreddit-navbar__dropdown-chosen"
+role="button"
+tabIndex={0}
+onClick={this.toggleDropdown}
                 >
                     <FontAwesomeIcon icon={icons[currentSorting.icon]} />
                     <span>{currentSorting.title}</span>
@@ -61,10 +62,11 @@ export default class NavigationBar extends React.Component {
 
     getDropdown() {
         const dropdownContent = [...this.availableSorting].map((dropdownItem, index) => (
-                <div key={index}
-                     role="button"
-                     tabIndex={0}
-                     onClick={() => this.changeSorting(dropdownItem)}
+                <div
+key={index}
+role="button"
+tabIndex={0}
+onClick={() => this.changeSorting(dropdownItem)}
                 >
                     <div className="icon-wrapper">
                         <FontAwesomeIcon icon={this.icons[dropdownItem.icon]} />
@@ -73,8 +75,9 @@ export default class NavigationBar extends React.Component {
                 </div>
             ));
         return (
-            <div style={this.getDropdownStyle.call(this)}
-                 className="subreddit-navbar__dropdown"
+            <div
+style={this.getDropdownStyle.call(this)}
+className="subreddit-navbar__dropdown"
             >
                 {dropdownContent}
             </div>

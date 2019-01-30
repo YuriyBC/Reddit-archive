@@ -15,8 +15,9 @@ const subreddits = (state = initialState, action) => {
                 subreddits: state.subreddits,
                 errorMessages: action.payload,
             };
+        default:
+            return state;
     }
-    return state;
 };
 
 export default subreddits;

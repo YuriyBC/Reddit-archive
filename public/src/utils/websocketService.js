@@ -4,9 +4,11 @@ const {
     WEBSOCKET_URL,
 } = constants;
 
-export const webSocketService = function () {
-    if (!webSocketService.websocket) {
-        webSocketService.websocket = new WebSocket(WEBSOCKET_URL);
+const websocketService = function () {
+    if (!websocketService.websocket) {
+        websocketService.websocket = new WebSocket(WEBSOCKET_URL);
     }
-    return webSocketService.websocket;
+    return websocketService.websocket;
 };
+
+export default websocketService;

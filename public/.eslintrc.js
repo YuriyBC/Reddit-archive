@@ -12,6 +12,8 @@ module.exports = {
     "rules": {
         "indent": [0, 4, {"SwitchCase": 1}],
         "camelcase": [0, {properties: "never"}],
+        "prefer-rest-params": 0,
+        "no-param-reassign": 0,
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
         "no-useless-constructor": ["error"],
         "react/prop-types": 0,

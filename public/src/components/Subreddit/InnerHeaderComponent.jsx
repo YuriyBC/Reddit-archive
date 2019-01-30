@@ -22,9 +22,10 @@ export default class InnerHeaderComponent extends React.Component {
         const { icon_img } = this.props;
         return icon_img
             ? (
-                <img className="subreddit-header__image"
-                     src={icon_img}
-                     alt="Subreddit icon"
+                <img
+className="subreddit-header__image"
+src={icon_img}
+alt="Subreddit icon"
                 />
             )
             : null;
@@ -41,8 +42,9 @@ export default class InnerHeaderComponent extends React.Component {
 
     render() {
         return (
-            <div className="subreddit-header"
-                 style={this.getHeaderStyle.call(this)}
+            <div
+className="subreddit-header"
+style={this.getHeaderStyle.call(this)}
             >
                 <div className="subreddit-header__inner">
                     {this.getTitle.call(this)}

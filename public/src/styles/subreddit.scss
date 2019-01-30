@@ -139,6 +139,7 @@ body .subreddit {
         overflow: hidden;
         max-height: vw(340);
         text-align: left;
+        font-size: vw(18);
         &:after {
           content: '';
           position: absolute;

@@ -36,7 +36,10 @@ function fetchDataOfArchivedSubreddits () {
         archivedSubreddits.forEach(subreddit => {
           apiService.updateData(subreddit.display_name, subreddit.id)
         });
-        console.log('FINISHED ARCHIVATION')
+
+        function finishedArchivationCallback () {
+          console.log('FINISHED ARCHIVATION')
+        }
       }
     }));
   }, INTERVAL_TO_FETCH_NEW_DATA)

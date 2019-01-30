@@ -7,7 +7,7 @@ import SubredditPage from './pages/SubredditPage';
 import PostItemPage from './pages/PostItemPage';
 import constants from './utils/constants';
 import methods from './utils/methods';
-import { webSocketService } from './utils/websocketService';
+import websocketService from './utils/websocketService';
 import { getSubreddits, setSubreddits } from './store/actions/subredditsActions';
 
 const { storage } = methods;
@@ -31,7 +31,7 @@ class App extends React.Component {
         }
         dispatch(getSubreddits());
 
-        webSocketService().onmessage = (message) => {
+        websocketService().onmessage = (message) => {
             if (message.data === WEBSOCKET_AVAILABLE_SUBREDDITS_MESSAGE) {
                 dispatch(getSubreddits());
             }

@@ -28,8 +28,9 @@ const posts = (state = initialState, action) => {
             };
         case 'REMOVE_POSTS':
             return initialState;
+        default:
+            return state;
     }
-    return state;
 };
 
 export default posts;

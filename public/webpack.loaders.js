@@ -17,7 +17,7 @@ module.exports = [
   {
     test: /\.jsx?$/,
     exclude: /node_modules/,
-    loaders: ['eslint-loader']
+    loaders: 'eslint-loader'
   },
   {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
