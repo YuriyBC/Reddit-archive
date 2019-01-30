@@ -8,6 +8,7 @@ import {
   getPost,
   getPostComments,
   getPostFromLocalStorage,
+  removeComments,
 } from '../store/actions/postsActions';
 
 class SubredditPage extends React.Component {
@@ -17,7 +18,6 @@ class SubredditPage extends React.Component {
       currentSubreddit: {},
     };
     this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
-    this.getComments = this.getComments.bind(this);
   }
 
   componentDidMount() {
@@ -27,8 +27,13 @@ class SubredditPage extends React.Component {
     window.scrollTo(0, 0);
     if (match.params) {
       this.setCurrentSubreddit();
-      this.getComments(id, postId);
+      dispatch(getPostComments(id, postId)).then(response => {
+        if (!response.length) {
+          setTimeout(() => { dispatch(getPostComments(id, postId)) }, 5000)
+        }
+      });
       dispatch(getPostFromLocalStorage(id, postId));
+
       setTimeout(() => {
         const { post } = this.props;
         if (!Object.keys(post).length) {
@@ -38,22 +43,13 @@ class SubredditPage extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    this.setCurrentSubreddit();
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(removeComments())
   }
 
-  getComments(id, postId) {
-    let iteration = 0;
-    const { dispatch, comments } = this.props;
-
-    dispatch(getPostComments(id, postId));
-    const interval = setInterval(() => {
-      if (!comments.length) dispatch(getPostComments(id, postId));
-      if (comments) {
-        if (iteration > 15 || comments.length) clearInterval(interval);
-      }
-      iteration += 1;
-    }, 5000);
+  componentDidUpdate() {
+    this.setCurrentSubreddit();
   }
 
   setCurrentSubreddit() {

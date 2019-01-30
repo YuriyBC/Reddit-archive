@@ -24,6 +24,11 @@ const posts = (state = initialState, action) => {
             };
         case 'REMOVE_POSTS':
             return initialState;
+        case 'REMOVE_COMMENTS':
+            return {
+                ...state,
+                currentComments: []
+            };
         default:
             return state;
     }

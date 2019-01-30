@@ -71,3 +71,9 @@ export const removePosts = () => function dispatchRemovePost(dispatch) {
         type: 'REMOVE_POSTS',
     });
 };
+
+export const removeComments = () => function dispatchRemovePost(dispatch) {
+    dispatch({
+        type: 'REMOVE_COMMENTS',
+    });
+};
