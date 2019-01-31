@@ -19,6 +19,8 @@ export default class PostComponent extends React.Component {
     constructor(props) {
         super(props);
         this.calculateDate = this.calculateDate.bind(this);
+        this.renderPostImage = this.renderPostImage.bind(this);
+        this.getPostTextHtml = this.getPostTextHtml.bind(this);
     }
 
     renderPostImage() {
@@ -74,8 +76,8 @@ export default class PostComponent extends React.Component {
                         {title}
                     </h2>
                     <span className="post-content__text">
-                        <p dangerouslySetInnerHTML={{ __html: this.getPostTextHtml.call(this) }} />
-                        {this.renderPostImage.call(this)}
+                        <p dangerouslySetInnerHTML={{ __html: this.getPostTextHtml() }} />
+                        {this.renderPostImage()}
                     </span>
                     <div className="post-content__bottom">
                         <div>

@@ -3,6 +3,12 @@ import redditBanner from '../../assets/img/reddit-banner.png';
 import redditAnimalImage from '../../assets/img/reddit-kid.png';
 
 export default class FeedComponent extends React.Component {
+    constructor (props) {
+        super(props);
+        this.getContainerStyle = this.getContainerStyle.bind(this);
+        this.getFaqStyle = this.getFaqStyle.bind(this);
+    }
+
     getContainerStyle() {
         return {
             background: `white url(${redditBanner}) -2px -2px no-repeat`,
@@ -19,8 +25,8 @@ export default class FeedComponent extends React.Component {
 
     render() {
         return (
-            <div className="home-feed box" style={this.getContainerStyle.call(this)}>
-                <div className="home-feed__faq" style={this.getFaqStyle.call(this)}>
+            <div className="home-feed box" style={this.getContainerStyle()}>
+                <div className="home-feed__faq" style={this.getFaqStyle()}>
                     This application is designed to store data from Reddit.
                     To store information about the subreddit,
                     enter the name of the subreddit in the form.

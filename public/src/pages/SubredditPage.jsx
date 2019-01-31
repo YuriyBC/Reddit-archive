@@ -25,6 +25,10 @@ class SubredditPage extends React.Component {
         this.changeSorting = this.changeSorting.bind(this);
         this.isDataLoaded = this.isDataLoaded.bind(this);
         this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
+        this.renderFeedComponent = this.renderFeedComponent.bind(this);
+        this.renderSidebar = this.renderSidebar.bind(this);
+        this.getSpinnerStyle = this.getSpinnerStyle.bind(this);
+        this.getSortedPosts = this.getSortedPosts.bind(this);
     }
 
     componentDidMount() {
@@ -118,7 +122,7 @@ class SubredditPage extends React.Component {
 
     renderFeedComponent() {
         const { scrollStep } = this.state;
-        const posts = this.getSortedPosts.call(this);
+        const posts = this.getSortedPosts();
         return (
             <FeedComponent currentPostsStep={scrollStep}
                            posts={posts}
@@ -147,9 +151,9 @@ class SubredditPage extends React.Component {
                                    currentSortingId={currentSortingId}
                     />
                     <div className="subreddit-content__wrapper">
-                        {this.renderFeedComponent.call(this)}
-                        {this.renderSidebar.call(this)}
-                        <img style={this.getSpinnerStyle.call(this)}
+                        {this.renderFeedComponent()}
+                        {this.renderSidebar()}
+                        <img style={this.getSpinnerStyle()}
                              className="spinner subreddit-spinner"
                              src={spinner}
                              alt="Spinner"

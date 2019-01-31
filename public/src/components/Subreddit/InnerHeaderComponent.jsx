@@ -1,6 +1,13 @@
 import React from 'react';
 
 export default class InnerHeaderComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.renderTitle = this.renderTitle.bind(this);
+        this.renderImage = this.renderImage.bind(this);
+        this.getHeaderStyle = this.getHeaderStyle.bind(this);
+    }
+
     getHeaderStyle() {
         const {
             banner_background_image,
@@ -44,11 +51,11 @@ export default class InnerHeaderComponent extends React.Component {
     render() {
         return (
             <div className="subreddit-header"
-                 style={this.getHeaderStyle.call(this)}
+                 style={this.getHeaderStyle()}
             >
                 <div className="subreddit-header__inner">
-                    {this.renderTitle.call(this)}
-                    {this.renderImage.call(this)}
+                    {this.renderTitle()}
+                    {this.renderImage()}
                 </div>
             </div>
         );

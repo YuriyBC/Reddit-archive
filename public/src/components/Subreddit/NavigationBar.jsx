@@ -23,6 +23,10 @@ export default class NavigationBar extends React.Component {
         this.availableSorting = AVAILABLE_SORTING;
         this.changeSorting = this.changeSorting.bind(this);
         this.toggleDropdown = this.toggleDropdown.bind(this);
+        this.renderSorting = this.renderSorting.bind(this);
+        this.renderDropdown = this.renderDropdown.bind(this);
+        this.renderDropdownStyle = this.renderDropdownStyle.bind(this);
+        this.getSortTitleStyle = this.getSortTitleStyle.bind(this);
     }
 
     renderDropdownStyle() {
@@ -91,7 +95,7 @@ export default class NavigationBar extends React.Component {
         ));
         return (
             <div
-                style={this.renderDropdownStyle.call(this)}
+                style={this.renderDropdownStyle()}
                 className="subreddit-navbar__dropdown"
             >
                 {dropdownContent}
@@ -104,10 +108,10 @@ export default class NavigationBar extends React.Component {
             <div className="subreddit-navbar">
                 <div className="subreddit-navbar__buttons">
                     <div className="subreddit-navbar__sorting">
-                        <h5 style={this.getSortTitleStyle.call(this)}>SORT</h5>
+                        <h5 style={this.getSortTitleStyle()}>SORT</h5>
                         <div className="subreddit-navbar__dropdown-container">
-                            {this.renderSorting.call(this)}
-                            {this.renderDropdown.call(this)}
+                            {this.renderSorting()}
+                            {this.renderDropdown()}
                         </div>
                     </div>
                 </div>

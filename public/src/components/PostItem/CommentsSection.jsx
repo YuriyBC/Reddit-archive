@@ -9,6 +9,8 @@ export default class CommentsSection extends React.Component {
         super(props);
         this.commentToShowStep = 20;
         this.showMoreComments = this.showMoreComments.bind(this);
+        this.getLoadMoreButtonStyle = this.getLoadMoreButtonStyle.bind(this);
+        this.renderComments = this.renderComments.bind(this);
         this.state = {
             commentsToShow: this.commentToShowStep,
         };
@@ -50,9 +52,9 @@ export default class CommentsSection extends React.Component {
     render() {
         return (
             <div className="comments-section box">
-                {this.renderComments.call(this)}
+                {this.renderComments()}
                 <span onClick={this.showMoreComments}
-                      style={this.getLoadMoreButtonStyle.call(this)}
+                      style={this.getLoadMoreButtonStyle()}
                       className="comments-section__button"
                 >
                 Load more comments

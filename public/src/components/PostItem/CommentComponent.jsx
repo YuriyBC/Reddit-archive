@@ -18,6 +18,7 @@ export default class CommentsComponent extends React.Component {
         this.calculateDate = this.calculateDate.bind(this);
         this.getCommentClassName = this.getCommentClassName.bind(this);
         this.getOffsetLines = this.getOffsetLines.bind(this);
+        this.renderCommentMessageHtml = this.renderCommentMessageHtml.bind(this);
     }
 
     renderCommentMessageHtml() {
@@ -72,7 +73,7 @@ export default class CommentsComponent extends React.Component {
                             {this.calculateDate()}
                         </span>
                     </div>
-                    {this.renderCommentMessageHtml.call(this)}
+                    {this.renderCommentMessageHtml()}
                     <div className="comment-body__navigation">
                     <span>
                         <FontAwesomeIcon icon={faCommentAlt} />
