@@ -12,7 +12,7 @@ export default class SidebarComponent extends React.Component {
             searchFormValue: '',
             archiveFormValue: '',
         };
-        this.getSubredditsList = this.getSubredditsList.bind(this);
+        this.renderSubredditsList = this.renderSubredditsList.bind(this);
         this.onChangeSearchForm = this.onChangeSearchForm.bind(this);
         this.onChangeArchiveForm = this.onChangeArchiveForm.bind(this);
         this.getArchiveFormClass = this.getArchiveFormClass.bind(this);
@@ -58,7 +58,7 @@ export default class SidebarComponent extends React.Component {
             : 'home-sidebar__archive-form disable';
     }
 
-    getSubredditsList() {
+    renderSubredditsList() {
         const { subreddits } = this.props;
         const { searchFormValue } = this.state;
         const subredditList = subreddits.map((subreddit, key) => {
@@ -122,7 +122,7 @@ export default class SidebarComponent extends React.Component {
                            type="text"
                     />
                     <div className="home-sidebar__search-form__list">
-                        {this.getSubredditsList()}
+                        {this.renderSubredditsList()}
                     </div>
                 </div>
 

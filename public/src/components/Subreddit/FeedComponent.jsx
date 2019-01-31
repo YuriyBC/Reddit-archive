@@ -9,10 +9,10 @@ export default class FeedComponent extends React.Component {
   constructor(props) {
     super(props);
     this.subredditFeed = React.createRef();
-    this.getPostList = this.getPostList.bind(this);
+    this.renderPostList = this.renderPostList.bind(this);
   }
 
-  getPostList() {
+  renderPostList() {
     const { posts, currentPostsStep } = this.props;
     return [...posts]
         .slice(0, POSTS_TO_SHOW * currentPostsStep)
@@ -30,7 +30,7 @@ export default class FeedComponent extends React.Component {
         <div ref={this.subredditFeed}
              className="subreddit-feed box"
         >
-          {this.getPostList()}
+          {this.renderPostList()}
         </div>
     );
   }

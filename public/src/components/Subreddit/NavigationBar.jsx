@@ -25,7 +25,36 @@ export default class NavigationBar extends React.Component {
         this.toggleDropdown = this.toggleDropdown.bind(this);
     }
 
-    getCurrentSorting() {
+    renderDropdownStyle() {
+        const {isDropdownContentVisible} = this.state;
+        return {
+            display: isDropdownContentVisible ? 'flex' : 'none',
+        };
+    }
+
+    getSortTitleStyle() {
+        const {isDataLoaded} = this.props;
+        return {
+            display: isDataLoaded() ? 'flex' : 'none',
+        };
+    }
+
+    changeSorting(sortingType) {
+        const {changeSorting} = this.props;
+        changeSorting(sortingType.id);
+        this.setState({
+            isDropdownContentVisible: false,
+        });
+    }
+
+    toggleDropdown() {
+        const {isDropdownContentVisible} = this.state;
+        this.setState({
+            isDropdownContentVisible: !isDropdownContentVisible,
+        });
+    }
+
+    renderSorting() {
         const {availableSorting, icons} = this;
         const {isDataLoaded, currentSortingId} = this.props;
         const currentSorting = availableSorting.find(sorting => sorting.id === currentSortingId);
@@ -46,21 +75,7 @@ export default class NavigationBar extends React.Component {
         return null;
     }
 
-    getDropdownStyle() {
-        const {isDropdownContentVisible} = this.state;
-        return {
-            display: isDropdownContentVisible ? 'flex' : 'none',
-        };
-    }
-
-    getSortTitleStyle() {
-        const {isDataLoaded} = this.props;
-        return {
-            display: isDataLoaded() ? 'flex' : 'none',
-        };
-    }
-
-    getDropdown() {
+    renderDropdown() {
         const dropdownContent = [...this.availableSorting].map((dropdownItem, index) => (
             <div
                 key={index}
@@ -76,27 +91,12 @@ export default class NavigationBar extends React.Component {
         ));
         return (
             <div
-                style={this.getDropdownStyle.call(this)}
+                style={this.renderDropdownStyle.call(this)}
                 className="subreddit-navbar__dropdown"
             >
                 {dropdownContent}
             </div>
         );
-    }
-
-    changeSorting(sortingType) {
-        const {changeSorting} = this.props;
-        changeSorting(sortingType.id);
-        this.setState({
-            isDropdownContentVisible: false,
-        });
-    }
-
-    toggleDropdown() {
-        const {isDropdownContentVisible} = this.state;
-        this.setState({
-            isDropdownContentVisible: !isDropdownContentVisible,
-        });
     }
 
     render() {
@@ -106,8 +106,8 @@ export default class NavigationBar extends React.Component {
                     <div className="subreddit-navbar__sorting">
                         <h5 style={this.getSortTitleStyle.call(this)}>SORT</h5>
                         <div className="subreddit-navbar__dropdown-container">
-                            {this.getCurrentSorting.call(this)}
-                            {this.getDropdown.call(this)}
+                            {this.renderSorting.call(this)}
+                            {this.renderDropdown.call(this)}
                         </div>
                     </div>
                 </div>

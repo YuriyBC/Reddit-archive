@@ -6,16 +6,16 @@ import spinner from '../../assets/img/spinner.gif';
 export default class FeedComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.getPost = this.getPost.bind(this);
-        this.getCommentsSection = this.getCommentsSection.bind(this);
+        this.renderPost = this.renderPost.bind(this);
+        this.renderCommentsSection = this.renderCommentsSection.bind(this);
     }
 
-    getPost() {
+    renderPost() {
         const { post } = this.props;
         return Object.keys(post).length ? <PostComponent {...post} /> : null;
     }
 
-    getCommentsSection() {
+    renderCommentsSection() {
         const { comments } = this.props;
         return comments && comments.length
             ? <CommentsSection comments={comments} />
@@ -28,8 +28,8 @@ export default class FeedComponent extends React.Component {
         return (
             <div className="subreddit-feed post-feed box">
                 <div>
-                    {this.getPost()}
-                    {this.getCommentsSection()}
+                    {this.renderPost()}
+                    {this.renderCommentsSection()}
                 </div>
             </div>
         );

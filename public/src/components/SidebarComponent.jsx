@@ -4,8 +4,8 @@ export default class SidebarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.getColor = this.getColor.bind(this);
-        this.getSubredditInfo = this.getSubredditInfo.bind(this);
-        this.getSubscribers = this.getSubscribers.bind(this);
+        this.renderSubredditInfo = this.renderSubredditInfo.bind(this);
+        this.renderSubscribers = this.renderSubscribers.bind(this);
     }
 
     getColor() {
@@ -15,7 +15,7 @@ export default class SidebarComponent extends React.Component {
         };
     }
 
-    getSubredditInfo() {
+    renderSubredditInfo() {
         const { icon_img, display_name_prefixed } = this.props;
         return icon_img && display_name_prefixed
             ? (
@@ -27,7 +27,7 @@ export default class SidebarComponent extends React.Component {
             : null;
     }
 
-    getSubscribers() {
+    renderSubscribers() {
         const { subscribers } = this.props;
         return subscribers
             ? (
@@ -49,8 +49,8 @@ export default class SidebarComponent extends React.Component {
                     COMMUNITY DETAILS
                 </span>
                 <div className="subreddit-sidebar__body">
-                    {this.getSubredditInfo()}
-                    {this.getSubscribers()}
+                    {this.renderSubredditInfo()}
+                    {this.renderSubscribers()}
                     <div className="subreddit-sidebar__description">
                         {public_description}
                     </div>

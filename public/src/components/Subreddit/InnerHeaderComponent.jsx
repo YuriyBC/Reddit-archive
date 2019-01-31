@@ -16,7 +16,7 @@ export default class InnerHeaderComponent extends React.Component {
         };
     }
 
-    getImage() {
+    renderImage() {
         const { icon_img } = this.props;
         return icon_img
             ? (
@@ -28,7 +28,7 @@ export default class InnerHeaderComponent extends React.Component {
             : null;
     }
 
-    getTitle() {
+    renderTitle() {
         const { display_name_prefixed } = this.props;
         return (
             <div className="subreddit-header__title">
@@ -43,8 +43,8 @@ export default class InnerHeaderComponent extends React.Component {
                  style={this.getHeaderStyle.call(this)}
             >
                 <div className="subreddit-header__inner">
-                    {this.getTitle.call(this)}
-                    {this.getImage.call(this)}
+                    {this.renderTitle.call(this)}
+                    {this.renderImage.call(this)}
                 </div>
             </div>
         );

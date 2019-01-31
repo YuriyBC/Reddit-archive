@@ -21,7 +21,7 @@ export default class PostComponent extends React.Component {
         this.calculateDate = this.calculateDate.bind(this);
     }
 
-    getPostImage() {
+    renderPostImage() {
         const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
         const imageWidth = thumbnail_width !== 'null' ? +thumbnail_width : 'auto';
         const imageHeight = thumbnail_height !== 'null' ? +thumbnail_height : 'auto';
@@ -75,7 +75,7 @@ export default class PostComponent extends React.Component {
                     </h2>
                     <span className="post-content__text">
                         <p dangerouslySetInnerHTML={{ __html: this.getPostTextHtml.call(this) }} />
-                        {this.getPostImage.call(this)}
+                        {this.renderPostImage.call(this)}
                     </span>
                     <div className="post-content__bottom">
                         <div>

@@ -3,14 +3,14 @@ import ArchivedSubredditItem from './ArchivedSubredditItem';
 import ScrollArea from 'react-scrollbar';
 
 export default class ArchivedSubredditsComponent extends React.Component {
-    getErrorMessages() {
+    renderErrorMessages() {
         const { errorMessages } = this.props;
         return errorMessages.map((message, index) => (
             <div className="errorMessage" key={index}>{message}</div>
         ));
     }
 
-    getArchivedSubredditsList() {
+    renderArchivedSubredditsList() {
         const {
             subreddits,
             archiveFormValue,
@@ -53,8 +53,8 @@ export default class ArchivedSubredditsComponent extends React.Component {
         return (
             <div className="home-sidebar__archive-form__list">
                 <span className="home-sidebar__archive-form__title">Archived subreddits:</span>
-                {this.getArchivedSubredditsList.call(this)}
-                {this.getErrorMessages.call(this)}
+                {this.renderArchivedSubredditsList.call(this)}
+                {this.renderErrorMessages.call(this)}
             </div>
         );
     }
