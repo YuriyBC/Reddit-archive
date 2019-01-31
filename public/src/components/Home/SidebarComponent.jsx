@@ -51,7 +51,7 @@ export default class SidebarComponent extends React.Component {
 
     getArchiveFormClass() {
         const { subreddits } = this.props;
-        const archivedSubreddits = [...subreddits]
+        const archivedSubreddits = subreddits
             .filter(subreddit => subreddit.isArchived);
         return archivedSubreddits.length > MINIMUM_ARCHIVED_LENGTH
             ? 'home-sidebar__archive-form'
@@ -61,7 +61,7 @@ export default class SidebarComponent extends React.Component {
     getSubredditsList() {
         const { subreddits } = this.props;
         const { searchFormValue } = this.state;
-        const subredditList = [...subreddits].map((subreddit, key) => {
+        const subredditList = subreddits.map((subreddit, key) => {
             const formValue = searchFormValue
                 .replace(/\\/g, "\\\\")
                 .toLowerCase()
