@@ -8,28 +8,10 @@ export default class CommentsSection extends React.Component {
     constructor(props) {
         super(props);
         this.commentToShowStep = 20;
-        this.getComments = this.getComments.bind(this);
         this.showMoreComments = this.showMoreComments.bind(this);
         this.state = {
             commentsToShow: this.commentToShowStep,
         };
-    }
-
-    getComments() {
-        const { commentsToShow } = this.state;
-        const { comments } = this.props;
-        const sortedComments = sortComments([...comments])
-            .filter(comment => comment.body !== 'null')
-            .slice(0, commentsToShow);
-
-        if (sortedComments) {
-            return sortedComments.map((comment) => (
-                <CommentComponent key={comment.id}
-                                  {...comment}
-                />
-            ));
-        }
-        return null;
     }
 
     getLoadMoreButtonStyle() {
@@ -48,10 +30,27 @@ export default class CommentsSection extends React.Component {
         });
     }
 
+    renderComments() {
+        const { commentsToShow } = this.state;
+        const { comments } = this.props;
+        const sortedComments = sortComments([...comments])
+            .filter(comment => comment.body !== 'null')
+            .slice(0, commentsToShow);
+
+        if (sortedComments) {
+            return sortedComments.map((comment) => (
+                <CommentComponent key={comment.id}
+                                  {...comment}
+                />
+            ));
+        }
+        return null;
+    }
+
     render() {
         return (
             <div className="comments-section box">
-                {this.getComments()}
+                {this.renderComments.call(this)}
                 <span onClick={this.showMoreComments}
                       style={this.getLoadMoreButtonStyle.call(this)}
                       className="comments-section__button"
