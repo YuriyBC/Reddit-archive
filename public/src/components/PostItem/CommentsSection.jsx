@@ -18,14 +18,13 @@ export default class CommentsSection extends React.Component {
     getComments() {
         const { commentsToShow } = this.state;
         const { comments } = this.props;
-        let sortedComments = sortComments([...comments]);
-        sortedComments = sortedComments
+        const sortedComments = sortComments([...comments])
             .filter(comment => comment.body !== 'null')
             .slice(0, commentsToShow);
 
         if (sortedComments) {
-            return sortedComments.map((comment, index) => (
-                <CommentComponent key={index}
+            return sortedComments.map((comment) => (
+                <CommentComponent key={comment.id}
                                   {...comment}
                 />
             ));
