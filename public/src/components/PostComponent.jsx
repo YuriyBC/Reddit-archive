@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import constants from '../utils/constants';
 import {
     faAngleUp,
     faAngleDown,
@@ -14,6 +15,7 @@ const {
     getDate,
     reformatTextToHtml,
 } = methods;
+const { REDDIT_THUMBNAIL_STATE } = constants;
 
 export default class PostComponent extends React.Component {
     constructor(props) {
@@ -24,11 +26,12 @@ export default class PostComponent extends React.Component {
     }
 
     renderPostImage() {
+        const { SELF, NULL } = REDDIT_THUMBNAIL_STATE;
         const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
-        const imageWidth = thumbnail_width !== 'null' ? +thumbnail_width : 'auto';
-        const imageHeight = thumbnail_height !== 'null' ? +thumbnail_height : 'auto';
+        const imageWidth = thumbnail_width !== NULL ? +thumbnail_width : 'auto';
+        const imageHeight = thumbnail_height !== NULL ? +thumbnail_height : 'auto';
 
-        return thumbnail && thumbnail !== 'null' && thumbnail !== 'self'
+        return thumbnail && thumbnail !== NULL && thumbnail !== SELF
             ? (
                 <img width={imageWidth}
                      height={imageHeight}

@@ -20,6 +20,12 @@ const AVAILABLE_SORTING = [
         icon: 'faChartLine',
     },
 ];
+
+const REDDIT_THUMBNAIL_STATE = {
+    SELF: 'self',
+    NULL: 'null'
+};
+
 const LOCAL_STORAGE_SUBREDDITS = 'subreddits';
 const LOCAL_STORAGE_POSTS = 'posts';
 
@@ -44,4 +50,5 @@ export default {
     LOCAL_STORAGE_SUBREDDITS,
     LOCAL_STORAGE_POSTS,
     MINIMUM_ARCHIVED_LENGTH,
+    REDDIT_THUMBNAIL_STATE,
 };
