@@ -7,6 +7,7 @@ import {
     faCommentAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import methods from '../../utils/methods';
+import { commentType } from '../../utils/propTypes'
 
 const {
     getDate,
@@ -92,3 +93,5 @@ export default class CommentsComponent extends React.Component {
         );
     }
 }
+
+CommentsComponent.propTypes = commentType;

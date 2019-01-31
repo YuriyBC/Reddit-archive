@@ -1,6 +1,8 @@
 import React from 'react';
 import CommentComponent from './CommentComponent';
 import methods from '../../utils/methods';
+import PropTypes from "prop-types";
+import { commentType } from '../../utils/propTypes'
 
 const { sortComments } = methods;
 
@@ -40,8 +42,8 @@ export default class CommentsSection extends React.Component {
             .slice(0, commentsToShow);
 
         if (sortedComments) {
-            return sortedComments.map((comment) => (
-                <CommentComponent key={comment.id}
+            return sortedComments.map((comment, index) => (
+                <CommentComponent key={index}
                                   {...comment}
                 />
             ));
@@ -63,3 +65,8 @@ export default class CommentsSection extends React.Component {
         );
     }
 }
+
+CommentsSection.propTypes = {
+    comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
+};
+

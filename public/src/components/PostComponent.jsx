@@ -10,6 +10,7 @@ import {
     faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import methods from '../utils/methods';
+import { postType } from "../utils/propTypes";
 
 const {
     getDate,
@@ -108,3 +109,5 @@ export default class PostComponent extends React.Component {
         );
     }
 }
+
+PostComponent.propTypes = postType;

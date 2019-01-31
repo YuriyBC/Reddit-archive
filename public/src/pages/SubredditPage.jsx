@@ -9,6 +9,8 @@ import { getPosts, setPostsFromLocalStorage } from '../store/actions/postsAction
 import '../styles/subreddit.scss';
 import methods from '../utils/methods';
 import spinner from '../assets/img/spinner.gif';
+import PropTypes from "prop-types";
+import { postType, subredditType } from "../utils/propTypes";
 
 const { throttle } = methods;
 
@@ -169,3 +171,8 @@ export default connect(state => ({
     posts: state.posts.allPosts,
     subreddits: state.subreddits.subreddits,
 }))(SubredditPage);
+
+SubredditPage.propTypes = {
+    posts: PropTypes.arrayOf(PropTypes.shape(postType)),
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType))
+};

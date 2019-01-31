@@ -7,8 +7,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import triangle from '../../assets/svg/triangle.svg';
 import constants from '../../utils/constants';
+import PropTypes from "prop-types";
 
-const {AVAILABLE_SORTING} = constants;
+const { AVAILABLE_SORTING } = constants;
+
 export default class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
@@ -119,3 +121,9 @@ export default class NavigationBar extends React.Component {
         );
     }
 }
+
+NavigationBar.propTypes = {
+    changeSorting: PropTypes.func,
+    isDataLoaded: PropTypes.func,
+    currentSorting: PropTypes.number,
+};

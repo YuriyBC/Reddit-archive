@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
+import { subredditType } from '../../utils/propTypes'
 
 const ArchivedSubredditItem = (props) => {
     const { storeSubredditToArchive, removePosts, subreddit } = props;
@@ -42,6 +44,12 @@ const ArchivedSubredditItem = (props) => {
             </span>
         </div>
     );
+};
+
+ArchivedSubredditItem.propTypes = {
+    storeSubredditToArchive: PropTypes.func,
+    removePosts: PropTypes.func,
+    subreddit: PropTypes.shape(subredditType),
 };
 
 export default ArchivedSubredditItem;

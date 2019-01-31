@@ -2,6 +2,8 @@ import React from 'react';
 import PostComponent from '../PostComponent';
 import CommentsSection from './CommentsSection';
 import spinner from '../../assets/img/spinner.gif';
+import PropTypes from "prop-types";
+import { postType, commentType } from "../../utils/propTypes";
 
 export default class FeedComponent extends React.Component {
     constructor(props) {
@@ -35,3 +37,8 @@ export default class FeedComponent extends React.Component {
         );
     }
 }
+
+FeedComponent.propTypes = {
+    post: PropTypes.shape(postType),
+    comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
+};

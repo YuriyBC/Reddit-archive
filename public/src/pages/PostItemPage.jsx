@@ -11,6 +11,8 @@ import {
   getPostFromLocalStorage,
   removeComments,
 } from '../store/actions/postsActions';
+import PropTypes from "prop-types";
+import { commentType, postType, subredditType } from "../utils/propTypes";
 
 class SubredditPage extends React.Component {
   constructor(props) {
@@ -89,3 +91,9 @@ export default connect(state => ({
     comments: state.posts.currentComments,
     subreddits: state.subreddits.subreddits,
 }))(SubredditPage);
+
+SubredditPage.propTypes = {
+  post: PropTypes.shape(postType),
+  comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
+  subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
+};

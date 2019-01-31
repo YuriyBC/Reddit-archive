@@ -6,6 +6,8 @@ import SidebarComponent from '../components/Home/SidebarComponent';
 import '../styles/home.scss';
 import { storeSubredditToArchive, setSubreddits } from '../store/actions/subredditsActions';
 import { removePosts } from '../store/actions/postsActions';
+import PropTypes from "prop-types";
+import { errorMessagesType, subredditType } from "../utils/propTypes";
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -52,3 +54,9 @@ export default connect(state => ({
     subreddits: state.subreddits.subreddits,
     errorMessages: state.subreddits.errorMessages,
 }))(HomePage);
+
+HomePage.propTypes = {
+    dispatch: PropTypes.func,
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
+    errorMessages: errorMessagesType,
+};

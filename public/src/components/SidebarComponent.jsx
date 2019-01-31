@@ -1,4 +1,5 @@
 import React from 'react';
+import { subredditType } from '../utils/propTypes'
 
 export default class SidebarComponent extends React.Component {
     constructor(props) {
@@ -59,3 +60,5 @@ export default class SidebarComponent extends React.Component {
         );
     }
 }
+
+SidebarComponent.propTypes = subredditType;

@@ -1,6 +1,8 @@
 import React from 'react';
 import ArchivedSubredditItem from './ArchivedSubredditItem';
 import ScrollArea from 'react-scrollbar';
+import PropTypes from 'prop-types';
+import { subredditType, errorMessagesType } from '../../utils/propTypes'
 
 export default class ArchivedSubredditsComponent extends React.Component {
     constructor (props) {
@@ -65,3 +67,11 @@ export default class ArchivedSubredditsComponent extends React.Component {
         );
     }
 }
+
+ArchivedSubredditsComponent.propTypes = {
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
+    archiveFormValue: PropTypes.string,
+    storeSubredditToArchive: PropTypes.func,
+    removePosts: PropTypes.func,
+    errorMessages: errorMessagesType,
+};
