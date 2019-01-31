@@ -32,12 +32,9 @@ export default class CommentsComponent extends React.Component {
 
     getOffsetLines() {
         const { depth } = this.props;
-        const elementsToReturn = [];
-        for (let i = 0; i < depth; i += 1) {
-            const element = <div key={i} className="offsetLine" />;
-            elementsToReturn.push(element);
-        }
-        return elementsToReturn;
+        return Array.from({ length: depth}, (value, i) => (
+            <div key={i} className="offsetLine" />
+        ));
     }
 
     getCommentClassName() {
