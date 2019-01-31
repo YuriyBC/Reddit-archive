@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
 import {
     faAngleUp,
     faAngleDown,
@@ -39,7 +40,12 @@ export default class CommentsComponent extends React.Component {
 
     getCommentClassName() {
         const { depth } = this.props;
-        return depth === 'null' || depth === '0'  ? 'parent' : 'child';
+        const parentClassCondition = depth === 'null' || depth === '0';
+        return classNames({
+            comment: true,
+            parent: parentClassCondition,
+            child: !parentClassCondition
+        })
     }
 
     calculateDate() {
@@ -50,7 +56,7 @@ export default class CommentsComponent extends React.Component {
     render() {
         const { author, score } = this.props;
         return (
-            <div className={`comment ${this.getCommentClassName()}`}>
+            <div className={this.getCommentClassName()}>
                 {this.getOffsetLines()}
                 <div className="comment-rating">
                     <div className="comment-rating__body">
