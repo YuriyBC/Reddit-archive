@@ -87,14 +87,14 @@ export default class SidebarComponent extends React.Component {
 
         let filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
         if (filteredSubredditList.length) {
-            const trueValue = true;
-            const falseValue = true;
+            const stopScrollPropagation = true;
+            const allowHorizontalScrolling = true;
             return (
                 <ScrollArea speed={0.8}
                             className="home-sidebar__search-form__scrollbar"
                             contentClassName="content"
-                            stopScrollPropagation={trueValue}
-                            horizontal={falseValue}
+                            stopScrollPropagation={stopScrollPropagation}
+                            horizontal={allowHorizontalScrolling}
                 >
                     {subredditList}
                 </ScrollArea>
