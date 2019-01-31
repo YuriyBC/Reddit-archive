@@ -18,14 +18,18 @@ export default class InnerHeaderComponent extends React.Component {
 
     renderImage() {
         const { icon_img } = this.props;
-        return icon_img
-            ? (
-                <img className="subreddit-header__image"
-                     src={icon_img}
-                     alt="Subreddit icon"
-                />
-            )
-            : null;
+
+        if (!icon_img) {
+            return null;
+        }
+
+        return (
+            <img
+                className="subreddit-header__image"
+                src={icon_img}
+                alt="Subreddit icon"
+            />
+        )
     }
 
     renderTitle() {
