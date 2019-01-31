@@ -1,7 +1,14 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import constants from '../utils/constants';
-import {faAngleDown, faAngleUp, faBookmark, faCommentAlt, faShare, faStar,} from '@fortawesome/free-solid-svg-icons';
+import {
+    faAngleDown,
+    faAngleUp,
+    faBookmark,
+    faCommentAlt,
+    faShare,
+    faStar,
+} from '@fortawesome/free-solid-svg-icons';
 import methods from '../utils/methods';
 
 const {
