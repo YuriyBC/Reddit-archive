@@ -45,7 +45,7 @@ export default class CommentsSection extends React.Component {
         const { commentsToShow } = this.state;
         const { commentToShowStep } = this;
         this.setState({
-            commentsToShow: +commentsToShow + +commentToShowStep,
+            commentsToShow: commentsToShow + commentToShowStep,
         });
     }
 
