@@ -18,7 +18,7 @@ export default class ArchivedSubredditsComponent extends React.Component {
             removePosts,
         } = this.props;
 
-        const subredditList = [...subreddits].map((subreddit, key) => {
+        const subredditList = subreddits.map((subreddit, key) => {
             const formValue = archiveFormValue.toLowerCase().trim();
             const subredditTitle = subreddit.display_name.toLowerCase().trim();
 
