@@ -21,5 +21,7 @@ export const getPostsApi = subredditId => axios
 export const getPostApi = (subredditId, postId) => axios
     .get(`${API}${URL_GET_POST}/${subredditId}/${postId}`);
 
-export const getPostCommentsApi = (subredditId, postId) => axios
-    .get(`${API}${URL_GET_POST_COMMENTS}/${subredditId}/${postId}`);
+export const getPostCommentsApi = (subredditId, postId, cancelToken) => axios
+    .get(`${API}${URL_GET_POST_COMMENTS}/${subredditId}/${postId}`, {
+        cancelToken: cancelToken.token
+    });

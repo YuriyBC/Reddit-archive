@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import HeaderComponent from '../components/HeaderComponent';
 import FeedComponent from '../components/PostItem/FeedComponent';
 import SidebarComponent from '../components/SidebarComponent';
+import axios from 'axios';
 import '../styles/post.scss';
 import {
   getPost,
@@ -18,18 +19,20 @@ class SubredditPage extends React.Component {
       currentSubreddit: {},
     };
     this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
+    this.cancelToken = axios.CancelToken.source();
   }
 
   componentDidMount() {
     const GET_POST_INFO_TIMEOUT = 4000;
+    const { cancelToken } = this;
     const { match, dispatch } = this.props;
     const { id, postId } = match.params;
     window.scrollTo(0, 0);
     if (match.params) {
       this.setCurrentSubreddit();
-      dispatch(getPostComments(id, postId)).then(response => {
+      dispatch(getPostComments(id, postId, cancelToken)).then(response => {
         if (!response.comments.length) {
-          setTimeout(() => { dispatch(getPostComments(id, postId)) }, 5000)
+          setTimeout(() => { dispatch(getPostComments(id, postId, cancelToken)) }, 5000)
         }
       });
       dispatch(getPostFromLocalStorage(id, postId));
@@ -45,6 +48,8 @@ class SubredditPage extends React.Component {
 
   componentWillUnmount() {
     const { dispatch } = this.props;
+    const { cancelToken } = this;
+    cancelToken.cancel('abort request by frontend');
     dispatch(removeComments())
   }
 

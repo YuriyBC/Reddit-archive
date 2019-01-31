@@ -197,7 +197,9 @@ body .subreddit {
     flex-direction: column;
     padding: 0;
     user-select: none;
-    height: vw(500);
+    min-height: vw(300);
+    height: max-content;
+    padding-bottom: vw(45);
     .sidebar-header {
       border-radius: 5px 5px 0 0;
       width: 100%;

@@ -56,8 +56,8 @@ export const getPost = (subredditId, postId) => function dispatchPost(dispatch) 
     });
 };
 
-export const getPostComments = (subredditId, postId) => function dispatchComments(dispatch) {
-    return getPostCommentsApi(subredditId, postId).then((response) => {
+export const getPostComments = (subredditId, postId, cancelToken) => function dispatchComments(dispatch) {
+    return getPostCommentsApi(subredditId, postId, cancelToken).then((response) => {
         dispatch({
             type: 'SET_POST_COMMENTS',
             payload: response.data,
