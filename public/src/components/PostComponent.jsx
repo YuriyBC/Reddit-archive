@@ -26,20 +26,20 @@ export default class PostComponent extends React.Component {
     }
 
     renderPostImage() {
-        const { SELF, NULL } = REDDIT_THUMBNAIL_STATE;
         const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
-        const imageWidth = thumbnail_width !== NULL ? +thumbnail_width : 'auto';
-        const imageHeight = thumbnail_height !== NULL ? +thumbnail_height : 'auto';
+        const { SELF, NULL, SPOILER } = REDDIT_THUMBNAIL_STATE;
 
-        return thumbnail && thumbnail !== NULL && thumbnail !== SELF
-            ? (
-                <img width={imageWidth}
-                     height={imageHeight}
-                     src={thumbnail}
-                     alt="PostImage"
-                />
-            )
-            : null;
+        if (!thumbnail || thumbnail === NULL || thumbnail === SELF || thumbnail === SPOILER) {
+            return null
+        }
+
+        return (
+            <img width={thumbnail_width}
+                 height={thumbnail_height}
+                 src={thumbnail}
+                 alt="PostImage"
+            />
+        );
     }
 
     getPostTextHtml() {
