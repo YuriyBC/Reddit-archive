@@ -3,7 +3,7 @@ import redditBanner from '../../assets/img/reddit-banner.png';
 import redditAnimalImage from '../../assets/img/reddit-kid.png';
 
 export default class FeedComponent extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.getContainerStyle = this.getContainerStyle.bind(this);
         this.getFaqStyle = this.getFaqStyle.bind(this);

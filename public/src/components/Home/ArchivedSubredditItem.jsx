@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import { subredditType } from '../../utils/propTypes'
+import { subredditType } from '../../utils/propTypes';
 
 const ArchivedSubredditItem = (props) => {
     const { storeSubredditToArchive, removePosts, subreddit } = props;
@@ -21,13 +21,11 @@ const ArchivedSubredditItem = (props) => {
         }
     };
 
-    const getStyle = () => {
-        return {
-            opacity: subreddit.isLoading ? 0.4 : 1,
-            pointerEvents: subreddit.isLoading ? 'none' : 'auto',
-            userSelect: subreddit.isLoading ? 'none' : 'auto',
-        }
-    };
+    const getStyle = () => ({
+        opacity: subreddit.isLoading ? 0.4 : 1,
+        pointerEvents: subreddit.isLoading ? 'none' : 'auto',
+        userSelect: subreddit.isLoading ? 'none' : 'auto',
+    });
 
     return (
         <div style={getStyle()}>
@@ -47,9 +45,9 @@ const ArchivedSubredditItem = (props) => {
 };
 
 ArchivedSubredditItem.propTypes = {
-    storeSubredditToArchive: PropTypes.func,
-    removePosts: PropTypes.func,
-    subreddit: PropTypes.shape(subredditType),
+    storeSubredditToArchive: PropTypes.func.isRequired,
+    removePosts: PropTypes.func.isRequired,
+    subreddit: PropTypes.shape(subredditType).isRequired,
 };
 
 export default ArchivedSubredditItem;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HeaderComponent from '../components/HeaderComponent';
 import FeedComponent from '../components/Subreddit/FeedComponent';
@@ -9,8 +10,7 @@ import { getPosts, setPostsFromLocalStorage } from '../store/actions/postsAction
 import '../styles/subreddit.scss';
 import methods from '../utils/methods';
 import spinner from '../assets/img/spinner.gif';
-import PropTypes from "prop-types";
-import { postType, subredditType } from "../utils/propTypes";
+import { postType, subredditType } from '../utils/propTypes';
 
 const { throttle } = methods;
 
@@ -41,9 +41,9 @@ class SubredditPage extends React.Component {
             dispatch(setPostsFromLocalStorage(id));
             dispatch(getPosts(id)).catch(() => {
                 setTimeout(() => {
-                    dispatch(getPosts(id))
-                }, 4000)
-            })
+                    dispatch(getPosts(id));
+                }, 4000);
+            });
         }
         window.addEventListener('scroll', this.containerScrollHandler);
         this.setCurrentSubreddit();
@@ -173,6 +173,6 @@ export default connect(state => ({
 }))(SubredditPage);
 
 SubredditPage.propTypes = {
-    posts: PropTypes.arrayOf(PropTypes.shape(postType)),
-    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType))
+    posts: PropTypes.arrayOf(PropTypes.shape(postType)).isRequired,
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)).isRequired,
 };

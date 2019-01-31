@@ -24,7 +24,7 @@ const AVAILABLE_SORTING = [
 const REDDIT_THUMBNAIL_STATE = {
     SELF: 'self',
     NULL: 'null',
-    SPOILER: 'spoiler'
+    SPOILER: 'spoiler',
 };
 
 const LOCAL_STORAGE_SUBREDDITS = 'subreddits';

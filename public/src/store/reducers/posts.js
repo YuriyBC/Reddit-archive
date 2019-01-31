@@ -1,7 +1,7 @@
 const initialState = {
     allPosts: [],
     currentPost: {},
-    currentComments: []
+    currentComments: [],
 };
 
 const posts = (state = initialState, action) => {
@@ -14,19 +14,19 @@ const posts = (state = initialState, action) => {
         case 'SET_POST_DATA':
             return {
                 ...state,
-                currentPost: action.payload.data
+                currentPost: action.payload.data,
             };
         case 'SET_POST_COMMENTS':
             return {
                 ...state,
-                currentComments: action.payload.comments
+                currentComments: action.payload.comments,
             };
         case 'REMOVE_POSTS':
             return initialState;
         case 'REMOVE_COMMENTS':
             return {
                 ...state,
-                currentComments: []
+                currentComments: [],
             };
         default:
             return state;

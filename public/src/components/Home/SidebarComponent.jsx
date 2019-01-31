@@ -1,9 +1,9 @@
 import React from 'react';
-import ArchivedSubredditsComponent from './ArchivedSubredditsComponent';
 import ScrollArea from 'react-scrollbar';
-import constants from '../../utils/constants';
 import PropTypes from 'prop-types';
-import { subredditType, errorMessagesType } from "../../utils/propTypes";
+import ArchivedSubredditsComponent from './ArchivedSubredditsComponent';
+import constants from '../../utils/constants';
+import { subredditType, errorMessagesType } from '../../utils/propTypes';
 
 const { MINIMUM_ARCHIVED_LENGTH } = constants;
 
@@ -65,7 +65,7 @@ export default class SidebarComponent extends React.Component {
         const { searchFormValue } = this.state;
         const subredditList = subreddits.map((subreddit, key) => {
             const formValue = searchFormValue
-                .replace(/\\/g, "\\\\")
+                .replace(/\\/g, '\\\\')
                 .toLowerCase()
                 .trim();
             const subredditTitle = subreddit.display_name
@@ -86,7 +86,7 @@ export default class SidebarComponent extends React.Component {
             return null;
         });
 
-        let filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
+        const filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
         if (filteredSubredditList.length) {
             const stopScrollPropagation = true;
             const allowHorizontalScrolling = true;
@@ -149,7 +149,6 @@ export default class SidebarComponent extends React.Component {
 SidebarComponent.propTypes = {
     storeSubredditToArchive: PropTypes.func.isRequired,
     removePosts: PropTypes.func.isRequired,
-    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
-    errorMessages: errorMessagesType,
-    searchFormValue: PropTypes.string,
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)).isRequired,
+    errorMessages: errorMessagesType.isRequired,
 };

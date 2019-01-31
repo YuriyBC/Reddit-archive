@@ -7,7 +7,7 @@ import {
     faCommentAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import methods from '../../utils/methods';
-import { commentType } from '../../utils/propTypes'
+import { commentType } from '../../utils/propTypes';
 
 const {
     getDate,
@@ -23,18 +23,9 @@ export default class CommentsComponent extends React.Component {
         this.renderCommentMessageHtml = this.renderCommentMessageHtml.bind(this);
     }
 
-    renderCommentMessageHtml() {
-        const { body } = this.props;
-        return (
-            <div className="comment-body__text"
-                 dangerouslySetInnerHTML={{ __html: reformatTextToHtml(body) }}
-            />
-        );
-    }
-
     getOffsetLines() {
         const { depth } = this.props;
-        return Array.from({ length: depth}, (value, i) => (
+        return Array.from({ length: depth }, (value, i) => (
             <div key={i} className="offsetLine" />
         ));
     }
@@ -45,13 +36,23 @@ export default class CommentsComponent extends React.Component {
         return classNames({
             comment: true,
             parent: parentClassCondition,
-            child: !parentClassCondition
-        })
+            child: !parentClassCondition,
+        });
     }
 
     calculateDate() {
         const { created } = this.props;
         return created && created !== 'null' ? getDate(created) : null;
+    }
+
+    renderCommentMessageHtml() {
+        const { body } = this.props;
+        return (
+            <div
+                className="comment-body__text"
+                dangerouslySetInnerHTML={{ __html: reformatTextToHtml(body) }}
+            />
+        );
     }
 
     render() {
@@ -71,7 +72,9 @@ export default class CommentsComponent extends React.Component {
                             {author}
                         </span>
                         <span>
-                            {score} points
+                            {score}
+                            {' '}
+                            points
                         </span>
                         <span>
                             {this.calculateDate()}
@@ -79,10 +82,10 @@ export default class CommentsComponent extends React.Component {
                     </div>
                     {this.renderCommentMessageHtml()}
                     <div className="comment-body__navigation">
-                    <span>
-                        <FontAwesomeIcon icon={faCommentAlt} />
+                        <span>
+                            <FontAwesomeIcon icon={faCommentAlt} />
                         Reply
-                    </span>
+                        </span>
                         <span>Share</span>
                         <span>Report</span>
                         <span>Save</span>

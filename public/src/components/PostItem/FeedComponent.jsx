@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import PostComponent from '../PostComponent';
 import CommentsSection from './CommentsSection';
 import spinner from '../../assets/img/spinner.gif';
-import PropTypes from "prop-types";
-import { postType, commentType } from "../../utils/propTypes";
+import { postType, commentType } from '../../utils/propTypes';
 
 export default class FeedComponent extends React.Component {
     constructor(props) {
@@ -19,11 +19,15 @@ export default class FeedComponent extends React.Component {
 
     renderCommentsSection() {
         const { comments } = this.props;
-        return comments && comments.length
-            ? <CommentsSection comments={comments} />
-            : <img className="spinner comments-spinner"
-                   src={spinner}
-                   alt="Spinner" />;
+        if (!comments || !comments.length) {
+            return (
+                <img className="spinner comments-spinner"
+                     src={spinner}
+                     alt="Spinner"
+                />
+            );
+        }
+        return <CommentsSection comments={comments} />;
     }
 
     render() {
@@ -39,6 +43,6 @@ export default class FeedComponent extends React.Component {
 }
 
 FeedComponent.propTypes = {
-    post: PropTypes.shape(postType),
-    comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
+    post: PropTypes.shape(postType).isRequired,
+    comments: PropTypes.arrayOf(PropTypes.shape(commentType)).isRequired,
 };

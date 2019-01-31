@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const subredditType = {
     icon_img: PropTypes.string,
@@ -19,7 +19,7 @@ export const postType = {
     score: PropTypes.number,
     author_fullname: PropTypes.string,
     title: PropTypes.string,
-    num_comments: PropTypes.number
+    num_comments: PropTypes.number,
 };
 
 export const commentType = {
@@ -28,7 +28,7 @@ export const commentType = {
     created: PropTypes.string,
     author: PropTypes.string,
     score: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
 };
 
 export const errorMessagesType = PropTypes.arrayOf(PropTypes.string);

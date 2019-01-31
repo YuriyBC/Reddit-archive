@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CommentComponent from './CommentComponent';
 import methods from '../../utils/methods';
-import PropTypes from "prop-types";
-import { commentType } from '../../utils/propTypes'
+import { commentType } from '../../utils/propTypes';
 
 const { sortComments } = methods;
 
@@ -67,6 +67,5 @@ export default class CommentsSection extends React.Component {
 }
 
 CommentsSection.propTypes = {
-    comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
+    comments: PropTypes.arrayOf(PropTypes.shape(commentType)).isRequired,
 };
-

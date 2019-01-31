@@ -1,11 +1,11 @@
 import React from 'react';
-import ArchivedSubredditItem from './ArchivedSubredditItem';
 import ScrollArea from 'react-scrollbar';
 import PropTypes from 'prop-types';
-import { subredditType, errorMessagesType } from '../../utils/propTypes'
+import ArchivedSubredditItem from './ArchivedSubredditItem';
+import { subredditType, errorMessagesType } from '../../utils/propTypes';
 
 export default class ArchivedSubredditsComponent extends React.Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.renderArchivedSubredditsList = this.renderArchivedSubredditsList.bind(this);
         this.renderErrorMessages = this.renderErrorMessages.bind(this);
@@ -42,12 +42,13 @@ export default class ArchivedSubredditsComponent extends React.Component {
             return null;
         });
 
-        let filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
+        const filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
         if (filteredSubredditList.length) {
             return (
                 <div className="subredditList-inner_container">
-                    <ScrollArea speed={0.8}
-                                horizontal={false}
+                    <ScrollArea
+speed={0.8}
+horizontal={false}
                     >
                         {subredditList}
                     </ScrollArea>
@@ -69,9 +70,9 @@ export default class ArchivedSubredditsComponent extends React.Component {
 }
 
 ArchivedSubredditsComponent.propTypes = {
-    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
-    archiveFormValue: PropTypes.string,
-    storeSubredditToArchive: PropTypes.func,
-    removePosts: PropTypes.func,
-    errorMessages: errorMessagesType,
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)).isRequired,
+    archiveFormValue: PropTypes.string.isRequired,
+    storeSubredditToArchive: PropTypes.func.isRequired,
+    removePosts: PropTypes.func.isRequired,
+    errorMessages: errorMessagesType.isRequired,
 };

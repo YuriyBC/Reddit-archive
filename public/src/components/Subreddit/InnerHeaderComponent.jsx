@@ -1,5 +1,5 @@
 import React from 'react';
-import { postType } from "../../utils/propTypes";
+import { postType } from '../../utils/propTypes';
 
 export default class InnerHeaderComponent extends React.Component {
     constructor(props) {
@@ -37,7 +37,7 @@ export default class InnerHeaderComponent extends React.Component {
                 src={icon_img}
                 alt="Subreddit icon"
             />
-        )
+        );
     }
 
     renderTitle() {

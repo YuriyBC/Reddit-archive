@@ -20,7 +20,7 @@ export const getPosts = id => (
             const localStorageData = storage(LOCAL_STORAGE_POSTS);
             const newData = { ...JSON.parse(localStorageData), ...data };
             storage(LOCAL_STORAGE_POSTS, JSON.stringify(newData));
-        })
+        });
     }
 );
 
@@ -56,15 +56,17 @@ export const getPost = (subredditId, postId) => function dispatchPost(dispatch) 
     });
 };
 
-export const getPostComments = (subredditId, postId, cancelToken) => function dispatchComments(dispatch) {
-    return getPostCommentsApi(subredditId, postId, cancelToken).then((response) => {
-        dispatch({
-            type: 'SET_POST_COMMENTS',
-            payload: response.data,
+export const getPostComments = (subredditId, postId, cancelToken) => (
+    function dispatchComments(dispatch) {
+        return getPostCommentsApi(subredditId, postId, cancelToken).then((response) => {
+            dispatch({
+                type: 'SET_POST_COMMENTS',
+                payload: response.data,
+            });
+            return response.data;
         });
-        return response.data;
-    });
-};
+    }
+);
 
 export const removePosts = () => function dispatchRemovePost(dispatch) {
     dispatch({

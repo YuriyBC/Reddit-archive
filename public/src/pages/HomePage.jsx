@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HeaderComponent from '../components/HeaderComponent';
 import FeedComponent from '../components/Home/FeedComponent';
@@ -6,8 +7,7 @@ import SidebarComponent from '../components/Home/SidebarComponent';
 import '../styles/home.scss';
 import { storeSubredditToArchive, setSubreddits } from '../store/actions/subredditsActions';
 import { removePosts } from '../store/actions/postsActions';
-import PropTypes from "prop-types";
-import { errorMessagesType, subredditType } from "../utils/propTypes";
+import { errorMessagesType, subredditType } from '../utils/propTypes';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class HomePage extends React.Component {
         const activeSubreddit = subreddits.find(subreddit => subreddit.display_name === name);
         if (activeSubreddit) {
             activeSubreddit.isArchived = activeSubreddit.isArchived === 0 ? 1 : 0;
-            if (activeSubreddit.isArchived === 1) { activeSubreddit.isLoading = true }
+            if (activeSubreddit.isArchived === 1) { activeSubreddit.isLoading = true; }
             dispatch(setSubreddits(subreddits));
         }
         dispatch(storeSubredditToArchive(name));
@@ -56,7 +56,7 @@ export default connect(state => ({
 }))(HomePage);
 
 HomePage.propTypes = {
-    dispatch: PropTypes.func,
-    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
-    errorMessages: errorMessagesType,
+    dispatch: PropTypes.func.isRequired,
+    subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)).isRequired,
+    errorMessages: errorMessagesType.isRequired,
 };

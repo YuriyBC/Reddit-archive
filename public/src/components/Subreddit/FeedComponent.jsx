@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import PostComponent from '../PostComponent';
 import constants from '../../utils/constants';
-import { postType } from "../../utils/propTypes";
-import PropTypes from "prop-types";
+import { postType } from '../../utils/propTypes';
 
 const { POSTS_TO_SHOW } = constants;
 
@@ -30,13 +30,13 @@ export default class FeedComponent extends React.Component {
         <div ref={this.subredditFeed}
              className="subreddit-feed box"
         >
-          {this.renderPostList()}
+            {this.renderPostList()}
         </div>
     );
   }
 }
 
 FeedComponent.propTypes = {
-    post: PropTypes.shape(postType),
-    currentPostsStep: PropTypes.number,
+    posts: PropTypes.arrayOf(PropTypes.shape(postType)).isRequired,
+    currentPostsStep: PropTypes.number.isRequired,
 };

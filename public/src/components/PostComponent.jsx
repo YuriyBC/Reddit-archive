@@ -1,6 +1,5 @@
 import React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import constants from '../utils/constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faAngleDown,
     faAngleUp,
@@ -9,8 +8,9 @@ import {
     faShare,
     faStar,
 } from '@fortawesome/free-solid-svg-icons';
+import constants from '../utils/constants';
 import methods from '../utils/methods';
-import { postType } from "../utils/propTypes";
+import { postType } from '../utils/propTypes';
 
 const {
     getDate,
@@ -26,23 +26,6 @@ export default class PostComponent extends React.Component {
         this.getPostTextHtml = this.getPostTextHtml.bind(this);
     }
 
-    renderPostImage() {
-        const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
-        const { SELF, NULL, SPOILER } = REDDIT_THUMBNAIL_STATE;
-
-        if (!thumbnail || thumbnail === NULL || thumbnail === SELF || thumbnail === SPOILER) {
-            return null
-        }
-
-        return (
-            <img width={thumbnail_width}
-                 height={thumbnail_height}
-                 src={thumbnail}
-                 alt="PostImage"
-            />
-        );
-    }
-
     getPostTextHtml() {
         const { selftext } = this.props;
         return selftext !== 'null' ? reformatTextToHtml(selftext) : null;
@@ -51,6 +34,24 @@ export default class PostComponent extends React.Component {
     calculateDate() {
         const { created } = this.props;
         return created ? getDate(created) : null;
+    }
+
+    renderPostImage() {
+        const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
+        const { SELF, NULL, SPOILER } = REDDIT_THUMBNAIL_STATE;
+
+        if (!thumbnail || thumbnail === NULL || thumbnail === SELF || thumbnail === SPOILER) {
+            return null;
+        }
+
+        return (
+            <img
+                width={thumbnail_width}
+                height={thumbnail_height}
+                src={thumbnail}
+                alt="PostImage"
+            />
+        );
     }
 
     render() {
@@ -87,7 +88,9 @@ export default class PostComponent extends React.Component {
                         <div>
                             <FontAwesomeIcon icon={faCommentAlt} />
                             <span>
-                                {num_comments} Comments
+                                {num_comments}
+                                {' '}
+                                Comments
                             </span>
                         </div>
                         <div>

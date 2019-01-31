@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import HeaderComponent from '../components/HeaderComponent';
 import FeedComponent from '../components/PostItem/FeedComponent';
 import SidebarComponent from '../components/SidebarComponent';
-import axios from 'axios';
 import '../styles/post.scss';
 import {
   getPost,
@@ -11,8 +12,7 @@ import {
   getPostFromLocalStorage,
   removeComments,
 } from '../store/actions/postsActions';
-import PropTypes from "prop-types";
-import { commentType, postType, subredditType } from "../utils/propTypes";
+import { commentType, postType, subredditType } from '../utils/propTypes';
 
 class SubredditPage extends React.Component {
   constructor(props) {
@@ -32,9 +32,9 @@ class SubredditPage extends React.Component {
     window.scrollTo(0, 0);
     if (match.params) {
       this.setCurrentSubreddit();
-      dispatch(getPostComments(id, postId, cancelToken)).then(response => {
+      dispatch(getPostComments(id, postId, cancelToken)).then((response) => {
         if (!response.comments.length) {
-          setTimeout(() => { dispatch(getPostComments(id, postId, cancelToken)) }, 5000)
+          setTimeout(() => { dispatch(getPostComments(id, postId, cancelToken)); }, 5000);
         }
       });
       dispatch(getPostFromLocalStorage(id, postId));
@@ -48,15 +48,15 @@ class SubredditPage extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    this.setCurrentSubreddit();
+  }
+
   componentWillUnmount() {
     const { dispatch } = this.props;
     const { cancelToken } = this;
     cancelToken.cancel('abort request by frontend');
-    dispatch(removeComments())
-  }
-
-  componentDidUpdate() {
-    this.setCurrentSubreddit();
+    dispatch(removeComments());
   }
 
   setCurrentSubreddit() {
@@ -75,12 +75,13 @@ class SubredditPage extends React.Component {
     const { currentSubreddit } = this.state;
     return (
         <div className="post">
-          <HeaderComponent />
-          <div className="home-content post-content">
-            <FeedComponent comments={comments}
-                           post={post} />
-            <SidebarComponent {...currentSubreddit} />
-          </div>
+            <HeaderComponent />
+            <div className="home-content post-content">
+                <FeedComponent comments={comments}
+                               post={post}
+                />
+                <SidebarComponent {...currentSubreddit} />
+            </div>
         </div>
     );
   }
@@ -93,7 +94,7 @@ export default connect(state => ({
 }))(SubredditPage);
 
 SubredditPage.propTypes = {
-  post: PropTypes.shape(postType),
-  comments: PropTypes.arrayOf(PropTypes.shape(commentType)),
-  subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)),
+  post: PropTypes.shape(postType).isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape(commentType)).isRequired,
+  subreddits: PropTypes.arrayOf(PropTypes.shape(subredditType)).isRequired,
 };
