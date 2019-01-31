@@ -1,7 +1,6 @@
 import React from 'react';
 import ArchivedSubredditsComponent from './ArchivedSubredditsComponent';
-
-const ScrollArea = require('react-scrollbar').default;
+import ScrollArea from 'react-scrollbar';
 
 export default class SidebarComponent extends React.Component {
     constructor(props) {

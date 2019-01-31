@@ -1,7 +1,6 @@
 import React from 'react';
 import ArchivedSubredditItem from './ArchivedSubredditItem';
-
-const ScrollArea = require('react-scrollbar').default;
+import ScrollArea from 'react-scrollbar';
 
 export default class ArchivedSubredditsComponent extends React.Component {
     getErrorMessages() {
