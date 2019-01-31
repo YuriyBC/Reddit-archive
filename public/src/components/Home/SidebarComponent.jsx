@@ -85,7 +85,8 @@ export default class SidebarComponent extends React.Component {
             return null;
         });
 
-        if (subredditList.some(subreddit => subreddit)) {
+        let filteredSubredditList = subredditList.filter(subreddit => !!subreddit);
+        if (filteredSubredditList.length) {
             const trueValue = true;
             const falseValue = true;
             return (
