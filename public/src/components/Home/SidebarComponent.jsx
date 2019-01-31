@@ -68,8 +68,7 @@ export default class SidebarComponent extends React.Component {
                 .trim();
             const subredditTitle = subreddit.display_name
                 .toLowerCase()
-                .trim()
-                .slice(0, subreddit.display_name.length - 1);
+                .trim();
 
             if (formValue && subredditTitle.includes(formValue) && !subreddit.isArchived) {
                 return (
