@@ -2,6 +2,7 @@
 const WEBSOCKET_URL = 'ws://localhost:8080';
 
 const POSTS_TO_SHOW = 20;
+const MINIMUM_ARCHIVED_LENGTH = 5;
 const AVAILABLE_SORTING = [
     {
         id: 0,
@@ -42,4 +43,5 @@ export default {
     AVAILABLE_SORTING,
     LOCAL_STORAGE_SUBREDDITS,
     LOCAL_STORAGE_POSTS,
+    MINIMUM_ARCHIVED_LENGTH,
 };

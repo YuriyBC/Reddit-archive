@@ -1,6 +1,9 @@
 import React from 'react';
 import ArchivedSubredditsComponent from './ArchivedSubredditsComponent';
 import ScrollArea from 'react-scrollbar';
+import constants from '../../utils/constants';
+
+const { MINIMUM_ARCHIVED_LENGTH } = constants;
 
 export default class SidebarComponent extends React.Component {
     constructor(props) {
@@ -48,10 +51,9 @@ export default class SidebarComponent extends React.Component {
 
     getArchiveFormClass() {
         const { subreddits } = this.props;
-        const minimumArchivedLength = 5;
         const archivedSubreddits = [...subreddits]
             .filter(subreddit => subreddit.isArchived);
-        return archivedSubreddits.length > minimumArchivedLength
+        return archivedSubreddits.length > MINIMUM_ARCHIVED_LENGTH
             ? 'home-sidebar__archive-form'
             : 'home-sidebar__archive-form disable';
     }
