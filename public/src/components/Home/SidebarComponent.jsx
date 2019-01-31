@@ -69,7 +69,7 @@ export default class SidebarComponent extends React.Component {
                 .trim()
                 .slice(0, subreddit.display_name.length - 1);
 
-            if (formValue && subredditTitle.search(formValue) > -1 && !subreddit.isArchived) {
+            if (formValue && subredditTitle.includes(formValue) && !subreddit.isArchived) {
                 return (
                     <div key={key}
                          tabIndex={0}
