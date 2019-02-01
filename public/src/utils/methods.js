@@ -50,31 +50,29 @@ function sortComments(comments) {
     const originalArray = [...comments];
     const array = [...comments].filter(el => +el.depth === 0);
 
-    const sortItems = () => {
+    function sortItems() {
+        const areChildrenNotExists = array.every((el) => {
+            const innerComments = originalArray.filter(comment => comment.parent_id === el.name);
+            return !innerComments.length || el.isSorted;
+        });
+
+        if (areChildrenNotExists) return false;
+
         array.forEach((el) => {
             if (!el.isSorted) {
                 const innerComments = originalArray
                     .filter(comment => comment.parent_id === el.name);
                 if (innerComments.length) {
                     el.isSorted = true;
-                    array.splice(array
-                        .findIndex(a => el.name === a.name) + 1, 0, ...innerComments);
+                    const indexSplice = array.findIndex(a => el.name === a.name) + 1;
+                    array.splice(indexSplice, 0, ...innerComments);
                 }
             }
         });
-    };
-
-    while (true) {
-        const areChildrenNotExists = array.every((el) => {
-            const innerComments = originalArray.filter(comment => comment.parent_id === el.name);
-            return !innerComments.length || el.isSorted;
-        });
-        if (areChildrenNotExists) {
-            break;
-        } else {
-            sortItems();
-        }
+        return sortItems();
     }
+
+    sortItems();
 
     return array;
 }
