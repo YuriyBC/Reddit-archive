@@ -1,3 +1,4 @@
+require('dotenv').config();
 const http = require('http');
 const path = require('path');
 const express = require('express');
@@ -51,7 +52,6 @@ function fetchDataOfArchivedSubreddits () {
 server.on('listening',function(){
   console.log('ok, server is running');
 });
-
 
 databaseService.init();
 apiService.init(app);
