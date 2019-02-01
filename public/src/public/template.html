@@ -11,17 +11,66 @@
 <style>
   body {
     background: #d9dfe5;
+    margin: 0;
+    padding: 0;
   }
   .spinner {
+      position: absolute;
+      top: 42%;
+      left: 45%;
+      width: 70px;
+      z-index: 10;
+  }
+  @keyframes lds-rolling {
+    0% {
+      -webkit-transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: translate(-50%, -50%) rotate(360deg);
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  @-webkit-keyframes lds-rolling {
+    0% {
+      -webkit-transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      -webkit-transform: translate(-50%, -50%) rotate(360deg);
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  .lds-rolling div,
+  .lds-rolling div:after {
     position: absolute;
-    top: 42%;
-    left: 45%;
-    width: 70px;
-    z-index: 10;
+    width: 100px;
+    height: 100px;
+    border: 12px solid #f08d43;
+    border-top-color: transparent;
+    border-radius: 50%;
+  }
+  .lds-rolling div {
+    -webkit-animation: lds-rolling 1s linear infinite;
+    animation: lds-rolling 1s linear infinite;
+    left: 47%;
+    top: 50vh;
+  }
+  .lds-rolling div:after {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+  .lds-rolling {
+    -webkit-transform: translate(-81px, -81px) scale(0.81) translate(81px, 81px);
+    transform: translate(-81px, -81px) scale(0.81) translate(81px, 81px);
   }
 </style>
 <div id="app">
-  <img class="spinner" src="http://127.0.0.1:8888/spinner.gif" alt="spinner">
+    <div class="lds-rolling">
+      <div></div>
+    </div>
 </div>
 </body>
 </html>
+
+
