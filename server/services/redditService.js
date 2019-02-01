@@ -46,9 +46,3 @@ module.exports = {
     getSubredditPosts,
     fetchPostSubmission
 };
-
-// console.log(r.getSubreddit('javascript'))
-// r.getSubreddit('javascript').getHot({limit: 500}).then((response) => {
-//     console.log(response.length)
-//     console.log(response[0])
-// })
