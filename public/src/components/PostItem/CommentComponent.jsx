@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+import Marked from 'marked';
 import {
     faAngleUp,
     faAngleDown,
@@ -11,7 +12,6 @@ import { commentType } from '../../utils/propTypes';
 
 const {
     getDate,
-    reformatTextToHtml,
 } = methods;
 
 export default class CommentsComponent extends React.Component {
@@ -50,7 +50,7 @@ export default class CommentsComponent extends React.Component {
         return (
             <div
                 className="comment-body__text"
-                dangerouslySetInnerHTML={{ __html: reformatTextToHtml(body) }}
+                dangerouslySetInnerHTML={{ __html: Marked(body) }}
             />
         );
     }

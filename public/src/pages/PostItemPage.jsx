@@ -22,21 +22,17 @@ class SubredditPage extends React.Component {
     };
     this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
     this.cancelToken = axios.CancelToken.source();
+    this.getComments = this.getComments.bind(this);
   }
 
   componentDidMount() {
     const GET_POST_INFO_TIMEOUT = 4000;
-    const { cancelToken } = this;
     const { match, dispatch } = this.props;
     const { id, postId } = match.params;
     window.scrollTo(0, 0);
     if (match.params) {
       this.setCurrentSubreddit();
-      dispatch(getPostComments(id, postId, cancelToken)).then((response) => {
-        if (!response.comments.length) {
-          setTimeout(() => { dispatch(getPostComments(id, postId, cancelToken)); }, 5000);
-        }
-      });
+      this.getComments(id, postId);
       dispatch(getPostFromLocalStorage(id, postId));
 
       setTimeout(() => {
@@ -57,6 +53,17 @@ class SubredditPage extends React.Component {
     const { cancelToken } = this;
     cancelToken.cancel('abort request by frontend');
     dispatch(removeComments());
+  }
+
+  getComments(id, postId) {
+    const { cancelToken } = this;
+    const { dispatch } = this.props;
+
+    dispatch(getPostComments(id, postId, cancelToken)).then((response) => {
+      if (!response.comments.length) {
+        setTimeout(() => { this.getComments(); }, 5000);
+      }
+    });
   }
 
   setCurrentSubreddit() {

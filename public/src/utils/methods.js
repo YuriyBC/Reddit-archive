@@ -34,27 +34,6 @@ function getDate(created) {
     return false;
 }
 
-function reformatTextToLinks(text) {
-    let string = text;
-    const currentIndex = 0;
-    let iteration = 0;
-
-    function searchLink() {
-        const indexOfReformatLink = string.indexOf('[', currentIndex);
-        const linkText = string.slice(string.indexOf('[', indexOfReformatLink) + 1, string.indexOf(']', indexOfReformatLink));
-        const linkUrl = string.slice(string.indexOf('(', indexOfReformatLink) + 1, string.indexOf(')', indexOfReformatLink));
-        const url = `<a href="${linkUrl}">${linkText}<a/>`;
-
-        string = string.replace(`[${linkText}](${linkUrl})`, url);
-    }
-    while (string.indexOf('[', currentIndex) > -1 && string[string.indexOf(']', currentIndex) + 1] === '(' && iteration < 100) {
-        searchLink();
-        iteration += 1;
-    }
-
-    return string;
-}
-
 function storage(...args) {
     if (args.length === 1) {
         return window.localStorage.getItem(args[0]);
@@ -62,39 +41,6 @@ function storage(...args) {
         return window.localStorage.setItem(args[0], args[1]);
     }
     return null;
-}
-
-function reformatTextToBold(text) {
-    let string = text;
-    let currentIndex = 0;
-    let iteration = 0;
-
-    function searchBold() {
-        const indexOfReformatBold = string.indexOf('**', currentIndex);
-        if (indexOfReformatBold) {
-            let boldItem = string.slice(string.indexOf('**', indexOfReformatBold), string.indexOf('**', indexOfReformatBold + 2));
-            boldItem = boldItem.replace('**', '');
-            const newBoldItem = `<b>${boldItem}</b>`;
-
-            string = string.replace(`**${boldItem}**`, newBoldItem);
-            currentIndex = string.indexOf(newBoldItem) + newBoldItem.length - 1;
-
-            return string;
-        }
-        return text;
-    }
-
-    while (string.indexOf('**', currentIndex) > -1 && iteration < 100) {
-        searchBold();
-        iteration += 1;
-    }
-    return string;
-}
-
-function reformatTextToHtml(text) {
-    text = reformatTextToLinks(text);
-    text = reformatTextToBold(text);
-    return text;
 }
 
 function sortComments(comments) {
@@ -136,7 +82,6 @@ function sortComments(comments) {
 export default {
     throttle,
     getDate,
-    reformatTextToHtml,
     storage,
     sortComments,
 };

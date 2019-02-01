@@ -36,6 +36,12 @@ body .post {
       .post-content__text {
         max-height: none;
         padding-bottom: vw(25);
+        ul {
+          margin: 0;
+        }
+        h1, h2, h3, h4, h5 {
+          margin: 0;
+        }
       }
     }
   }
@@ -116,6 +122,9 @@ body .post {
         color: rgb(28, 28, 28);
         padding: vw(5) vw(8);
         padding-left: 0;
+        p {
+          margin: 0;
+        }
         a[href^="/"], a[href^="http"] {
           color: rgb(234, 0, 39);
           text-decoration: underline;

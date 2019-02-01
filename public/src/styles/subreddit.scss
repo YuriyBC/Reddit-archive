@@ -111,7 +111,7 @@ body .subreddit {
           display: inline;
           overflow-wrap: break-word;
           color: rgb(68, 78, 89);
-          font-size: 18px;
+          font-size: vw(19);
           font-weight: 500;
           line-height: 22px;
           text-align: left;
@@ -150,7 +150,7 @@ body .subreddit {
         }
         p {
           width: 100%;
-          margin: 0 vw(5) vw(5) vw(5);
+          margin: 0;
         }
       }
       .post-content__bottom {

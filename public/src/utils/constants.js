@@ -27,6 +27,10 @@ const REDDIT_THUMBNAIL_STATE = {
     SPOILER: 'spoiler',
 };
 
+const REDDIT_SELFTEXT_STATE = {
+    NULL: 'null',
+};
+
 const LOCAL_STORAGE_SUBREDDITS = 'subreddits';
 const LOCAL_STORAGE_POSTS = 'posts';
 
@@ -52,4 +56,5 @@ export default {
     LOCAL_STORAGE_POSTS,
     MINIMUM_ARCHIVED_LENGTH,
     REDDIT_THUMBNAIL_STATE,
+    REDDIT_SELFTEXT_STATE,
 };

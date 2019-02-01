@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Marked from 'marked';
 import {
     faAngleDown,
     faAngleUp,
@@ -14,9 +15,11 @@ import { postType } from '../utils/propTypes';
 
 const {
     getDate,
-    reformatTextToHtml,
 } = methods;
-const { REDDIT_THUMBNAIL_STATE } = constants;
+const {
+    REDDIT_THUMBNAIL_STATE,
+    REDDIT_SELFTEXT_STATE,
+} = constants;
 
 export default class PostComponent extends React.Component {
     constructor(props) {
@@ -27,8 +30,9 @@ export default class PostComponent extends React.Component {
     }
 
     getPostTextHtml() {
+        const { NULL } = REDDIT_SELFTEXT_STATE;
         const { selftext } = this.props;
-        return selftext !== 'null' ? reformatTextToHtml(selftext) : null;
+        return selftext !== NULL ? Marked(selftext) : null;
     }
 
     calculateDate() {
