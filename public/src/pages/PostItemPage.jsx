@@ -61,7 +61,7 @@ class SubredditPage extends React.Component {
 
     dispatch(getPostComments(id, postId, cancelToken)).then((response) => {
       if (!response.comments.length) {
-        setTimeout(() => { this.getComments(); }, 5000);
+        setTimeout(() => { this.getComments(id, postId); }, 5000);
       }
     });
   }

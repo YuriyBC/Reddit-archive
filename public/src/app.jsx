@@ -32,9 +32,15 @@ class App extends React.Component {
         dispatch(getSubreddits());
 
         websocketService().onmessage = (message) => {
+            const { posts } = this.props;
             if (JSON.parse(message.data)) {
                 const data = JSON.parse(message.data);
-                dispatch(getPosts(data.id));
+                const currentPosts = posts.allPosts;
+                if (currentPosts.length
+                    && currentPosts[0].subreddit_id
+                    && +currentPosts[0].subreddit_id === +data.id) {
+                    dispatch(getPosts(data.id));
+                }
             }
         };
     }
