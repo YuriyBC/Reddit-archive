@@ -1,6 +1,7 @@
 const redditFetcher = require('./redditService');
 const databaseService = require('./database/databaseService');
 const constants = require('../constants');
+const cors = require('cors');
 const {
 	SUBREDDITS_TABLE_TITLE,
 	POSTS_TABLE_TITLE,
@@ -13,7 +14,7 @@ const {
 } = constants;
 
 function init (app) {
-	allowCors(app);
+    app.use(cors());
 
 	app.get('/', (request, response) => {
 		response.sendFile(path.resolve(__dirname, '../public/public', 'index.html'));
@@ -202,15 +203,6 @@ function getAllComments (initialComments) {
 	}
 	storeFromComments(initialComments);
 	return storedData;
-}
-
-
-function allowCors (app) {
-	app.use(function(req, res, next) {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-		next();
-	});
 }
 
 module.exports = {
