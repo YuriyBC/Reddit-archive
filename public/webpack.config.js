@@ -5,6 +5,7 @@ const loadersConf = require('./webpack.loaders');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8888";
@@ -68,5 +69,8 @@ module.exports = {
         js: [ "bundle.js"],
       }
     }),
+    new CopyWebpackPlugin([
+      { from: './src/public/spinner.css', to: path.join(__dirname, 'public') }
+    ])
   ]
 };

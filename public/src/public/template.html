@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Reddit Archive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/spinner.css">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
   <link href="https://www.redditstatic.com/mweb2x/favicon/64x64.png" rel="icon shortcut" sizes="64x64">
 </head>
@@ -14,53 +15,9 @@
     margin: 0;
     padding: 0;
   }
-  .spinner {
-      position: absolute;
-      top: 42%;
-      left: 45%;
-      width: 70px;
-      z-index: 10;
-  }
-  @keyframes lds-rolling {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
-  }
-  @-webkit-keyframes lds-rolling {
-    0% {
-      transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
-  }
-  .lds-rolling div,
-  .lds-rolling div:after {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 12px solid #f08d43;
-    border-top-color: transparent;
-    border-radius: 50%;
-  }
-  .lds-rolling div {
-    -webkit-animation: lds-rolling 1s linear infinite;
-    animation: lds-rolling 1s linear infinite;
-    left: 47%;
-    top: 50vh;
-  }
-  .lds-rolling div:after {
-    transform: rotate(90deg);
-  }
-  .lds-rolling {
-    transform: translate(-81px, -81px) scale(0.81) translate(81px, 81px);
-  }
 </style>
 <div id="app">
-    <div class="lds-rolling">
+    <div class="spinner">
       <div></div>
     </div>
 </div>

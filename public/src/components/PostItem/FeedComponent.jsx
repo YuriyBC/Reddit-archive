@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PostComponent from '../PostComponent';
 import CommentsSection from './CommentsSection';
-import spinner from '../../assets/img/spinner.gif';
 import { postType, commentType } from '../../utils/propTypes';
 
 export default class FeedComponent extends React.Component {
@@ -21,10 +20,9 @@ export default class FeedComponent extends React.Component {
         const { comments } = this.props;
         if (!comments || !comments.length) {
             return (
-                <img className="spinner comments-spinner"
-                     src={spinner}
-                     alt="Spinner"
-                />
+                <div className="spinner comments-spinner">
+                    <div />
+                </div>
             );
         }
         return <CommentsSection comments={comments} />;

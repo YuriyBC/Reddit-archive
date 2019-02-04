@@ -1,9 +1,10 @@
-var webpack = require('webpack');
-var path = require('path');
-var loaders = require('./webpack.loaders');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const loaders = require('./webpack.loaders');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 loaders.push({
   test: /\.scss$/,
@@ -55,6 +56,9 @@ module.exports = {
         css: ['style.css'],
         js: ['bundle.js'],
       }
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: './src/public/spinner.css', to: path.join(__dirname, 'public') }
+    ])
   ]
 };

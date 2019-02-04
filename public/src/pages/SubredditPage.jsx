@@ -9,7 +9,6 @@ import NavigationBar from '../components/Subreddit/NavigationBar';
 import { getPosts, setPostsFromLocalStorage } from '../store/actions/postsActions';
 import '../styles/subreddit.scss';
 import methods from '../utils/methods';
-import spinner from '../assets/img/spinner.gif';
 import { postType, subredditType } from '../utils/propTypes';
 
 const { throttle } = methods;
@@ -29,7 +28,6 @@ class SubredditPage extends React.Component {
         this.setCurrentSubreddit = this.setCurrentSubreddit.bind(this);
         this.renderFeedComponent = this.renderFeedComponent.bind(this);
         this.renderSidebar = this.renderSidebar.bind(this);
-        this.getSpinnerStyle = this.getSpinnerStyle.bind(this);
         this.getSortedPosts = this.getSortedPosts.bind(this);
     }
 
@@ -51,14 +49,6 @@ class SubredditPage extends React.Component {
 
     componentDidUpdate() {
         this.setCurrentSubreddit();
-    }
-
-    getSpinnerStyle() {
-        return this.isDataLoaded()
-            ? {
-                display: 'none',
-            }
-            : null;
     }
 
     setCurrentSubreddit() {
@@ -155,11 +145,6 @@ class SubredditPage extends React.Component {
                     <div className="subreddit-content__wrapper">
                         {this.renderFeedComponent()}
                         {this.renderSidebar()}
-                        <img style={this.getSpinnerStyle()}
-                             className="spinner subreddit-spinner"
-                             src={spinner}
-                             alt="Spinner"
-                        />
                     </div>
                 </div>
             </div>
