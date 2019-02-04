@@ -1,0 +1,350 @@
+@import "variables";
+
+body .subreddit {
+  .subreddit-spinner {
+    top: 50%;
+    left: 36%;
+  }
+  &-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    .subreddit-content__wrapper {
+      padding: vw(20);
+      justify-content: center;
+      width: 100%;
+      display: flex;
+    }
+  }
+  &-header {
+    width: 100%;
+    display: flex;
+    height: vw(150);
+    background-color: $color-white;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    .subreddit-header__inner {
+      position: relative;
+      width: 100%;
+      padding: vw(65) vw(400);
+    }
+    .subreddit-header__image {
+      position: absolute;
+      top: vw(35);
+      left: 50%;
+      width: auto;
+      height: auto;
+      max-width: 60%;
+      max-height: 60%;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .subreddit-header__title {
+      font-size: vw(25);
+      color: $color-black;
+    }
+  }
+  &-feed {
+    width: vw(720);
+    background: none;
+    &:hover {
+      box-shadow: none;
+    }
+    & > a {
+      display: flex;
+      position: relative;
+      width: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+    .post {
+      display: flex;
+      position: relative;
+      width: 100%;
+      @include background-white(0.8);
+      margin-bottom: 10px;
+      color: $icon-color;
+      fill: $icon-color;
+      overflow: hidden;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgb(204, 204, 204);
+      border-image: initial;
+      &:hover {
+        border-color: rgba(0,0,0,0.5)
+      }
+      &-rating {
+        color: $icon-color;
+        fill: $icon-color;
+        width: vw(44);
+        padding: vw(8) vw(4) vw(8) vw(4);
+        font-size: 25px;
+        &__content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          svg {
+            cursor: pointer;
+            &:hover {
+              color: rgb(90, 117, 204);
+            }
+          }
+          div {
+            font-size: vw(14);
+            font-weight: 700;
+            line-height: vw(16);
+            color: #1A1A1B;
+          }
+        }
+      }
+      &-content {
+        display: flex;
+        flex-direction: column;
+        padding: vw(8) vw(8) vw(3) vw(8);
+        align-items: flex-start;
+        background: $color-white;
+        padding-right: vw(40);
+        width: 100%;
+        .post-content__title {
+          padding: vw(5) vw(3);
+          display: inline;
+          overflow-wrap: break-word;
+          color: $color-black-light;
+          font-size: vw(19);
+          font-weight: 500;
+          line-height: 22px;
+          text-align: left;
+          margin: vw(5) 0;
+        }
+        p {
+          white-space: pre-line;
+        }
+      }
+      a[href^="/"], a[href^="http"] {
+        color: $color-red;
+        text-decoration: underline;
+      }
+      .post-content__author {
+        padding: 0 vw(3);
+        small {
+          font-size: vw(10);
+          font-weight: 400;
+          line-height: vw(16);
+          -webkit-box-align: center;
+        }
+      }
+      .post-content__text {
+        position: relative;
+        overflow: hidden;
+        max-height: vw(340);
+        text-align: left;
+        font-size: vw(18);
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: vw(25);
+          background: linear-gradient(to bottom, rgba(255,255,255, 0.3) 0%,rgba(255,255,255, 0.4) 43%,rgba(255,255,255, 0.5) 47%, rgba(255,255,255, 0.8) 60%, rgba(255,255,255, 1) 90%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        }
+        p {
+          width: 100%;
+          margin: 0;
+        }
+      }
+      .post-content__bottom {
+        display: flex;
+        & > div {
+          display: flex;
+          cursor: pointer;
+          font-size: vw(12);
+          font-weight: 700;
+          line-height: vw(16);
+          margin-right: 5px;
+          border-radius: vw(2);
+          transition: background-color 0.1s ease 0s;
+          word-break: normal;
+          white-space: nowrap;
+          min-width: vw(25);
+          padding: vw(5);
+          &:hover {
+            background-color: rgba(26, 26, 27, 0.1);
+            outline: none;
+          }
+          svg {
+            display: inline-block;
+            height: vw(17);
+            margin-right: vw(4);
+            vertical-align: middle;
+            width: vw(17);
+          }
+          &:last-child {
+            display: flex;
+            justify-content: center;
+            padding-left: vw(5);
+          }
+        }
+      }
+      p {
+        color: rgb(26, 26, 27);
+        word-break: break-word;
+      }
+    }
+  }
+  &-sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    user-select: none;
+    min-height: vw(300);
+    height: max-content;
+    padding-bottom: vw(45);
+    .sidebar-header {
+      border-radius: 5px 5px 0 0;
+      width: 100%;
+      font-size: vw(11);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 12px;
+      text-transform: uppercase;
+      color: $color-white;
+      padding: vw(12) vw(12);
+    }
+    .subreddit-sidebar__body {
+      padding: vw(15);
+    }
+    .subreddit-sidebar__subscribers {
+      padding-top: vw(20);
+    }
+    .subreddit-sidebar__subscribers {
+      font-size: vw(17);
+      b {
+        margin-right: vw(10);
+      }
+    }
+    .sidebar-info {
+      display: flex;
+      align-items: center;
+      img {
+        height: vw(32);
+        width: vw(32);
+        margin-right: vw(10);
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      span {
+        font-size: vw(17);
+        font-weight: 500;
+        display: inline-block;
+      }
+    }
+    .subreddit-sidebar__description {
+      padding-top: vw(20);
+      font-size: vw(15);
+    }
+  }
+
+  &-navbar {
+    display: flex;
+    justify-content: center;
+    height: vw(50);
+    background: white;
+    .subreddit-navbar__buttons {
+      width: vw(400);
+      user-select: none;
+    }
+    .subreddit-navbar__sorting {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      h5 {
+        font-size: vw(10);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        line-height: vw(12);
+        text-transform: uppercase;
+        color: rgb(124, 124, 124);
+      }
+    }
+    .subreddit-navbar__dropdown-chosen, .subreddit-navbar__dropdown > div {
+      display: flex;
+      align-items: center;
+      font-size: vw(14);
+      font-weight: 500;
+      line-height: vw(18);
+      color: $icon-color;
+      fill: $icon-color;
+      background-color: $color-white;
+      text-transform: capitalize;
+      white-space: nowrap;
+      border-width: 1px;
+      border-style: solid;
+      border-color: $comment-line-color;
+      border-image: initial;
+      padding: 8px;
+      cursor: pointer;
+      svg {
+        margin-right: vw(10);
+        font-size: vw(15);
+      }
+    }
+    .subreddit-navbar__dropdown-chosen {
+      color: rgb(0, 121, 211);
+      fill: rgb(0, 121, 211);
+      margin-left: vw(4);
+      border: none;
+      box-shadow: none;
+      img {
+        display: inline-block;
+        height: vw(20);
+        width: vw(20);
+        vertical-align: middle;
+        margin-top: vw(-2);
+        margin-left: vw(5);
+      }
+      &:hover {
+        background: rgba(0, 121, 211, 0.2);
+      }
+      &:active {
+        background: rgba(0, 121, 211, 0.4);
+      }
+    }
+    .icon-wrapper {
+      width: vw(20);
+      display: flex;
+      justify-content: center;
+    }
+    .subreddit-navbar__dropdown-container {
+      display: flex;
+      position: relative;
+      .subreddit-navbar__dropdown {
+        position: absolute;
+        top: vw(40);
+        display: flex;
+        flex-direction: column;
+        box-shadow: form-text-color(0.2) 0 2px 4px 0;
+        color: form-text-color(1);
+        margin-top: 8px;
+        z-index: 10;
+        background-color: $color-white;
+        margin-left: -5px;
+        min-width: 100px;
+        border-radius: 4px;
+        overflow: hidden;
+        div {
+          padding-left: vw(5);
+          &:hover {
+            color: rgb(0, 121, 211);
+            fill: rgb(0, 121, 211);
+          }
+          &:active {
+            background: rgba(0, 121, 211, 0.1);
+          }
+        }
+      }
+    }
+  }
+}

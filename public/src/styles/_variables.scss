@@ -1,0 +1,35 @@
+$header-height: 48px;
+$browserContext: 16;
+$baseWidth: 1920;
+$baseHeight: 1080;
+
+$color-white: rgb(255, 255, 255);
+$color-black: rgb(0, 0, 0);
+$color-black-light: rgb(68, 78, 89);
+$color-shadow: rgba(144,144,144, 0.7);
+$icon-color: rgb(135, 138, 140);
+$comment-line-color: rgb(237, 239, 241);
+$color-red: rgb(234, 0, 39);
+
+
+@function form-text-color ($opacity) {
+  @return rgba(28, 28, 28, $opacity)
+}
+
+@mixin background-white($opacity) {
+ background: rgba(255, 255, 255, $opacity);
+}
+
+@function em($pixels, $context: $browserContext) {
+  @return #{$pixels/$context}em;
+}
+
+@function vh($target) {
+  $vh-context: ($baseHeight*.01);
+  @return #{$target/$vh-context}vh;
+}
+
+@function vw($target) {
+  $vw-context: ($baseWidth*.01);
+  @return #{$target/$vw-context}vw;
+}

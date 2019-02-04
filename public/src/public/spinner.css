@@ -1,0 +1,40 @@
+@-webkit-keyframes spinner {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.spinner {
+    position: relative;
+}
+
+.spinner div,
+.spinner div:after {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 20px solid #f05125;
+    border-top-color: transparent;
+    border-radius: 50%;
+}
+
+.spinner div {
+    animation: spinner 1s linear infinite;
+    top: 100px;
+    left: 100px;
+}
+
+.spinner div:after {
+    transform: rotate(90deg);
+}
+
+.spinner {
+    margin-top: 45vh;
+    margin-left: 45%;
+    width: 80px !important;
+    height: 80px !important;
+    transform: translate(-40px, -40px) scale(0.4) translate(40px, 40px);
+}

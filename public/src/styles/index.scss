@@ -1,0 +1,17 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #d9dfe5;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.box {
+  border-radius: 5px 5px 4px 4px;
+}

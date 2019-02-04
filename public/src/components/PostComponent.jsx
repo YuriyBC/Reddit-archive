@@ -1,0 +1,120 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Marked from 'marked';
+import {
+    faAngleDown,
+    faAngleUp,
+    faBookmark,
+    faCommentAlt,
+    faShare,
+    faStar,
+} from '@fortawesome/free-solid-svg-icons';
+import constants from '../utils/constants';
+import methods from '../utils/methods';
+import { postType } from '../utils/propTypes';
+
+const {
+    getDate,
+} = methods;
+const {
+    REDDIT_THUMBNAIL_STATE,
+    REDDIT_SELFTEXT_STATE,
+} = constants;
+
+export default class PostComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.calculateDate = this.calculateDate.bind(this);
+        this.renderPostImage = this.renderPostImage.bind(this);
+        this.getPostTextHtml = this.getPostTextHtml.bind(this);
+    }
+
+    getPostTextHtml() {
+        const { NULL } = REDDIT_SELFTEXT_STATE;
+        const { selftext } = this.props;
+        return selftext !== NULL ? Marked(selftext) : null;
+    }
+
+    calculateDate() {
+        const { created } = this.props;
+        return created ? getDate(created) : null;
+    }
+
+    renderPostImage() {
+        const { thumbnail, thumbnail_height, thumbnail_width } = this.props;
+        const { SELF, NULL, SPOILER } = REDDIT_THUMBNAIL_STATE;
+
+        if (!thumbnail || thumbnail === NULL || thumbnail === SELF || thumbnail === SPOILER) {
+            return null;
+        }
+
+        return (
+            <img
+                width={thumbnail_width}
+                height={thumbnail_height}
+                src={thumbnail}
+                alt="PostImage"
+            />
+        );
+    }
+
+    render() {
+        const {
+            score,
+            author_fullname,
+            title,
+            num_comments,
+        } = this.props;
+        return (
+            <div className="post box default_type">
+                <div className="post-rating">
+                    <div className="post-rating__content">
+                        <FontAwesomeIcon icon={faAngleUp} />
+                        <div>{score}</div>
+                        <FontAwesomeIcon icon={faAngleDown} />
+                    </div>
+                </div>
+                <div className="post-content">
+                    <small className="post-content__author">
+                        Posted by/
+                        {author_fullname}
+                        at
+                        {this.calculateDate()}
+                    </small>
+                    <h2 className="post-content__title">
+                        {title}
+                    </h2>
+                    <span className="post-content__text">
+                        <p dangerouslySetInnerHTML={{ __html: this.getPostTextHtml() }} />
+                        {this.renderPostImage()}
+                    </span>
+                    <div className="post-content__bottom">
+                        <div>
+                            <FontAwesomeIcon icon={faCommentAlt} />
+                            <span>
+                                {num_comments}
+                                {' '}
+                                Comments
+                            </span>
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon={faShare} />
+                            <span>Share</span>
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon={faBookmark} />
+                            <span>Save</span>
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon={faStar} />
+                            <span>Give Award</span>
+                        </div>
+                        <div>...</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+PostComponent.propTypes = postType;

@@ -1,0 +1,187 @@
+@import "variables";
+
+body .post {
+  &-content {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+  }
+  &-feed {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    width: vw(1200);
+    min-height: vw(100);
+    & > div {
+      display: flex;
+      flex-direction: column;
+      @include background-white(1);
+      padding: vw(25) vw(50) 0 vw(50);
+      width: 100%;
+      border-radius: inherit;
+      height: auto;
+    }
+    .post {
+      display: flex;
+      position: relative;
+      width: 100%;
+      @include background-white(0.8);
+      margin-bottom: vw(30);
+      color: rgb(135, 138, 140);
+      fill: rgb(135, 138, 140);
+      overflow: hidden;
+      border: none;
+      .post-content__text {
+        max-height: none;
+        padding-bottom: vw(25);
+        ul {
+          margin: 0;
+        }
+        h1, h2, h3, h4, h5 {
+          margin: 0;
+        }
+      }
+    }
+  }
+  .comments-section {
+    width: 100%;
+    padding-left: vw(10);
+    padding-bottom: vw(20);
+    &__button {
+      font-size: vw(15);
+      color: #ea0027;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.9;
+      }
+      &:active {
+        opacity: 0.5;
+      }
+    }
+  }
+  .comment {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    .comment-rating {
+      display: flex;
+      justify-content: center;
+      margin: 0 6px;
+      position: relative;
+      svg {
+        color: $icon-color;
+        font-size: vw(27);
+        cursor: pointer;
+        &:hover {
+          opacity: 0.9;
+        }
+        &:active {
+          opacity: 0.6;
+        }
+      }
+      .comment-rating__body {
+        -webkit-box-align: center;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        min-width: vw(24);
+        max-height: vw(40);
+        text-align: center;
+        z-index: 3;
+      }
+    }
+    .comment-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      padding-right: vw(45);
+      .comment-body__info {
+        span:first-child {
+          font-size: vw(12);
+          font-weight: 400;
+          line-height: vw(16);
+          color: rgb(234, 0, 39);
+        }
+        span:nth-child(2), span:nth-child(3) {
+          padding-left: vw(8);
+          flex: 0 0 auto;
+          font-size: vw(12);
+          font-weight: 400;
+          line-height: vw(16);
+          color: rgb(124, 124, 124);
+        }
+      }
+      .comment-body__text {
+        font-family: "Noto Sans", "Helvetica Neue", "Segoe UI", Helvetica, Verdana, Arial, sans-serif;
+        font-size: vw(14);
+        font-weight: 400;
+        line-height: 21px;
+        color: form-text-color(1);
+        padding: vw(5) vw(8) vw(5) 0;
+        p {
+          margin: 0;
+        }
+        a[href^="/"], a[href^="http"] {
+          color: rgb(234, 0, 39);
+          text-decoration: underline;
+        }
+      }
+      .comment-body__navigation {
+        display: flex;
+        flex-direction: row;
+        -webkit-box-align: center;
+        align-items: center;
+        font-size: vw(12);
+        font-weight: 700;
+        line-height: 16px;
+        color: $icon-color;
+        margin: vw(4) 0 vw(8);
+        span {
+          display: inline-block;
+          margin-right: vw(12);
+          transition: color 0.1s ease 0s;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          &:active {
+            opacity: 0.6;
+          }
+        }
+        svg {
+          margin-right: vw(5);
+          color: rgb(183, 185, 186);
+        }
+      }
+    }
+  }
+  .comments-spinner {
+    position: relative;
+    margin: vw(20) 0 vw(40) 0;
+    left: 45%;
+  }
+  .comment {
+    position: relative;
+    .comment-rating {
+      &::after {
+        content: '';
+        position: absolute;
+        top: 55px;
+        left: 10px;
+        height: 100%;
+        width: 2px;
+        background: $comment-line-color;
+      }
+    }
+    &.parent {
+      margin-top: vw(15);
+    }
+  }
+  .offsetLine {
+    border-right: 2px solid $comment-line-color;
+    width: 18px;
+    min-width: 18px;
+  }
+}

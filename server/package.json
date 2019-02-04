@@ -1,0 +1,39 @@
+{
+  "name": "reddit-archive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "coreServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriyBC/Reddit-archive.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YuriyBC/Reddit-archive/issues"
+  },
+  "homepage": "https://github.com/YuriyBC/Reddit-archive#readme",
+  "dependencies": {
+    "@ionic/app-scripts": "^3.1.6",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "node-fetch": "^2.3.0",
+    "snoowrap": "^1.15.2"
+  },
+  "devDependencies": {
+    "connect": "^3.6.6",
+    "http": "0.0.0",
+    "mysql": "^2.16.0",
+    "ws": "3.3.2"
+  },
+  "events": {
+    "restart": "sudo lsof -t -i:8080",
+    "crash": "sudo lsof -t -i:8080"
+  }
+}
