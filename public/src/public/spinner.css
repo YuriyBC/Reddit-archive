@@ -1,10 +1,8 @@
 @-webkit-keyframes spinner {
     0% {
-        -webkit-transform: translate(-50%, -50%) rotate(0deg);
         transform: translate(-50%, -50%) rotate(0deg);
     }
     100% {
-        -webkit-transform: translate(-50%, -50%) rotate(360deg);
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
@@ -24,14 +22,12 @@
 }
 
 .spinner div {
-    -webkit-animation: spinner 1s linear infinite;
     animation: spinner 1s linear infinite;
     top: 100px;
     left: 100px;
 }
 
 .spinner div:after {
-    -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
 }
 
@@ -40,6 +36,5 @@
     margin-left: 45%;
     width: 80px !important;
     height: 80px !important;
-    -webkit-transform: translate(-40px, -40px) scale(0.4) translate(40px, 40px);
     transform: translate(-40px, -40px) scale(0.4) translate(40px, 40px);
 }
