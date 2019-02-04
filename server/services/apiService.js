@@ -142,18 +142,22 @@ function startRedditArchivation (subredditTitle, subredditId) {
 	redditFetcher.getSubredditPosts(subredditTitle).then(result => {
 		if (result && result.length) {
 			result.forEach((post, index) => {
+				let postId = post.id;
 				databaseService.insertDataInTable(POSTS_TABLE_TITLE, post, subredditId, index);
-				redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
-					const comments = getAllComments(el[1].data.children);
-					comments.forEach((comment) => {
-						if (comment) {
-							comment.data.postId = post.id;
-							databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment);
-						}
-					});
-				});
+				redditFetcher.fetchPostSubmission(post.subreddit.display_name, postId)
+					.then((post) => insertCommentsInDatabase(post, postId));
 			});
 			return result;
+		}
+	});
+}
+
+function insertCommentsInDatabase (post, postId) {
+	const comments = getAllComments(post[1].data.children);
+	comments.forEach((comment) => {
+		if (comment) {
+			comment.data.postId = postId;
+			databaseService.insertDataInTable(COMMENTS_TABLE_TITLE, comment);
 		}
 	});
 }
@@ -163,17 +167,20 @@ function updateData (subredditTitle, subredditId) {
 		if (result && result.length) {
 			result.forEach((post, index) => {
 				databaseService.updateDataInTable(POSTS_TABLE_TITLE, post, subredditId, index);
-				redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id).then(el => {
-					const comments = getAllComments(el[1].data.children);
-					comments.forEach(comment => {
-						if (comment) {
-							comment.data.postId = post.id;
-							databaseService.updateDataInTable(COMMENTS_TABLE_TITLE, comment);
-						}
-					});
-				});
+				redditFetcher.fetchPostSubmission(post.subreddit.display_name, post.id)
+					.then((post) => updateCommentsInDatabase(post, post.id));
 			});
 			return result;
+		}
+	});
+}
+
+function updateCommentsInDatabase (post, postId) {
+	const comments = getAllComments(post[1].data.children);
+	comments.forEach((comment) => {
+		if (comment) {
+			comment.data.postId = postId;
+			databaseService.updateDataInTable(COMMENTS_TABLE_TITLE, comment);
 		}
 	});
 }
