@@ -16,9 +16,8 @@ body .post {
     & > div {
       display: flex;
       flex-direction: column;
-      background: rgba(255, 255, 255, 1);
-      padding: 0 vw(50);
-      padding-top: vw(25);
+      @include background-white(1);
+      padding: vw(25) vw(50) 0 vw(50);
       width: 100%;
       border-radius: inherit;
       height: auto;
@@ -27,7 +26,7 @@ body .post {
       display: flex;
       position: relative;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.8);
+      @include background-white(0.8);
       margin-bottom: vw(30);
       color: rgb(135, 138, 140);
       fill: rgb(135, 138, 140);
@@ -71,7 +70,7 @@ body .post {
       margin: 0 6px;
       position: relative;
       svg {
-        color: rgb(135, 138, 140);
+        color: $icon-color;
         font-size: vw(27);
         cursor: pointer;
         &:hover {
@@ -119,9 +118,8 @@ body .post {
         font-size: vw(14);
         font-weight: 400;
         line-height: 21px;
-        color: rgb(28, 28, 28);
-        padding: vw(5) vw(8);
-        padding-left: 0;
+        color: form-text-color(1);
+        padding: vw(5) vw(8) vw(5) 0;
         p {
           margin: 0;
         }
@@ -138,7 +136,7 @@ body .post {
         font-size: vw(12);
         font-weight: 700;
         line-height: 16px;
-        color: rgb(135, 138, 140);
+        color: $icon-color;
         margin: vw(4) 0 vw(8);
         span {
           display: inline-block;
@@ -173,7 +171,7 @@ body .post {
         left: 10px;
         height: 100%;
         width: 2px;
-        background: rgb(237, 239, 241);
+        background: $comment-line-color;
       }
     }
     &.parent {
@@ -181,7 +179,7 @@ body .post {
     }
   }
   .offsetLine {
-    border-right: 2px solid rgb(237, 239, 241);
+    border-right: 2px solid $comment-line-color;
     width: 18px;
     min-width: 18px;
   }

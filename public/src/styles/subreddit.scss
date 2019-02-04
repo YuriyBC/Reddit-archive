@@ -21,7 +21,7 @@ body .subreddit {
     width: 100%;
     display: flex;
     height: vw(150);
-    background-color: white;
+    background-color: $color-white;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     .subreddit-header__inner {
@@ -42,7 +42,7 @@ body .subreddit {
     }
     .subreddit-header__title {
       font-size: vw(25);
-      color: black;
+      color: $color-black;
     }
   }
   &-feed {
@@ -62,10 +62,10 @@ body .subreddit {
       display: flex;
       position: relative;
       width: 100%;
-      background-color: rgba(255, 255, 255, 0.8);
+      @include background-white(0.8);
       margin-bottom: 10px;
-      color: rgb(135, 138, 140);
-      fill: rgb(135, 138, 140);
+      color: $icon-color;
+      fill: $icon-color;
       overflow: hidden;
       border-width: 1px;
       border-style: solid;
@@ -75,8 +75,8 @@ body .subreddit {
         border-color: rgba(0,0,0,0.5)
       }
       &-rating {
-        color: rgb(135, 138, 140);
-        fill: rgb(135, 138, 140);
+        color: $icon-color;
+        fill: $icon-color;
         width: vw(44);
         padding: vw(8) vw(4) vw(8) vw(4);
         font-size: 25px;
@@ -103,14 +103,14 @@ body .subreddit {
         flex-direction: column;
         padding: vw(8) vw(8) vw(3) vw(8);
         align-items: flex-start;
-        background: rgb(255, 255, 255);
+        background: $color-white;
         padding-right: vw(40);
         width: 100%;
         .post-content__title {
           padding: vw(5) vw(3);
           display: inline;
           overflow-wrap: break-word;
-          color: rgb(68, 78, 89);
+          color: $color-black-light;
           font-size: vw(19);
           font-weight: 500;
           line-height: 22px;
@@ -122,7 +122,7 @@ body .subreddit {
         }
       }
       a[href^="/"], a[href^="http"] {
-        color: rgb(234, 0, 39);
+        color: $color-red;
         text-decoration: underline;
       }
       .post-content__author {
@@ -208,7 +208,7 @@ body .subreddit {
       letter-spacing: 0.5px;
       line-height: 12px;
       text-transform: uppercase;
-      color: rgb(255, 255, 255);
+      color: $color-white;
       padding: vw(12) vw(12);
     }
     .subreddit-sidebar__body {
@@ -275,14 +275,14 @@ body .subreddit {
       font-size: vw(14);
       font-weight: 500;
       line-height: vw(18);
-      color: rgb(135, 138, 140);
-      fill: rgb(135, 138, 140);
-      background-color: rgb(255, 255, 255);
+      color: $icon-color;
+      fill: $icon-color;
+      background-color: $color-white;
       text-transform: capitalize;
       white-space: nowrap;
       border-width: 1px;
       border-style: solid;
-      border-color: rgb(237, 239, 241);
+      border-color: $comment-line-color;
       border-image: initial;
       padding: 8px;
       cursor: pointer;
@@ -325,11 +325,11 @@ body .subreddit {
         top: vw(40);
         display: flex;
         flex-direction: column;
-        box-shadow: rgba(28, 28, 28, 0.2) 0 2px 4px 0;
-        color: rgb(28, 28, 28);
+        box-shadow: form-text-color(0.2) 0 2px 4px 0;
+        color: form-text-color(1);
         margin-top: 8px;
         z-index: 10;
-        background-color: rgb(255, 255, 255);
+        background-color: $color-white;
         margin-left: -5px;
         min-width: 100px;
         border-radius: 4px;
